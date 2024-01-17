@@ -17,6 +17,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        pretendard: ["var(--font-pretendard)"],
+        roboto: ["var(--font-roboto)"],
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

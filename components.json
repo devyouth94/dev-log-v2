@@ -12,7 +12,6 @@
   },
   "aliases": {
     "components": "~/components",
-    "ui": "~/components/shared",
     "utils": "~/utils/className"
   }
 }

@@ -8,7 +8,11 @@ import "~/styles/globals.css";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <main
-      className={cn(pretendard.variable, roboto.variable, "font-pretendard")}
+      className={cn(
+        pretendard.variable,
+        roboto.variable,
+        "font-pretendard relative",
+      )}
     >
       <Component {...pageProps} />
     </main>

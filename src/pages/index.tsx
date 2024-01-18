@@ -43,7 +43,7 @@ const Index = ({
 
           <PopoverContent align="start" sideOffset={10}>
             <div>
-              <div className="flex items-center justify-between pb-2 text-xs font-extralight">
+              <div className="flex items-center justify-between pb-3 text-xs font-extralight">
                 <span className="text-gray-400">{`updated: ${getRecentUpdatedDate(playlist)}`}</span>
 
                 <a
@@ -60,11 +60,11 @@ const Index = ({
                 </a>
               </div>
 
-              <ScrollArea className="h-[200px]">
+              <ScrollArea className="h-[240px]">
                 {playlist.map(({ thumbnailUrl, artist, title }, index) => (
                   <div
                     key={index}
-                    className="grid h-10 grid-cols-[32px_auto] items-center gap-3"
+                    className="grid h-12 grid-cols-[32px_auto] items-center gap-3"
                   >
                     <div className="relative h-8 w-8 overflow-hidden rounded-full">
                       <Image

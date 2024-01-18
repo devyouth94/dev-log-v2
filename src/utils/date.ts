@@ -9,3 +9,9 @@ export const getRecentUpdatedDate = (data: IPlaylistItem[]) => {
 
   return format(latestDate, "yyyy. MM. dd");
 };
+
+export const getRenderedDate = (input: string | number) => {
+  const date = new Date(input);
+
+  return format(date, "yyyy년 MM월 dd일");
+};

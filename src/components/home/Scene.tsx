@@ -8,7 +8,7 @@ import Computer from "~/components/home/Computer";
 
 const Scene = () => {
   return (
-    <section className="h-screen">
+    <section className="h-screen bg-black">
       <Canvas shadows>
         <color attach="background" args={["black"]} />
         <hemisphereLight intensity={0.3} groundColor="black" />

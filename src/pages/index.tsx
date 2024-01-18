@@ -1,6 +1,4 @@
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import axios from "axios";
-import { format } from "date-fns";
 import { ArrowUpRightIcon, Disc3Icon } from "lucide-react";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import Image from "next/image";
@@ -14,18 +12,22 @@ import {
 } from "~/components/ui/popover";
 import { ScrollArea } from "~/components/ui/scroll-area";
 
-import { IPlaylistItem, IYoutubeData } from "~/types/youtube";
+import { getYoutubaData } from "~/apis/youtube";
+import { IPlaylistItem } from "~/types/youtube";
 import { PLAYLIST_ID } from "~/utils/constants";
+import { getPlayList } from "~/utils/dataFormat";
+import { getRecentUpdatedDate } from "~/utils/date";
 
 const Index = ({
   playlist,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <div className="bg-black">
+    <>
       <Header variants="light" />
+
       <Scene />
 
-      <footer className="font-roboto fixed bottom-0 left-0 right-0 flex h-16 items-center justify-between px-8 text-sm font-extralight text-white">
+      <footer className="fixed bottom-0 left-0 right-0 flex h-16 items-center justify-between px-8 font-roboto text-sm font-extralight text-white">
         <Popover>
           <PopoverTrigger asChild>
             <div className="flex cursor-pointer items-center gap-1">
@@ -42,7 +44,7 @@ const Index = ({
           <PopoverContent align="start" sideOffset={10}>
             <div>
               <div className="flex items-center justify-between pb-2 text-xs font-extralight">
-                <span className="text-gray-400">{`updated: ${playlist[0].publishedAt}`}</span>
+                <span className="text-gray-400">{`updated: ${getRecentUpdatedDate(playlist)}`}</span>
 
                 <a
                   href={`https://www.youtube.com/playlist?list=${PLAYLIST_ID}`}
@@ -89,33 +91,15 @@ const Index = ({
           </a>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 
 export default Index;
 
 export const getStaticProps = (async () => {
-  const { data } = await axios.get<IYoutubeData>(
-    "https://www.googleapis.com/youtube/v3/playlistItems",
-    {
-      params: {
-        key: process.env.YOUTUBE_API_KEY,
-        playlistId: PLAYLIST_ID,
-        part: "snippet",
-        maxResults: 10,
-      },
-    },
-  );
-
-  const playlist: IPlaylistItem[] = data.items
-    .map((item) => item.snippet)
-    .map(({ title, thumbnails, videoOwnerChannelTitle, publishedAt }) => ({
-      thumbnailUrl: thumbnails.high.url,
-      artist: videoOwnerChannelTitle.split(" - ")[0],
-      title,
-      publishedAt: format(new Date(publishedAt), "yyyy. MM. dd"),
-    }));
+  const data = await getYoutubaData();
+  const playlist = getPlayList(data);
 
   return {
     props: {

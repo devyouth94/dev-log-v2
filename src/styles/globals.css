@@ -3,7 +3,44 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    scroll-behavior: smooth;
+  }
+
   body {
     cursor: default;
   }
+}
+
+.notion {
+  font-family: var(--font-pretendard);
+}
+
+.notion-collection-page-properties {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.notion-text,
+.notion-list {
+  font-weight: 200;
+  font-size: 18px;
+}
+
+.notion-text b {
+  font-weight: 600;
+}
+
+.notion-inline-code {
+  background: #e8e8e8;
+  color: black;
+  font-family: var(--font-pretendard);
+  font-weight: 600;
+}
+
+.notion-hash-link {
+  float: right;
+  margin-left: 3px;
+  margin-top: 6px;
 }

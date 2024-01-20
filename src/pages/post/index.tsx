@@ -19,7 +19,7 @@ const Post = ({
   categoryList,
   tagList,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { query, push, isReady } = useRouter();
+  const { query, push, isReady, replace } = useRouter();
   const { category: categoryQuery, tag: tagQuery } = query;
 
   const filteredList = useMemo(() => {
@@ -36,7 +36,7 @@ const Post = ({
   const onClickCategory = (category: string) => {
     const newQuery = categoryQuery === category ? {} : { ...query, category };
 
-    push({
+    replace({
       pathname: "/post",
       query: tagQuery ? { ...newQuery, tag: tagQuery } : newQuery,
     });
@@ -48,7 +48,7 @@ const Post = ({
       ? parseQuery.filter((item) => item !== tag)
       : [...parseQuery, tag];
 
-    push({
+    replace({
       pathname: "/post",
       query: qs.stringify(
         categoryQuery
@@ -64,7 +64,7 @@ const Post = ({
       <Header />
 
       <main className="flex min-h-screen flex-col items-center pb-8 pt-16">
-        <section className="w-full max-w-2xl space-y-10 px-8">
+        <section className="w-full max-w-[720px] space-y-10 px-4">
           <div className="flex flex-col gap-1">
             <div className="flex gap-1">
               {categoryList.map((item) => (
@@ -104,12 +104,16 @@ const Post = ({
           {filteredList?.map((post) => (
             <article
               key={post.id}
-              className="grid cursor-pointer grid-rows-[176px_40px] saturate-0 transition-all hover:saturate-100"
+              onClick={() => push(`/post/${post.slug}`)}
+              className="grid cursor-pointer grid-rows-[200px_40px] saturate-0 transition-all hover:saturate-100"
             >
               <div className="relative flex flex-col justify-between overflow-hidden p-3">
                 <Badge
                   className="z-10"
-                  onClick={() => onClickCategory(post.category)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClickCategory(post.category);
+                  }}
                 >
                   {post.category}
                 </Badge>
@@ -140,7 +144,10 @@ const Post = ({
                     <Badge
                       key={tag}
                       variant="secondary"
-                      onClick={() => onClickTag(tag)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onClickTag(tag);
+                      }}
                     >
                       {`#${tag}`}
                     </Badge>

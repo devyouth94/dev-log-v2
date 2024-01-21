@@ -1,4 +1,6 @@
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
   CalendarIcon,
   Clock3Icon,
   CornerRightUpIcon,
@@ -35,7 +37,10 @@ const PostDetail = ({
   postItem,
   recordMap,
   toc,
+  prevNextPost,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { push } = useRouter();
+
   const onClickToTop = () => {
     window.scrollTo({ top: 0 });
   };
@@ -108,6 +113,37 @@ const PostDetail = ({
 
         <NotionRenderer recordMap={recordMap} />
 
+        <section className="grid w-full max-w-[720px] grid-cols-2 gap-1 px-4 py-10">
+          <Button
+            variant="ghost"
+            onClick={() => push(`/post/${prevNextPost["prev"]?.slug}`)}
+            className="flex cursor-pointer items-center justify-start"
+          >
+            {prevNextPost["prev"] && (
+              <>
+                <ArrowLeftIcon size={18} absoluteStrokeWidth strokeWidth={1} />
+                <span className="text-base font-extralight">
+                  {prevNextPost["prev"]?.title}
+                </span>
+              </>
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => push(`/post/${prevNextPost["next"]?.slug}`)}
+            className="flex items-center justify-end"
+          >
+            {prevNextPost["next"] && (
+              <>
+                <span className="text-base font-extralight">
+                  {prevNextPost["next"]?.title}
+                </span>
+                <ArrowRightIcon size={18} absoluteStrokeWidth strokeWidth={1} />
+              </>
+            )}
+          </Button>
+        </section>
+
         <Comment />
       </main>
     </>
@@ -147,11 +183,11 @@ const TocButton = ({ toc }: { toc: TableOfContentsEntry[] }) => {
               setOpen(false);
             }}
             className={cn(
-              "py-1 text-gray-400",
+              "cursor-pointer py-1 text-gray-400",
+              id === currentId && "text-black",
               indentLevel === 0 && "font-normal",
               indentLevel === 1 && "border-l pl-3",
               indentLevel === 2 && "border-l pl-6",
-              id === currentId && "text-black",
             )}
           >
             {text}
@@ -182,9 +218,24 @@ export const getStaticProps = (async ({ params }) => {
     (item) => ({ ...item, id: item.id.replaceAll(/[-\u2013\u2014]/g, "") }),
   );
 
-  return { props: { postItem, recordMap, toc } };
+  const postIndex = publicPostList.findIndex((item) => item.id === postItem.id);
+  const prevNextPost: Record<string, IPostItem | null> = {
+    prev: null,
+    next: null,
+  };
+
+  publicPostList.forEach((item, index) => {
+    if (postIndex - 1 === index) {
+      prevNextPost["prev"] = item;
+    } else if (postIndex + 1 === index) {
+      prevNextPost["next"] = item;
+    }
+  });
+
+  return { props: { postItem, recordMap, toc, prevNextPost } };
 }) satisfies GetStaticProps<{
   postItem: IPostItem;
   recordMap: ExtendedRecordMap;
   toc: TableOfContentsEntry[];
+  prevNextPost: Record<string, IPostItem | null>;
 }>;

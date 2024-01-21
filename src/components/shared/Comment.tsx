@@ -2,7 +2,7 @@ import Giscus from "@giscus/react";
 
 const Comment = () => {
   return (
-    <footer id="giscus-comment" className="w-full max-w-[720px] px-4 pt-10">
+    <footer id="giscus-comment" className="w-full max-w-[720px] px-4">
       <Giscus
         repo="devyouth94/dev-log-v2"
         repoId="R_kgDOLHPTyw"

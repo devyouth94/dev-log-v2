@@ -23,8 +23,12 @@ const Scene = () => {
 
         <group>
           <Computer />
-          <mesh receiveShadow rotation={[MathUtils.degToRad(-90), 0, 0]}>
-            <planeGeometry args={[40, 40]} />
+          <mesh
+            receiveShadow
+            rotation={[MathUtils.degToRad(-90), 0, 0]}
+            position={[-25, 0, -25]}
+          >
+            <planeGeometry args={[100, 100]} />
             <MeshReflectorMaterial
               color="#111"
               mirror={0}

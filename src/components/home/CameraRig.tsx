@@ -6,9 +6,9 @@ const CameraRig = () => {
     easing.damp3(
       state.camera.position,
       [
-        2 + (state.pointer.x * state.viewport.width) / 15,
+        2 + (state.pointer.x * state.viewport.width) / 10,
         (6 + state.pointer.y) / 2,
-        8,
+        7,
       ],
       0.3,
       delta,

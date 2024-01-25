@@ -7,7 +7,6 @@ import {
   MessageSquareMoreIcon,
 } from "lucide-react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { ExtendedRecordMap, PageBlock } from "notion-types";
 import { TableOfContentsEntry, getPageTableOfContents } from "notion-utils";
@@ -25,11 +24,11 @@ import { getPageBlockList } from "~/utils/dataFormat";
 import { getRenderedDate } from "~/utils/date";
 import { notion } from "~/utils/notion";
 
-const PostDetail = ({
-  postItem,
+const NoteDetail = ({
+  noteItem,
   recordMap,
   toc,
-  prevNextPost,
+  prevNextNote,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { push } = useRouter();
 
@@ -47,26 +46,12 @@ const PostDetail = ({
     <>
       <Header />
 
-      <section className="fixed top-16 -z-10 h-[200px] w-full">
-        {postItem.thumbnail && (
-          <Image
-            src={postItem.thumbnail}
-            alt={postItem.thumbnail}
-            sizes="1024px"
-            priority
-            fill
-            className="object-cover object-center brightness-50"
-          />
-        )}
-      </section>
-
-      <main className="relative mt-[264px] flex flex-col items-center bg-white py-8">
+      <main className="relative flex flex-col items-center bg-white py-8 pt-16">
         <section className="flex max-w-[720px] flex-col items-center gap-3 px-4 text-center">
-          <span className="text-4xl font-black">{postItem.title}</span>
+          <span className="text-4xl font-black">{noteItem.title}</span>
 
           <div className="flex gap-1">
-            <Badge className="cursor-default">{postItem.category}</Badge>
-            {postItem.tags.map((tag) => (
+            {noteItem.tags.map((tag) => (
               <Badge
                 key={tag}
                 variant="secondary"
@@ -78,11 +63,11 @@ const PostDetail = ({
           <div className="flex items-center gap-3 text-sm font-light">
             <div className="flex items-center gap-1">
               <CalendarIcon size={14} absoluteStrokeWidth strokeWidth={1} />
-              <span>{getRenderedDate(postItem.createDate)}</span>
+              <span>{getRenderedDate(noteItem.createDate)}</span>
             </div>
             <div className="flex items-center gap-1">
               <Clock3Icon size={14} absoluteStrokeWidth strokeWidth={1} />
-              <span>{postItem.readTime}</span>
+              <span>{noteItem.readTime}</span>
             </div>
           </div>
         </section>
@@ -107,28 +92,28 @@ const PostDetail = ({
 
         <section className="grid w-full max-w-[720px] grid-cols-2 gap-1 px-4 py-10">
           <div>
-            {prevNextPost["prev"] && (
+            {prevNextNote["prev"] && (
               <Button
                 variant="ghost"
-                onClick={() => push(`/post/${prevNextPost["prev"]?.slug}`)}
+                onClick={() => push(`/note/${prevNextNote["prev"]?.slug}`)}
                 className="flex w-full cursor-pointer items-center justify-start text-gray-400"
               >
                 <ArrowLeftIcon size={18} absoluteStrokeWidth strokeWidth={1} />
                 <span className="text-base font-extralight">
-                  {prevNextPost["prev"]?.title}
+                  {prevNextNote["prev"]?.title}
                 </span>
               </Button>
             )}
           </div>
           <div>
-            {prevNextPost["next"] && (
+            {prevNextNote["next"] && (
               <Button
                 variant="ghost"
-                onClick={() => push(`/post/${prevNextPost["next"]?.slug}`)}
+                onClick={() => push(`/note/${prevNextNote["next"]?.slug}`)}
                 className="flex w-full items-center justify-end text-gray-400"
               >
                 <span className="text-base font-extralight">
-                  {prevNextPost["next"]?.title}
+                  {prevNextNote["next"]?.title}
                 </span>
                 <ArrowRightIcon size={18} absoluteStrokeWidth strokeWidth={1} />
               </Button>
@@ -142,46 +127,46 @@ const PostDetail = ({
   );
 };
 
-export default PostDetail;
+export default NoteDetail;
 
 export const getStaticPaths = (async () => {
-  const postList = await getContentList("post");
+  const noteList = await getContentList("note");
 
   return {
-    paths: postList.map(({ slug }) => ({ params: { slug } })),
+    paths: noteList.map(({ slug }) => ({ params: { slug } })),
     fallback: false,
   };
 }) satisfies GetStaticPaths;
 
 export const getStaticProps = (async ({ params }) => {
-  const postList = await getContentList("post");
+  const noteList = await getContentList("note");
 
-  const postItem = postList.find((item) => item.slug === params?.slug)!;
-  const recordMap = await notion.getPage(postItem.id);
+  const noteItem = noteList.find((item) => item.slug === params?.slug)!;
+  const recordMap = await notion.getPage(noteItem.id);
 
   const pageBlock = getPageBlockList(recordMap);
   const toc = getPageTableOfContents(pageBlock[0] as PageBlock, recordMap).map(
     (item) => ({ ...item, id: item.id.replaceAll(/[-\u2013\u2014]/g, "") }),
   );
 
-  const postIndex = postList.findIndex((item) => item.id === postItem.id);
-  const prevNextPost: Record<string, IPostItem | null> = {
+  const noteIndex = noteList.findIndex((item) => item.id === noteItem.id);
+  const prevNextNote: Record<string, IPostItem | null> = {
     prev: null,
     next: null,
   };
 
-  postList.forEach((item, index) => {
-    if (postIndex - 1 === index) {
-      prevNextPost["prev"] = item;
-    } else if (postIndex + 1 === index) {
-      prevNextPost["next"] = item;
+  noteList.forEach((item, index) => {
+    if (noteIndex - 1 === index) {
+      prevNextNote["prev"] = item;
+    } else if (noteIndex + 1 === index) {
+      prevNextNote["next"] = item;
     }
   });
 
-  return { props: { postItem, recordMap, toc, prevNextPost } };
+  return { props: { noteItem, recordMap, toc, prevNextNote } };
 }) satisfies GetStaticProps<{
-  postItem: IPostItem;
+  noteItem: IPostItem;
   recordMap: ExtendedRecordMap;
   toc: TableOfContentsEntry[];
-  prevNextPost: Record<string, IPostItem | null>;
+  prevNextNote: Record<string, IPostItem | null>;
 }>;

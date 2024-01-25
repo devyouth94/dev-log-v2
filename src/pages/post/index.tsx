@@ -3,35 +3,40 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import qs from "qs";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import Header from "~/components/shared/Header";
 import { Badge } from "~/components/ui/badge";
+import { Input } from "~/components/ui/input";
 
-import { getPublicPostList } from "~/apis/notion";
+import { getContentList } from "~/apis/notion";
 import { ICategoryItem, IPostItem, ITagItem } from "~/types/post";
 import { cn } from "~/utils/className";
 import { getCategoryList, getTagList } from "~/utils/dataFormat";
 import { getRenderedDate } from "~/utils/date";
 
 const Post = ({
-  publicPostList,
+  postList,
   categoryList,
   tagList,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { query, push, isReady, replace } = useRouter();
   const { category: categoryQuery, tag: tagQuery } = query;
 
-  const filteredList = useMemo(() => {
-    if (!isReady) return publicPostList;
+  const [search, setSearch] = useState("");
 
-    return publicPostList.filter(
-      (item) =>
-        (!categoryQuery || categoryQuery === item.category) &&
+  const filteredList = useMemo(() => {
+    if (!isReady) return postList;
+
+    return postList.filter(
+      ({ category, tags, title, summary, contents }) =>
+        (!categoryQuery || categoryQuery === category) &&
         (!tagQuery ||
-          item.tags.some((tag) => String(tagQuery).split(",").includes(tag))),
+          tags.some((tag) => String(tagQuery).split(",").includes(tag))) &&
+        (search.length <= 1 ||
+          [title, summary, contents].join("").includes(search)),
     );
-  }, [isReady, publicPostList, categoryQuery, tagQuery]);
+  }, [isReady, postList, categoryQuery, tagQuery, search]);
 
   const onClickCategory = (category: string) => {
     const newQuery = categoryQuery === category ? {} : { ...query, category };
@@ -100,6 +105,12 @@ const Post = ({
               ))}
             </div>
           </div>
+
+          <Input
+            placeholder="검색"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
           {filteredList?.map((post) => (
             <article
@@ -180,15 +191,15 @@ const Post = ({
 export default Post;
 
 export const getStaticProps = (async () => {
-  const publicPostList = await getPublicPostList();
+  const postList = await getContentList("post");
   const categoryList = getCategoryList(
-    publicPostList.map(({ category }) => category),
+    postList.map(({ category }) => category),
   );
-  const tagList = getTagList(publicPostList.map(({ tags }) => tags));
+  const tagList = getTagList(postList.map(({ tags }) => tags));
 
-  return { props: { publicPostList, categoryList, tagList } };
+  return { props: { postList, categoryList, tagList } };
 }) satisfies GetStaticProps<{
-  publicPostList: IPostItem[];
+  postList: IPostItem[];
   categoryList: ICategoryItem[];
   tagList: ITagItem[];
 }>;

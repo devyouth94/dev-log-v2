@@ -1,11 +1,12 @@
 import { Block, ExtendedRecordMap } from "notion-types";
-import { getPageProperty } from "notion-utils";
+import { getPageProperty, uuidToId } from "notion-utils";
 import { defaultMapImageUrl } from "react-notion-x";
 
 import { ICategoryItem, IPostItem, IPostStatus, ITagItem } from "~/types/post";
 import { IPlaylistItem, IYoutubeItem } from "~/types/youtube";
 import { SCHEMA_LIST } from "~/utils/constants";
 import { estimatePageReadTimeAsHumanizedString } from "~/utils/estimatePageReadTime";
+import { notion } from "~/utils/notion";
 
 export const getPlayList = (data: IYoutubeItem[]): IPlaylistItem[] => {
   return data
@@ -27,14 +28,48 @@ export const getPageBlockList = (recordMap: ExtendedRecordMap) => {
     .filter(({ type }) => type === "page");
 };
 
+const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
+  const data = Object.values(recordMap.block)
+    .map(({ value }) => value)
+    .filter(({ type }) =>
+      [
+        "quote",
+        "alias",
+        "header",
+        "sub_header",
+        "sub_sub_header",
+        "callout",
+        "toggle",
+        "to_do",
+        "bulleted_list",
+        "numbered_list",
+        "text",
+      ].includes(type),
+    )
+    .map(({ id, properties }) => [
+      id,
+      properties?.title
+        ?.flat()
+        .filter((item: string | string[]) => typeof item === "string")
+        .join(""),
+    ]);
+
+  const textObject = Object.fromEntries(data);
+
+  return block.content
+    ?.map((item) => textObject[item])
+    .join("")
+    .toLowerCase();
+};
+
 /**
  * page block list를 렌더링에 필요한 데이터 형태로 가공합니다.
  */
-export const getPostList = (
+export const getPostList = async (
   recordMap: ExtendedRecordMap,
   blockList: Block[],
 ) => {
-  return blockList.map((block) => {
+  const list = blockList.map(async (block) => {
     const thumbnail = defaultMapImageUrl(block.format?.page_cover || "", block);
     const readTime = estimatePageReadTimeAsHumanizedString(
       block,
@@ -47,14 +82,19 @@ export const getPostList = (
         getPageProperty(property, block, recordMap),
       ]),
     );
+    const blockRecordMap = await notion.getPage(uuidToId(block.id));
+    const contents = getTextContents(block, blockRecordMap);
 
     return {
       id: block.id,
       thumbnail,
       readTime,
+      contents,
       ...schemaData,
     };
-  }) as IPostItem[];
+  });
+
+  return (await Promise.all(list)) as IPostItem[];
 };
 
 /**

@@ -100,7 +100,7 @@ const Post = ({
                   hasDeleteButton={tagQuery?.includes(item.title)}
                 >
                   <span>{`#${item.title}`}</span>
-                  <span className="font-extralight">{item.count}</span>
+                  {/* <span className="font-extralight">{item.count}</span> */}
                 </Badge>
               ))}
             </div>

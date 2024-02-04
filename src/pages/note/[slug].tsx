@@ -51,6 +51,7 @@ const NoteDetail = ({
           <span className="text-4xl font-black">{noteItem.title}</span>
 
           <div className="flex gap-1">
+            <Badge className="cursor-default">{noteItem.category}</Badge>
             {noteItem.tags.map((tag) => (
               <Badge
                 key={tag}

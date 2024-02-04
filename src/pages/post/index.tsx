@@ -197,7 +197,7 @@ export const getStaticProps = (async () => {
   );
   const tagList = getTagList(postList.map(({ tags }) => tags));
 
-  return { props: { postList, categoryList, tagList } };
+  return { props: { postList, categoryList, tagList }, revalidate: 60 };
 }) satisfies GetStaticProps<{
   postList: IPostItem[];
   categoryList: ICategoryItem[];

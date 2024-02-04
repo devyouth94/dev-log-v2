@@ -164,7 +164,7 @@ export const getStaticProps = (async ({ params }) => {
     }
   });
 
-  return { props: { noteItem, recordMap, toc, prevNextNote } };
+  return { props: { noteItem, recordMap, toc, prevNextNote }, revalidate: 60 };
 }) satisfies GetStaticProps<{
   noteItem: IPostItem;
   recordMap: ExtendedRecordMap;

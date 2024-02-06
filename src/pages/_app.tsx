@@ -1,7 +1,9 @@
+import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 
 import { cn } from "~/utils/className";
 import { pretendard, roboto } from "~/utils/fonts";
+import DEFAULT_SEO from "../../next-seo-config";
 
 import "prismjs/themes/prism-tomorrow.css";
 import "react-notion-x/src/styles.css";
@@ -16,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
         "relative font-pretendard",
       )}
     >
+      <DefaultSeo {...DEFAULT_SEO} />
       <Component {...pageProps} />
     </main>
   );

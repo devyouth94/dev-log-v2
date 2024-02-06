@@ -7,6 +7,7 @@ import {
   MessageSquareMoreIcon,
 } from "lucide-react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ExtendedRecordMap, PageBlock } from "notion-types";
 import { TableOfContentsEntry, getPageTableOfContents } from "notion-utils";
@@ -20,6 +21,7 @@ import { Button } from "~/components/ui/button";
 
 import { getContentList } from "~/apis/notion";
 import { IPostItem } from "~/types/post";
+import { METADATA } from "~/utils/constants";
 import { getPageBlockList } from "~/utils/dataFormat";
 import { getRenderedDate } from "~/utils/date";
 import { notion } from "~/utils/notion";
@@ -44,6 +46,19 @@ const NoteDetail = ({
 
   return (
     <>
+      <NextSeo
+        title={noteItem.title}
+        canonical={`${METADATA.meta.url}/note/${noteItem.slug}`}
+        openGraph={{
+          type: "article",
+          url: `${METADATA.meta.url}/note/${noteItem.slug}`,
+          article: {
+            publishedTime: new Date(noteItem.createDate).toISOString(),
+            tags: [...noteItem.tags],
+          },
+        }}
+      />
+
       <Header />
 
       <main className="relative flex flex-col items-center bg-white py-8 pt-16">

@@ -1,15 +1,17 @@
 import { CalendarIcon, Clock3Icon } from "lucide-react";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import qs from "qs";
 import { useMemo, useState } from "react";
 
 import Header from "~/components/shared/Header";
 import { Badge } from "~/components/ui/badge";
+import { Input } from "~/components/ui/input";
 
 import { getContentList } from "~/apis/notion";
-import { Input } from "~/components/ui/input";
 import { ICategoryItem, IPostItem, ITagItem } from "~/types/post";
+import { METADATA } from "~/utils/constants";
 import { getCategoryList, getTagList } from "~/utils/dataFormat";
 import { getRenderedDate } from "~/utils/date";
 
@@ -63,6 +65,12 @@ const Note = ({
 
   return (
     <>
+      <NextSeo
+        title="note"
+        canonical={`${METADATA.meta.url}/note`}
+        openGraph={{ url: `${METADATA.meta.url}/note` }}
+      />
+
       <Header />
 
       <main className="flex min-h-screen flex-col items-center pb-8 pt-16">

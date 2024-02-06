@@ -15,3 +15,12 @@ export const SCHEMA_LIST = [
   "summary",
   "slug",
 ];
+
+export const METADATA = {
+  meta: {
+    url: "http://localhost:3000",
+    title: "youngjin.log",
+    description: "개발 기록",
+    authors: "KIM YOUNGJIN",
+  },
+};

@@ -7,6 +7,7 @@ import {
   MessageSquareMoreIcon,
 } from "lucide-react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ExtendedRecordMap, PageBlock } from "notion-types";
@@ -21,6 +22,7 @@ import { Button } from "~/components/ui/button";
 
 import { getContentList } from "~/apis/notion";
 import { IPostItem } from "~/types/post";
+import { METADATA } from "~/utils/constants";
 import { getPageBlockList } from "~/utils/dataFormat";
 import { getRenderedDate } from "~/utils/date";
 import { notion } from "~/utils/notion";
@@ -45,6 +47,19 @@ const PostDetail = ({
 
   return (
     <>
+      <NextSeo
+        title={postItem.title}
+        canonical={`${METADATA.meta.url}/post/${postItem.slug}`}
+        openGraph={{
+          type: "article",
+          url: `${METADATA.meta.url}/post/${postItem.slug}`,
+          article: {
+            publishedTime: new Date(postItem.createDate).toISOString(),
+            tags: [...postItem.tags],
+          },
+        }}
+      />
+
       <Header />
 
       <section className="fixed top-16 -z-10 h-[200px] w-full">

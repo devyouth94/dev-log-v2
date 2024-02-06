@@ -3,12 +3,12 @@ import { Canvas } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { MathUtils } from "three";
 
-import CameraRig from "~/components/home/CameraRig";
-import Computer from "~/components/home/Computer";
+import CameraRig from "~/components/home/camera-rig";
+import Computer from "~/components/home/computer";
 
-const Scene = () => {
+const Three = () => {
   return (
-    <section className="h-screen bg-black">
+    <main className="h-screen bg-black">
       <Canvas shadows>
         <color attach="background" args={["black"]} />
         <hemisphereLight intensity={0.3} groundColor="black" />
@@ -56,8 +56,8 @@ const Scene = () => {
 
         <BakeShadows />
       </Canvas>
-    </section>
+    </main>
   );
 };
 
-export default Scene;
+export default Three;

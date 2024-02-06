@@ -6,6 +6,12 @@ export const NOTION_PAGE_IDS = {
   resume: "68711cc1deed4ff1b7da2c0f32697315",
 };
 
+export const ROUTES = {
+  post: "post",
+  note: "note",
+  resume: "resume",
+} as const;
+
 export const SCHEMA_LIST = [
   "tags",
   "createDate",
@@ -19,7 +25,7 @@ export const SCHEMA_LIST = [
 export const METADATA = {
   meta: {
     url: "http://localhost:3000",
-    title: "youngjin.log",
+    title: "youngzin.log",
     description: "개발 기록",
     authors: "KIM YOUNGJIN",
   },

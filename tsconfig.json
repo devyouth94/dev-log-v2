@@ -20,6 +20,9 @@
     "paths": {
       "~/*": [
         "./src/*"
+      ],
+      "root/*": [
+        "./*"
       ]
     }
   },
@@ -27,7 +30,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/home/Computer.jsx"
+    "src/components/home/computer.jsx"
   ],
   "exclude": [
     "node_modules"

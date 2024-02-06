@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --height-header: 64px;
+  }
+
   * {
     scroll-behavior: smooth;
   }
@@ -12,7 +16,7 @@
   }
 }
 
-.notion {
+/* .notion {
   font-family: var(--font-pretendard);
 }
 
@@ -43,4 +47,4 @@
   float: right;
   margin-left: 3px;
   margin-top: 6px;
-}
+} */

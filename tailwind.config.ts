@@ -2,21 +2,14 @@ import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
-  content: [
-    "./src/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./pages/**/*.{ts,tsx}",
-  ],
+  content: ["./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
+      spacing: {
+        header: "var(--height-header)",
+        footer: "var(--height-header)",
+      },
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],
         roboto: ["var(--font-roboto)"],

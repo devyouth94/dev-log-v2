@@ -1,70 +1,26 @@
-import { CalendarIcon, Clock3Icon } from "lucide-react";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import qs from "qs";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-import Header from "~/components/shared/Header";
-import { Badge } from "~/components/ui/badge";
+import Main from "~/components/layouts/main";
+import ArticleItem from "~/components/shared/article-item";
+import BadgeCategory from "~/components/shared/badge-category";
+import BadgeTag from "~/components/shared/badge-tag";
 import { Input } from "~/components/ui/input";
 
 import { getContentList } from "~/apis/notion";
+import useFilteredList from "~/hooks/use-filtered-list";
 import { ICategoryItem, IPostItem, ITagItem } from "~/types/post";
-import { cn } from "~/utils/className";
 import { METADATA } from "~/utils/constants";
 import { getCategoryList, getTagList } from "~/utils/dataFormat";
-import { getRenderedDate } from "~/utils/date";
 
 const Post = ({
   postList,
   categoryList,
   tagList,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { query, push, isReady, replace } = useRouter();
-  const { category: categoryQuery, tag: tagQuery } = query;
-
   const [search, setSearch] = useState("");
-
-  const filteredList = useMemo(() => {
-    if (!isReady) return postList;
-
-    return postList.filter(
-      ({ category, tags, title, summary, contents }) =>
-        (!categoryQuery || categoryQuery === category) &&
-        (!tagQuery ||
-          tags.some((tag) => String(tagQuery).split(",").includes(tag))) &&
-        (search.length <= 1 ||
-          [title, summary, contents].join("").includes(search)),
-    );
-  }, [isReady, postList, categoryQuery, tagQuery, search]);
-
-  const onClickCategory = (category: string) => {
-    const newQuery = categoryQuery === category ? {} : { ...query, category };
-
-    replace({
-      pathname: "/post",
-      query: tagQuery ? { ...newQuery, tag: tagQuery } : newQuery,
-    });
-  };
-
-  const onClickTag = (tag: string) => {
-    const parseQuery = tagQuery ? String(tagQuery).split(",") : [];
-    const newQuery = tagQuery?.includes(tag)
-      ? parseQuery.filter((item) => item !== tag)
-      : [...parseQuery, tag];
-
-    replace({
-      pathname: "/post",
-      query: qs.stringify(
-        categoryQuery
-          ? { category: categoryQuery, tag: newQuery }
-          : { tag: newQuery },
-        { arrayFormat: "comma" },
-      ),
-    });
-  };
+  const { filteredList } = useFilteredList(postList, search);
 
   return (
     <>
@@ -74,124 +30,35 @@ const Post = ({
         openGraph={{ url: `${METADATA.meta.url}/post` }}
       />
 
-      <Header />
-
-      <main className="flex min-h-screen flex-col items-center pb-8 pt-16">
-        <section className="w-full max-w-[720px] space-y-10 px-4">
-          <div className="flex flex-col gap-1">
-            <div className="flex gap-1">
-              {categoryList.map((item) => (
-                <Badge
-                  key={item.title}
-                  variant={
-                    categoryQuery === item.title ? "default" : "secondary"
-                  }
-                  className="gap-1"
-                  onClick={() => onClickCategory(item.title)}
-                  hasDeleteButton={categoryQuery === item.title}
-                >
-                  <span>{item.title}</span>
-                  <span className="font-extralight">{item.count}</span>
-                </Badge>
-              ))}
-            </div>
-
-            <div className="flex gap-1">
-              {tagList.map((item) => (
-                <Badge
-                  key={item.title}
-                  variant={
-                    tagQuery?.includes(item.title) ? "default" : "outline"
-                  }
-                  className="gap-1"
-                  onClick={() => onClickTag(item.title)}
-                  hasDeleteButton={tagQuery?.includes(item.title)}
-                >
-                  <span>{`#${item.title}`}</span>
-                  {/* <span className="font-extralight">{item.count}</span> */}
-                </Badge>
-              ))}
-            </div>
+      <Main>
+        {/* tag list */}
+        <section className="flex flex-col gap-1">
+          <div className="flex flex-wrap gap-1">
+            {categoryList.map((item) => (
+              <BadgeCategory key={item.title} pathname="post" item={item} />
+            ))}
           </div>
+          <div className="flex flex-wrap gap-1">
+            {tagList.map((item) => (
+              <BadgeTag key={item.title} pathname="post" item={item} />
+            ))}
+          </div>
+        </section>
 
-          <Input
-            placeholder="검색"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        {/* search */}
+        <Input
+          placeholder="검색"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-          {filteredList?.map((post) => (
-            <article
-              key={post.id}
-              onClick={() => push(`/post/${post.slug}`)}
-              className="grid cursor-pointer grid-rows-[200px_40px] saturate-0 transition-all hover:saturate-100"
-            >
-              <div className="relative flex flex-col justify-between overflow-hidden p-3">
-                <Badge
-                  className="z-10"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onClickCategory(post.category);
-                  }}
-                >
-                  {post.category}
-                </Badge>
-                <div
-                  className={cn(
-                    "z-10 flex flex-col gap-1",
-                    post.thumbnail && "text-white",
-                  )}
-                >
-                  <span className="text-2xl font-bold">{post.title}</span>
-                  <span className="block truncate text-sm">{post.summary}</span>
-                </div>
-                {post.thumbnail && (
-                  <Image
-                    src={post.thumbnail}
-                    alt={post.thumbnail}
-                    sizes="600px"
-                    priority
-                    fill
-                    className="object-cover brightness-50"
-                  />
-                )}
-              </div>
-
-              <div className="flex items-center justify-between text-sm font-light">
-                <div className="flex items-center gap-1">
-                  {post.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="secondary"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onClickTag(tag);
-                      }}
-                    >
-                      {`#${tag}`}
-                    </Badge>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1">
-                    <CalendarIcon
-                      size={14}
-                      absoluteStrokeWidth
-                      strokeWidth={1}
-                    />
-                    <span>{getRenderedDate(post.createDate)}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock3Icon size={14} absoluteStrokeWidth strokeWidth={1} />
-                    <span>{post.readTime}</span>
-                  </div>
-                </div>
-              </div>
-            </article>
+        {/* post list */}
+        <section className="space-y-5">
+          {filteredList.map((item) => (
+            <ArticleItem key={item.id} pathname="post" item={item} />
           ))}
         </section>
-      </main>
+      </Main>
     </>
   );
 };

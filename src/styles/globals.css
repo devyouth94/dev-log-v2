@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --height-header: 64px;
+    --width-content: 768px;
   }
 
   * {

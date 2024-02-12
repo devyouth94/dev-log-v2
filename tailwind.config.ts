@@ -9,6 +9,7 @@ const config = {
       spacing: {
         header: "var(--height-header)",
         footer: "var(--height-header)",
+        content: "var(--width-content)",
       },
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],

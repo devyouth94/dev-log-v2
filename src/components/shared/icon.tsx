@@ -1,8 +1,18 @@
-import { ArrowUpRight, Disc3, LucideProps } from "lucide-react";
+import {
+  ArrowUpRight,
+  Calendar,
+  Clock3,
+  Disc3,
+  X,
+  type LucideProps,
+} from "lucide-react";
 
 const ICON = {
   ArrowUpRight,
+  Calendar,
+  Clock3,
   Disc3,
+  X,
 };
 
 type IProps = {

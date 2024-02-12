@@ -19,7 +19,7 @@ type IProps = {
 
 const Footer = ({ playlist }: IProps) => {
   return (
-    <footer className="h-footer fixed inset-x-0 bottom-0 flex items-center justify-between px-6 font-roboto text-sm text-white">
+    <footer className="fixed inset-x-0 bottom-0 flex h-footer min-w-[375px] items-center justify-between px-4 font-roboto text-sm text-white md:px-8">
       <Popover>
         <PopoverTrigger asChild>
           <section className="flex cursor-pointer items-center gap-1">
@@ -47,7 +47,9 @@ const Footer = ({ playlist }: IProps) => {
                 key={index}
                 className="grid h-12 grid-cols-[32px_auto] items-center gap-3"
               >
-                <div className="relative h-9 w-9 overflow-hidden rounded-full">
+                <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full">
+                  <div className="absolute z-[2] size-1 rounded-full bg-slate-200" />
+                  <div className="absolute z-[1] size-3 rounded-full bg-slate-800" />
                   <Image
                     src={thumbnailUrl}
                     alt={thumbnailUrl}

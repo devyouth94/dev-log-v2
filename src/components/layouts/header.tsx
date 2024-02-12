@@ -24,12 +24,17 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "h-header fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 font-roboto text-sm text-black transition-all",
+        "fixed inset-x-0 top-0 z-50 flex h-header min-w-[375px] items-center justify-between px-4 font-roboto text-sm text-black transition-all md:px-8",
         isHome && "text-white",
         !isTop && "bg-white/50 backdrop-blur-sm",
       )}
     >
-      <span onClick={() => push("/")}>youngzin.log</span>
+      <span
+        onClick={() => push("/")}
+        className="cursor-pointer hover:underline"
+      >
+        youngzin.log
+      </span>
 
       <ul className="flex items-center gap-3">
         {Object.values(ROUTES).map((route) => (

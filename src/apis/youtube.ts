@@ -11,7 +11,7 @@ export const getYoutubaData = async () => {
         key: process.env.YOUTUBE_API_KEY,
         playlistId: PLAYLIST_ID,
         part: "snippet",
-        maxResults: 10,
+        maxResults: 50,
       },
     },
   );

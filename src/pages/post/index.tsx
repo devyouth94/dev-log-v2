@@ -3,16 +3,18 @@ import { NextSeo } from "next-seo";
 import { useState } from "react";
 
 import Main from "~/components/layouts/main";
-import ArticleItem from "~/components/shared/article-item";
 import BadgeCategory from "~/components/shared/badge-category";
+import BadgeContainer from "~/components/shared/badge-container";
 import BadgeTag from "~/components/shared/badge-tag";
+import CardArticle from "~/components/shared/card-article";
+import MotionContainer from "~/components/shared/motion-container";
 import { Input } from "~/components/ui/input";
 
 import { getContentList } from "~/apis/notion";
 import useFilteredList from "~/hooks/use-filtered-list";
 import { ICategoryItem, IPostItem, ITagItem } from "~/types/post";
 import { METADATA } from "~/utils/constants";
-import { getCategoryList, getTagList } from "~/utils/dataFormat";
+import { getCategoryList, getTagList } from "~/utils/data-format";
 
 const Post = ({
   postList,
@@ -30,20 +32,20 @@ const Post = ({
         openGraph={{ url: `${METADATA.meta.url}/post` }}
       />
 
-      <Main>
+      <Main className="pt-header">
         {/* tag list */}
-        <section className="flex flex-col gap-1">
-          <div className="flex flex-wrap gap-1">
+        <BadgeContainer>
+          <BadgeContainer.Inner>
             {categoryList.map((item) => (
               <BadgeCategory key={item.title} pathname="post" item={item} />
             ))}
-          </div>
-          <div className="flex flex-wrap gap-1">
+          </BadgeContainer.Inner>
+          <BadgeContainer.Inner>
             {tagList.map((item) => (
               <BadgeTag key={item.title} pathname="post" item={item} />
             ))}
-          </div>
-        </section>
+          </BadgeContainer.Inner>
+        </BadgeContainer>
 
         {/* search */}
         <Input
@@ -53,11 +55,11 @@ const Post = ({
         />
 
         {/* post list */}
-        <section className="space-y-5">
+        <MotionContainer className="space-y-5 pt-3">
           {filteredList.map((item) => (
-            <ArticleItem key={item.id} pathname="post" item={item} />
+            <CardArticle key={item.id} pathname="post" item={item} />
           ))}
-        </section>
+        </MotionContainer>
       </Main>
     </>
   );

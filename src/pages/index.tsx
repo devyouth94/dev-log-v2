@@ -5,7 +5,7 @@ import Footer from "~/components/layouts/footer";
 
 import { getYoutubaData } from "~/apis/youtube";
 import { IPlaylistItem } from "~/types/youtube";
-import { getPlayList } from "~/utils/dataFormat";
+import { getPlayList } from "~/utils/data-format";
 
 const Index = ({
   playlist,

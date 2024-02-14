@@ -2,7 +2,7 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { ExtendedRecordMap } from "notion-types";
 
-import Header from "~/components/shared/Header";
+import Main from "~/components/layouts/main";
 
 import { METADATA, NOTION_PAGE_IDS } from "~/utils/constants";
 import { notion } from "~/utils/notion";
@@ -18,13 +18,10 @@ const Resume = ({
         openGraph={{ url: `${METADATA.meta.url}/resume` }}
       />
 
-      <Header />
-
-      <div className="flex h-dvh w-full items-center justify-center">
-        <span className="font-extralight">열심히 준비중입니다!</span>
-      </div>
-
-      {/* <NotionRenderer recordMap={recordMap} /> */}
+      <Main className="items-center justify-center pt-header">
+        <span className="font-extralight">준비중입니다!</span>
+        {/* <NotionRenderer recordMap={recordMap} /> */}
+      </Main>
     </>
   );
 };

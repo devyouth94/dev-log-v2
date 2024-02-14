@@ -2,10 +2,9 @@ import type { AppProps } from "next/app";
 
 import Layout from "~/components/layouts/layout";
 
-import { cn } from "~/utils/className";
+import { cn } from "~/utils/class-name";
 import { pretendard, roboto } from "~/utils/fonts";
 
-import "prismjs/themes/prism-tomorrow.css";
 import "react-notion-x/src/styles.css";
 import "~/styles/globals.css";
 

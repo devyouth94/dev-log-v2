@@ -2,7 +2,7 @@ import { useMotionValueEvent, useScroll } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { cn } from "~/utils/className";
+import { cn } from "~/utils/class-name";
 import { ROUTES } from "~/utils/constants";
 
 const Header = () => {

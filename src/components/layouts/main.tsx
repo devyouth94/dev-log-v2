@@ -1,12 +1,16 @@
 import { ComponentPropsWithoutRef } from "react";
-import { cn } from "~/utils/className";
+import { cn } from "~/utils/class-name";
 
-const Main = ({ className, ...props }: ComponentPropsWithoutRef<"section">) => {
+type IProps = {
+  mainClassName?: string;
+} & ComponentPropsWithoutRef<"section">;
+
+const Main = ({ mainClassName, className, ...props }: IProps) => {
   return (
-    <main className={cn("min-h-screen w-full pb-4 pt-header md:pb-8")}>
+    <main className={cn("min-h-screen w-full pb-4 md:pb-8", mainClassName)}>
       <div
         className={cn(
-          "mx-auto w-full min-w-[375px] max-w-content space-y-3 px-4",
+          "mx-auto flex w-full min-w-[375px] max-w-content flex-col gap-4 px-4 pt-10",
           className,
         )}
         {...props}

@@ -3,7 +3,7 @@ import { ComponentPropsWithoutRef } from "react";
 
 import Header from "~/components/layouts/header";
 
-import { cn } from "~/utils/className";
+import { cn } from "~/utils/class-name";
 
 import DEFAULT_SEO from "root/next-seo-config";
 

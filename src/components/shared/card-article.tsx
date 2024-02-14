@@ -1,21 +1,24 @@
+import { MotionProps, motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ComponentPropsWithoutRef } from "react";
-import Icon from "~/components/shared/icon";
 
+import Icon from "~/components/shared/icon";
 import { Badge } from "~/components/ui/badge";
 
 import useBadgeFunction from "~/hooks/use-badge-function";
 import { IPostItem } from "~/types/post";
-import { cn } from "~/utils/className";
+import { cn } from "~/utils/class-name";
+import { fadeVariants } from "~/utils/constants";
 import { getRenderedDate } from "~/utils/date";
 
 type IProps<T> = {
   pathname: "post" | "note";
   item: T;
-} & ComponentPropsWithoutRef<"article">;
+} & ComponentPropsWithoutRef<"article"> &
+  MotionProps;
 
-const ArticleItem = <T extends IPostItem>({
+const CardArticle = <T extends IPostItem>({
   pathname,
   item,
   ...props
@@ -24,10 +27,12 @@ const ArticleItem = <T extends IPostItem>({
   const { onClickCategory, onClickTag } = useBadgeFunction(pathname);
 
   return (
-    <article
+    <motion.article
       {...props}
-      onClick={() => push(`/post/${item.slug}`)}
+      onClick={() => push(`/${pathname}/${item.slug}`)}
       className="grid cursor-pointer grid-rows-[200px_40px] saturate-0 transition-all hover:saturate-100"
+      variants={fadeVariants}
+      transition={{ duration: 0.3 }}
     >
       <div className="relative flex flex-col justify-between overflow-hidden p-3">
         <Badge
@@ -46,7 +51,9 @@ const ArticleItem = <T extends IPostItem>({
             item.thumbnail && "text-white",
           )}
         >
-          <span className="text-lg font-semibold">{item.title}</span>
+          <span className="text-pretty text-lg font-semibold">
+            {item.title}
+          </span>
           {!!item.summary && (
             <span className="block truncate text-sm">{item.summary}</span>
           )}
@@ -92,8 +99,8 @@ const ArticleItem = <T extends IPostItem>({
           </div>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 };
 
-export default ArticleItem;
+export default CardArticle;

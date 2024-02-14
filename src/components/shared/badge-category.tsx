@@ -7,7 +7,7 @@ import { ITagItem } from "~/types/post";
 
 type IProps = {
   pathname: "post" | "note";
-  item: ITagItem;
+  item: Partial<ITagItem>;
 };
 
 const BadgeCategory = ({ pathname, item }: IProps) => {
@@ -21,11 +21,11 @@ const BadgeCategory = ({ pathname, item }: IProps) => {
       key={item.title}
       variant={categoryQuery === item.title ? "default" : "secondary"}
       className="shrink-0 gap-1"
-      onClick={() => onClickCategory(item.title)}
+      onClick={() => onClickCategory(item.title!)}
       hasDeleteButton={categoryQuery === item.title}
     >
       <span>{item.title}</span>
-      <span className="font-extralight">{item.count}</span>
+      {item.count && <span className="font-extralight">{item.count}</span>}
     </Badge>
   );
 };

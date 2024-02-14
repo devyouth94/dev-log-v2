@@ -10,8 +10,8 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 
-import { cn } from "~/utils/className";
-import getIntersectionObserver from "~/utils/getIntersectionObserver";
+import { cn } from "~/utils/class-name";
+import getIntersectionObserver from "~/utils/get-intersection-observer";
 
 const TocButton = ({ toc }: { toc: TableOfContentsEntry[] }) => {
   const { replace, pathname } = useRouter();
@@ -35,7 +35,7 @@ const TocButton = ({ toc }: { toc: TableOfContentsEntry[] }) => {
           <ListIcon size={14} absoluteStrokeWidth strokeWidth={1} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="text-sm font-extralight">
+      <PopoverContent align="end" className="w-60 text-sm font-extralight">
         {toc.map(({ id, indentLevel, text }) => (
           <div
             key={id}

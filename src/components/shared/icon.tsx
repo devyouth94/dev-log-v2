@@ -1,17 +1,25 @@
 import {
+  ArrowLeft,
+  ArrowRight,
   ArrowUpRight,
   Calendar,
   Clock3,
+  CornerRightUp,
   Disc3,
+  MessageSquareMore,
   X,
   type LucideProps,
 } from "lucide-react";
 
 const ICON = {
+  ArrowLeft,
+  ArrowRight,
   ArrowUpRight,
   Calendar,
   Clock3,
+  CornerRightUp,
   Disc3,
+  MessageSquareMore,
   X,
 };
 

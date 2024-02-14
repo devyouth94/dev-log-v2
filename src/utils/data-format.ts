@@ -5,7 +5,7 @@ import { defaultMapImageUrl } from "react-notion-x";
 import { ICategoryItem, IPostItem, IPostStatus, ITagItem } from "~/types/post";
 import { IPlaylistItem, IYoutubeItem } from "~/types/youtube";
 import { SCHEMA_LIST } from "~/utils/constants";
-import { estimatePageReadTimeAsHumanizedString } from "~/utils/estimatePageReadTime";
+import { estimatePageReadTimeAsHumanizedString } from "~/utils/estimate-page-read-time";
 import { notion } from "~/utils/notion";
 
 export const getPlayList = (data: IYoutubeItem[]): IPlaylistItem[] => {

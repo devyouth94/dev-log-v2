@@ -1,3 +1,5 @@
+import { Variants } from "framer-motion";
+
 export const PLAYLIST_ID = "PLsVcTYdAdbedwl_BNs7NIGOhzUoU2XWlD";
 
 export const NOTION_PAGE_IDS = {
@@ -28,5 +30,23 @@ export const METADATA = {
     title: "youngzin.log",
     description: "개발 기록",
     authors: "KIM YOUNGJIN",
+  },
+};
+
+export const fadeVariants: Variants = {
+  visible: {
+    y: -5,
+    opacity: 1,
+  },
+  hidden: {
+    opacity: 0,
+  },
+};
+
+export const fadeParentVariants: Variants = {
+  ...fadeVariants,
+  visible: {
+    ...fadeVariants.visible,
+    transition: { duration: 0.5, delayChildren: 0.1, staggerChildren: 0.1 },
   },
 };

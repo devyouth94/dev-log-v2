@@ -1,11 +1,12 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+
 import Icon from "~/components/shared/icon";
 
-import { cn } from "~/utils/className";
+import { cn } from "~/utils/class-name";
 
 const badgeVariants = cva(
-  "inline-flex w-fit cursor-pointer items-center border border-stone-200 px-2 py-1 text-xs font-semibold transition-colors outline-none",
+  "inline-flex w-fit cursor-pointer items-center border border-stone-200 px-2 py-1 text-xs font-medium transition-colors outline-none",
   {
     variants: {
       variant: {

@@ -3,7 +3,7 @@ import {
   getPageBlockList,
   getPostList,
   getPublicList,
-} from "~/utils/dataFormat";
+} from "~/utils/data-format";
 import { notion } from "~/utils/notion";
 
 export const getContentList = async (key: keyof typeof NOTION_PAGE_IDS) => {

@@ -84,6 +84,7 @@ export const getPostList = async (
     );
     const blockRecordMap = await notion.getPage(uuidToId(block.id));
     const contents = getTextContents(block, blockRecordMap);
+    const tags = (schemaData?.tags as string[]).filter((item) => item.length);
 
     return {
       id: block.id,
@@ -91,6 +92,7 @@ export const getPostList = async (
       readTime,
       contents,
       ...schemaData,
+      tags,
     };
   });
 

@@ -8,6 +8,9 @@ const nextConfig = {
       { protocol: "https", hostname: "*.notion.so" },
     ],
   },
+  rewrites: async () => {
+    return [{ source: "/sitemap.xml", destination: "/api/sitemap" }];
+  },
 };
 
 module.exports = nextConfig;

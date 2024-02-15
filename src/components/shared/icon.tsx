@@ -3,10 +3,12 @@ import {
   ArrowRight,
   ArrowUpRight,
   Calendar,
+  Check,
   Clock3,
   CornerRightUp,
   Disc3,
   MessageSquareMore,
+  Share2,
   X,
   type LucideProps,
 } from "lucide-react";
@@ -16,10 +18,12 @@ const ICON = {
   ArrowRight,
   ArrowUpRight,
   Calendar,
+  Check,
   Clock3,
   CornerRightUp,
   Disc3,
   MessageSquareMore,
+  Share2,
   X,
 };
 

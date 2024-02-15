@@ -37,7 +37,7 @@ const NoteDetail = ({
         }}
       />
 
-      <Main mainClassName="bg-white" className="items-center">
+      <Main className="items-center pt-header">
         <ArticleProperties postItem={noteItem} />
         <ArticleButton toc={toc} />
         <NotionRenderer recordMap={recordMap} />

@@ -35,7 +35,11 @@ const TocButton = ({ toc }: { toc: TableOfContentsEntry[] }) => {
           <ListIcon size={14} absoluteStrokeWidth strokeWidth={1} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="w-60 text-sm font-extralight">
+      <PopoverContent
+        align="center"
+        sideOffset={4}
+        className="w-60 border border-solid border-gray-50 px-5 text-base"
+      >
         {toc.map(({ id, indentLevel, text }) => (
           <div
             key={id}
@@ -44,11 +48,9 @@ const TocButton = ({ toc }: { toc: TableOfContentsEntry[] }) => {
               setOpen(false);
             }}
             className={cn(
-              "cursor-pointer py-1 text-gray-400",
-              id === currentId && "text-black",
-              indentLevel === 0 && "font-normal",
+              "cursor-pointer py-1 text-gray-500",
+              id === currentId && "font-normal text-black transition-colors",
               indentLevel === 1 && "border-l pl-3",
-              indentLevel === 2 && "border-l pl-6",
             )}
           >
             {text}

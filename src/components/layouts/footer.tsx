@@ -19,7 +19,7 @@ type IProps = {
 
 const Footer = ({ playlist }: IProps) => {
   return (
-    <footer className="fixed inset-x-0 bottom-0 flex h-footer min-w-[375px] items-center justify-between px-4 font-roboto text-sm text-white md:px-8">
+    <footer className="min-w-limit fixed inset-x-0 bottom-0 flex h-footer items-center justify-between px-4 font-roboto text-sm text-white md:px-8">
       <Popover>
         <PopoverTrigger asChild>
           <section className="flex cursor-pointer items-center gap-1">

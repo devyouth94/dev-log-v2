@@ -51,9 +51,7 @@ const CardArticle = <T extends IPostItem>({
             item.thumbnail && "text-white",
           )}
         >
-          <span className="text-pretty text-lg font-semibold">
-            {item.title}
-          </span>
+          <span className="text-pretty text-xl font-bold">{item.title}</span>
           {!!item.summary && (
             <span className="block truncate text-sm">{item.summary}</span>
           )}
@@ -73,19 +71,20 @@ const CardArticle = <T extends IPostItem>({
 
       <div className="flex items-center justify-between text-sm font-light">
         <div className="flex items-center gap-1">
-          {item.tags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="secondary"
-              className="shrink-0"
-              onClick={(e) => {
-                e.stopPropagation();
-                onClickTag(tag);
-              }}
-            >
-              {`#${tag}`}
-            </Badge>
-          ))}
+          {!!item.tags.length &&
+            item.tags.map((tag) => (
+              <Badge
+                key={tag}
+                variant="secondary"
+                className="shrink-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClickTag(tag);
+                }}
+              >
+                {`#${tag}`}
+              </Badge>
+            ))}
         </div>
 
         <div className="flex items-center gap-2">

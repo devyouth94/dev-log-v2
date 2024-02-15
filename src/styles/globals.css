@@ -6,6 +6,7 @@
   :root {
     --height-header: 64px;
     --width-content: 768px;
+    --width-limit: 360px;
   }
 
   * {
@@ -45,8 +46,16 @@
   @apply mb-1;
 }
 
+.notion-quote {
+  @apply text-base font-extralight;
+}
+
 .notion-text {
   @apply my-2 text-pretty;
+}
+
+.notion-property-checkbox-checked {
+  @apply bg-black;
 }
 
 .notion b {
@@ -58,7 +67,7 @@
 }
 
 .notion-code {
-  @apply bg-gray-50 font-light;
+  @apply rounded-none bg-gray-50 font-light;
 }
 
 .notion-hash-link {
@@ -74,7 +83,8 @@
   @apply italic text-gray-500;
 }
 
-.keyword {
+.keyword,
+.boolean {
   @apply text-purple-600;
 }
 
@@ -90,6 +100,7 @@
   @apply text-green-600;
 }
 
-.property {
+.property,
+.number {
   @apply text-orange-500;
 }

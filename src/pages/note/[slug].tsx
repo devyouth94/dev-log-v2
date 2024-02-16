@@ -30,6 +30,7 @@ const NoteDetail = ({
         openGraph={{
           type: "article",
           url: `${METADATA.meta.url}/note/${noteItem.slug}`,
+          title: `${noteItem.title} | ${METADATA.meta.title}`,
           article: {
             publishedTime: new Date(noteItem.createDate).toISOString(),
             tags: [...noteItem.tags],

@@ -31,6 +31,7 @@ const PostDetail = ({
         openGraph={{
           type: "article",
           url: `${METADATA.meta.url}/post/${postItem.slug}`,
+          title: `${postItem.title} | ${METADATA.meta.title}`,
           article: {
             publishedTime: new Date(postItem.createDate).toISOString(),
             tags: [...postItem.tags],

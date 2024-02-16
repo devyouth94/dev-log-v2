@@ -15,7 +15,10 @@ const Resume = ({
       <NextSeo
         title="resume"
         canonical={`${METADATA.meta.url}/resume`}
-        openGraph={{ url: `${METADATA.meta.url}/resume` }}
+        openGraph={{
+          url: `${METADATA.meta.url}/resume`,
+          title: `resume | ${METADATA.meta.title}`,
+        }}
       />
 
       <Main className="items-center justify-center pt-header">

@@ -29,7 +29,10 @@ const Post = ({
       <NextSeo
         title="post"
         canonical={`${METADATA.meta.url}/post`}
-        openGraph={{ url: `${METADATA.meta.url}/post` }}
+        openGraph={{
+          url: `${METADATA.meta.url}/post`,
+          title: `post | ${METADATA.meta.title}`,
+        }}
       />
 
       <Main className="pt-header">

@@ -4,7 +4,7 @@ import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { MathUtils } from "three";
 
 import CameraRig from "~/components/home/camera-rig";
-import Computer from "~/components/home/computer";
+import Model from "~/components/home/model";
 
 const Three = () => {
   return (
@@ -22,7 +22,7 @@ const Three = () => {
         />
 
         <group>
-          <Computer />
+          <Model />
           <mesh
             receiveShadow
             rotation={[MathUtils.degToRad(-90), 0, 0]}

@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,21 +14,15 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "~/*": [
-        "./src/*"
-      ],
-      "root/*": [
-        "./*"
-      ]
-    }
+      "~/*": ["./src/*"],
+      "root/*": ["./*"],
+    },
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/home/computer.jsx"
+    "src/components/home/model.jsx",
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"],
 }

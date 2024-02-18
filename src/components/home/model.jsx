@@ -16,7 +16,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 
-const Computer = (props) => {
+const Model = (props) => {
   const { nodes, materials } = useGLTF("/models/macintosh_128k.glb");
 
   const textRef = useRef();
@@ -379,4 +379,4 @@ const Computer = (props) => {
 
 useGLTF.preload("/models/macintosh_128k.glb");
 
-export default Computer;
+export default Model;

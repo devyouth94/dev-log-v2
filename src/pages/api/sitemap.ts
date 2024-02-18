@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getContentList } from "~/apis/notion";
@@ -23,7 +24,7 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
   ${post?.map(
     (item) => `<url>
     <loc>${METADATA.meta.url}/post/${item.slug}</loc>
-    <lastmod>${new Date(item.createDate)}</lastmod>
+    <lastmod>${format(new Date(item.createDate), "yyyy-MM-dd")}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>`,
@@ -36,7 +37,7 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
   ${note?.map(
     (item) => `<url>
     <loc>${METADATA.meta.url}/note/${item.slug}</loc>
-    <lastmod>${new Date(item.createDate)}</lastmod>
+    <lastmod>${format(new Date(item.createDate), "yyyy-MM-dd")}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>`,
@@ -47,6 +48,8 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
     <priority>0.7</priority>
   </url>
   </urlset>`;
+
+  console.log(xml);
 
   res.end(xml);
 };

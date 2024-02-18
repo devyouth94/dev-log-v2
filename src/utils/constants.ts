@@ -26,7 +26,7 @@ export const SCHEMA_LIST = [
 
 export const METADATA = {
   meta: {
-    url: "http://localhost:3000",
+    url: "https://youngzin-log.com",
     title: "youngzin.log",
     description: "개발 기록",
     authors: "KIM YOUNGJIN",

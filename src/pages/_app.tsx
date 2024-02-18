@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { AppProps } from "next/app";
 
 import Layout from "~/components/layouts/layout";
@@ -10,10 +11,13 @@ import "~/styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Layout
-      className={cn(pretendard.variable, roboto.variable, "font-extralight")}
-    >
-      <Component {...pageProps} />
-    </Layout>
+    <>
+      <Layout
+        className={cn(pretendard.variable, roboto.variable, "font-extralight")}
+      >
+        <Component {...pageProps} />
+      </Layout>
+      <GoogleAnalytics gaId={process.env.GA_ID!} />
+    </>
   );
 }

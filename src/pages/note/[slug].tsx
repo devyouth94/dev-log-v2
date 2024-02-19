@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 import { ExtendedRecordMap, PageBlock } from "notion-types";
 import { TableOfContentsEntry, getPageTableOfContents } from "notion-utils";
 
@@ -7,6 +8,7 @@ import Main from "~/components/layouts/main";
 import ArticleButton from "~/components/shared/article-button";
 import ArticleNavigation from "~/components/shared/article-navigation";
 import ArticleProperties from "~/components/shared/article-properties";
+import Fallback from "~/components/shared/fallback";
 import Comment from "~/components/shared/giscus";
 import NotionRenderer from "~/components/shared/notion-renderer";
 
@@ -22,6 +24,12 @@ const NoteDetail = ({
   toc,
   prevNextNote,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <Fallback />;
+  }
+
   return (
     <>
       <NextSeo
@@ -56,7 +64,7 @@ export const getStaticPaths = (async () => {
 
   return {
     paths: noteList.map(({ slug }) => ({ params: { slug } })),
-    fallback: false,
+    fallback: true,
   };
 }) satisfies GetStaticPaths;
 

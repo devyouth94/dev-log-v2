@@ -67,7 +67,7 @@
 }
 
 .notion-code {
-  @apply rounded-none bg-gray-50 font-light;
+  @apply min-h-[64px] rounded-none bg-gray-50 font-light;
 }
 
 .notion-hash-link {

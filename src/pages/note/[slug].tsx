@@ -50,7 +50,7 @@ const NoteDetail = ({
         <ArticleProperties postItem={noteItem} />
         <ArticleButton toc={toc} />
         <NotionRenderer recordMap={recordMap} />
-        <ArticleNavigation pathname="post" prevNextPost={prevNextNote} />
+        <ArticleNavigation pathname="note" prevNextPost={prevNextNote} />
         <Comment />
       </Main>
     </>

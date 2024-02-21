@@ -24,9 +24,9 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "min-w-limit fixed inset-x-0 top-0 z-50 flex h-header items-center justify-between px-4 font-roboto text-sm text-black transition-all md:px-8",
+        "fixed inset-x-0 top-0 z-50 flex h-header min-w-limit items-center justify-between px-4 font-roboto text-sm text-black transition-all md:px-8",
         isHome && "text-white",
-        !isTop && "bg-white/50 backdrop-blur-sm",
+        !isHome && !isTop && "bg-white/50 backdrop-blur-sm",
       )}
     >
       <span

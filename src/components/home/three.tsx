@@ -8,7 +8,7 @@ import Model from "~/components/home/model";
 
 const Three = () => {
   return (
-    <main className="h-screen bg-black">
+    <main className="h-dvh bg-black">
       <Canvas shadows>
         <color attach="background" args={["black"]} />
         <hemisphereLight intensity={0.3} groundColor="black" />

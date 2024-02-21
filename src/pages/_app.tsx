@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <Component {...pageProps} />
       </Layout>
-      <GoogleAnalytics gaId={process.env.GA_ID!} />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
     </>
   );
 }

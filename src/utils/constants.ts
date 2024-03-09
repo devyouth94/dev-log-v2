@@ -35,7 +35,6 @@ export const METADATA = {
 
 export const fadeVariants: Variants = {
   visible: {
-    y: -5,
     opacity: 1,
   },
   hidden: {

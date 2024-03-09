@@ -58,7 +58,7 @@ const Note = ({
         />
 
         {/* note list */}
-        <MotionContainer className="space-y-5 pt-3">
+        <MotionContainer className="space-y-5">
           {filteredList.map((item) => (
             <CardArticle key={item.id} pathname="note" item={item} />
           ))}

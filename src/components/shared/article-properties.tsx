@@ -11,7 +11,12 @@ type IProps = {
 const ArticleProperties = ({ postItem }: IProps) => {
   return (
     <>
-      <span className="text-2xl font-bold">{postItem.title}</span>
+      <div className="flex flex-col items-center justify-center gap-3">
+        <span className="text-center text-2xl font-bold">{postItem.title}</span>
+        <span className="text-center text-sm text-gray-500">
+          {postItem.summary}
+        </span>
+      </div>
 
       <div className="flex gap-1">
         <Badge className="cursor-default">{postItem.category}</Badge>

@@ -58,7 +58,7 @@ const Post = ({
         />
 
         {/* post list */}
-        <MotionContainer className="space-y-5 pt-3">
+        <MotionContainer className="space-y-5">
           {filteredList.map((item) => (
             <CardArticle key={item.id} pathname="post" item={item} />
           ))}

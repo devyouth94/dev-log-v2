@@ -35,11 +35,11 @@
 }
 
 .notion-h1 {
-  @apply mt-16 text-xl font-bold;
+  @apply mt-16 text-2xl font-bold;
 }
 
 .notion-h2 {
-  @apply mt-8 text-base font-bold;
+  @apply mt-6 text-lg font-bold;
 }
 
 .notion-h {

@@ -1,11 +1,11 @@
 import { Block, ExtendedRecordMap } from "notion-types";
 import { getPageProperty, uuidToId } from "notion-utils";
 import { defaultMapImageUrl } from "react-notion-x";
+import readingTime from "reading-time";
 
 import { ICategoryItem, IPostItem, IPostStatus, ITagItem } from "~/types/post";
 import { IPlaylistItem, IYoutubeItem } from "~/types/youtube";
 import { SCHEMA_LIST } from "~/utils/constants";
-import { estimatePageReadTimeAsHumanizedString } from "~/utils/estimate-page-read-time";
 import { notion } from "~/utils/notion";
 
 export const getPlayList = (data: IYoutubeItem[]): IPlaylistItem[] => {
@@ -17,6 +17,18 @@ export const getPlayList = (data: IYoutubeItem[]): IPlaylistItem[] => {
       title,
       publishedAt,
     }));
+};
+
+export const getHumanizeReadTime = (time: number): string => {
+  if (time < 0.5) {
+    return "1분 미만";
+  }
+
+  if (time < 1.5) {
+    return "1분";
+  }
+
+  return `${Math.ceil(time)}분`;
 };
 
 /**
@@ -58,7 +70,7 @@ const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
 
   return block.content
     ?.map((item) => textObject[item])
-    .join("")
+    .join(" ")
     .toLowerCase();
 };
 
@@ -70,27 +82,25 @@ export const getPostList = async (
   blockList: Block[],
 ) => {
   const list = blockList.map(async (block) => {
+    const blockRecordMap = await notion.getPage(uuidToId(block.id));
+
     const thumbnail = defaultMapImageUrl(block.format?.page_cover || "", block);
-    const readTime = estimatePageReadTimeAsHumanizedString(
-      block,
-      recordMap,
-      {},
-    );
+    const contents = getTextContents(block, blockRecordMap);
+    const rawReadTime = readingTime(contents || "", { wordsPerMinute: 200 });
+    const readTime = getHumanizeReadTime(rawReadTime.minutes);
     const schemaData = Object.fromEntries(
       SCHEMA_LIST.map((property) => [
         property,
         getPageProperty(property, block, recordMap),
       ]),
     );
-    const blockRecordMap = await notion.getPage(uuidToId(block.id));
-    const contents = getTextContents(block, blockRecordMap);
     const tags = (schemaData?.tags as string[]).filter((item) => item.length);
 
     return {
       id: block.id,
       thumbnail,
-      readTime,
       contents,
+      readTime,
       ...schemaData,
       tags,
     };

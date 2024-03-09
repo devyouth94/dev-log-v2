@@ -17,6 +17,11 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>${METADATA.meta.url}</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>${METADATA.meta.url}/post</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -45,11 +50,9 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
   <url>
     <loc>${METADATA.meta.url}/resume</loc>
     <changefreq>daily</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   </urlset>`;
-
-  console.log(xml);
 
   res.end(xml);
 };

@@ -12,10 +12,10 @@ const ArticleProperties = ({ postItem }: IProps) => {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-3">
-        <span className="text-center text-2xl font-bold">{postItem.title}</span>
-        <span className="text-center text-sm text-gray-500">
-          {postItem.summary}
+        <span className="text-center text-3xl font-extrabold">
+          {postItem.title}
         </span>
+        <span className="text-center text-gray-500">{postItem.summary}</span>
       </div>
 
       <div className="flex gap-1">

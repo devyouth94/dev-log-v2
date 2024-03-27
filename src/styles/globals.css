@@ -19,6 +19,7 @@
 
   code {
     font-family: var(--font-roboto);
+    color: white;
   }
 }
 
@@ -35,11 +36,11 @@
 }
 
 .notion-h1 {
-  @apply mt-16 text-2xl font-bold;
+  @apply mt-16 text-2xl font-extrabold;
 }
 
 .notion-h2 {
-  @apply mt-6 text-lg font-bold;
+  @apply mt-6 text-xl font-extrabold;
 }
 
 .notion-h {
@@ -47,11 +48,11 @@
 }
 
 .notion-quote {
-  @apply text-base font-extralight;
+  @apply text-base font-light leading-7;
 }
 
 .notion-text {
-  @apply my-2 text-pretty;
+  @apply my-1 text-pretty leading-7;
 }
 
 .notion-property-checkbox-checked {
@@ -59,19 +60,32 @@
 }
 
 .notion b {
-  @apply font-medium;
+  @apply font-bold;
 }
 
 .notion-inline-code {
-  @apply bg-gray-50 font-pretendard font-medium text-black;
+  @apply bg-gray-100 px-1 py-[1px] font-roboto font-medium text-black;
 }
 
 .notion-code {
-  @apply min-h-[64px] rounded-none bg-gray-50 font-light;
+  @apply min-h-[64px] rounded-none bg-gray-800 font-light;
 }
 
 .notion-hash-link {
   @apply float-right ml-[3px] mt-[6px];
+}
+
+.notion-list-disc {
+  padding-inline-start: 20px;
+}
+
+/* resume only */
+.notion-resume .notion-text {
+  @apply my-0 leading-6;
+}
+
+.notion-resume .notion-list-disc {
+  @apply -mt-1;
 }
 
 /* code prettier */
@@ -80,12 +94,12 @@
 }
 
 .parameter {
-  @apply italic text-gray-500;
+  @apply italic text-gray-400;
 }
 
 .keyword,
 .boolean {
-  @apply text-purple-600;
+  @apply text-purple-400;
 }
 
 .module {
@@ -93,14 +107,14 @@
 }
 
 .function {
-  @apply text-blue-600;
+  @apply text-blue-300;
 }
 
 .string {
-  @apply text-green-600;
+  @apply text-green-300;
 }
 
 .property,
 .number {
-  @apply text-orange-500;
+  @apply text-orange-300;
 }

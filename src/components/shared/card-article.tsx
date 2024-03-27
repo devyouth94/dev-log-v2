@@ -30,7 +30,7 @@ const CardArticle = <T extends IPostItem>({
     <motion.article
       {...props}
       onClick={() => push(`/${pathname}/${item.slug}`)}
-      className="grid cursor-pointer grid-rows-[200px_40px] saturate-0 transition-all hover:saturate-100"
+      className="group grid cursor-pointer grid-rows-[200px_40px]"
       variants={fadeVariants}
       transition={{ duration: 0.3 }}
     >
@@ -64,7 +64,7 @@ const CardArticle = <T extends IPostItem>({
             sizes="800px"
             priority
             fill
-            className="object-cover brightness-50"
+            className="object-cover brightness-50 saturate-0 transition-all duration-700 group-hover:scale-105 group-hover:saturate-100"
           />
         )}
       </div>

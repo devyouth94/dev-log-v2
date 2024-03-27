@@ -6,12 +6,12 @@ type IProps = {
 
 const ArticleCover = ({ thumbnail }: IProps) => {
   return (
-    <section className="fixed top-16 -z-10 h-[200px] w-full">
+    <section className="fixed top-16 -z-10 h-[200px] w-full md:h-[300px]">
       {thumbnail && (
         <Image
           src={thumbnail}
           alt={thumbnail}
-          sizes="1024px"
+          sizes="2048px"
           priority
           fill
           className="object-cover object-center brightness-50"

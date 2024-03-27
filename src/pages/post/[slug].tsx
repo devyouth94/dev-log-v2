@@ -49,7 +49,10 @@ const PostDetail = ({
 
       <ArticleCover thumbnail={postItem.thumbnail} />
 
-      <Main mainClassName="bg-white mt-[264px]" className="items-center">
+      <Main
+        mainClassName="bg-white mt-[264px] md:mt-[364px]"
+        className="items-center"
+      >
         <ArticleProperties postItem={postItem} />
         <ArticleButton toc={toc} />
         <NotionRenderer recordMap={recordMap} />

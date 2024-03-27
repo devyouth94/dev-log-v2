@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Layout
-        className={cn(pretendard.variable, roboto.variable, "font-extralight")}
+        className={cn(pretendard.variable, roboto.variable, "font-light")}
       >
         <Component {...pageProps} />
       </Layout>

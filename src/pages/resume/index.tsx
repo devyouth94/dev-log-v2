@@ -21,8 +21,8 @@ const Resume = ({
         }}
       />
 
-      <Main className="items-center justify-center pt-header">
-        <span className="font-extralight">준비중입니다!</span>
+      <Main className="notion-resume h-[calc(100dvh-var(--height-header))] items-center justify-center">
+        <span>준비중입니다!</span>
         {/* <NotionRenderer recordMap={recordMap} /> */}
       </Main>
     </>

@@ -6,6 +6,9 @@ const config = {
   prefix: "",
   theme: {
     extend: {
+      colors: {
+        "light-green": "#35c19f",
+      },
       spacing: {
         header: "var(--height-header)",
         footer: "var(--height-header)",

@@ -11,10 +11,10 @@ const ArticleCover = ({ thumbnail }: IProps) => {
         <Image
           src={thumbnail}
           alt={thumbnail}
-          sizes="2048px"
+          sizes="1500px"
           priority
           fill
-          className="object-cover object-center brightness-50"
+          className="object-cover object-center"
         />
       )}
     </section>

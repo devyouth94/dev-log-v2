@@ -25,7 +25,7 @@ const BadgeCategory = ({ pathname, item }: IProps) => {
       hasDeleteButton={categoryQuery === item.title}
     >
       <span>{item.title}</span>
-      {item.count && <span className="font-extralight">{item.count}</span>}
+      {item.count && <span className="font-light">{item.count}</span>}
     </Badge>
   );
 };

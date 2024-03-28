@@ -103,7 +103,7 @@
 }
 
 .module {
-  @apply italic text-red-500;
+  @apply italic text-red-400;
 }
 
 .function {

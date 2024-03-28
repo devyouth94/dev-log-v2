@@ -19,7 +19,7 @@ const ArticleNavigation = ({ pathname, prevNextPost }: IProps) => {
   return (
     <>
       <Separator className="mb-2 mt-20" />
-      <section className="grid w-full grid-cols-2 text-pretty text-sm text-gray-400">
+      <section className="grid w-full grid-cols-2 gap-4 text-pretty text-sm text-gray-400">
         <div
           onClick={prev ? () => push(`/${pathname}/${prev?.slug}`) : undefined}
           className="flex cursor-pointer flex-col gap-1 transition-colors hover:text-black"

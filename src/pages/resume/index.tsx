@@ -3,6 +3,7 @@ import { NextSeo } from "next-seo";
 import { ExtendedRecordMap } from "notion-types";
 
 import Main from "~/components/layouts/main";
+import NotionRenderer from "~/components/shared/notion-renderer";
 
 import { METADATA, NOTION_PAGE_IDS } from "~/utils/constants";
 import { notion } from "~/utils/notion";
@@ -21,9 +22,8 @@ const Resume = ({
         }}
       />
 
-      <Main className="notion-resume h-[calc(100dvh-var(--height-header))] items-center justify-center">
-        <span>준비중입니다!</span>
-        {/* <NotionRenderer recordMap={recordMap} /> */}
+      <Main className="notion-resume items-center justify-center">
+        <NotionRenderer recordMap={recordMap} />
       </Main>
     </>
   );

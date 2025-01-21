@@ -1,7 +1,11 @@
-import React from "react";
+import Footer from "src/components/layouts/footer";
 
 const IndexPage = () => {
-  return <div>인덱스 페이지</div>;
+  return (
+    <>
+      <Footer />
+    </>
+  );
 };
 
 export default IndexPage;

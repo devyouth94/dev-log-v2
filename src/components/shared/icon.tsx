@@ -8,10 +8,10 @@ import {
   CornerRightUp,
   Disc3,
   Loader,
+  type LucideProps,
   MessageSquareMore,
   Share2,
   X,
-  type LucideProps,
 } from "lucide-react";
 
 const ICON = {

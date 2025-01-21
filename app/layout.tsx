@@ -1,10 +1,11 @@
+import { type PropsWithChildren } from "react";
 import { type Metadata } from "next";
-import localFont from "next/font/local";
 import { Roboto_Mono } from "next/font/google";
-import React, { type PropsWithChildren } from "react";
+import localFont from "next/font/local";
 
-import { METADATA } from "src/utils/constants";
+import Header from "src/components/layouts/header";
 import { cn } from "src/utils/class-name";
+import { METADATA } from "src/utils/constants";
 
 import "react-notion-x/src/styles.css";
 import "app/globals.css";
@@ -43,7 +44,10 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
   return (
     <html lang="ko" className={cn(pretendard.variable, roboto.variable)}>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 };

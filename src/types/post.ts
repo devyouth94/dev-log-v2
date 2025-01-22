@@ -14,9 +14,7 @@ export type IPostItem = {
   title: string;
 };
 
-export type ITagItem = {
+export type ICategoryItem = {
   title: string;
   count: number;
 };
-
-export type ICategoryItem = ITagItem;

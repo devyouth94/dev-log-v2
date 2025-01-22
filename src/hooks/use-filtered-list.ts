@@ -1,26 +1,20 @@
-import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 
-import { IPostItem } from "~/types/post";
+import { type IPostItem } from "src/types/post";
 
 const useFilteredList = <T extends IPostItem[]>(list: T, search: string) => {
-  const { query, isReady } = useRouter();
-  const { category, tag } = query;
+  const searchParams = useSearchParams();
+  const category = searchParams?.get("category");
 
   const filteredList = useMemo(() => {
-    if (!isReady) return list;
-
     return list.filter(
       (item) =>
         (!category || category === item.category) &&
-        (!tag ||
-          item.tags.some((tagItem) =>
-            String(tag).split(",").includes(tagItem),
-          )) &&
         (search.length <= 1 ||
           [item.title, item.summary, item.contents].join("").includes(search)),
     );
-  }, [isReady, list, category, tag, search]);
+  }, [list, category, search]);
 
   return { filteredList };
 };

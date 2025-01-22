@@ -10,8 +10,6 @@ const config = {
         "light-green": "#35c19f",
       },
       spacing: {
-        header: "var(--height-header)",
-        footer: "var(--height-header)",
         content: "var(--width-content)",
         limit: "var(--width-limit)",
       },

@@ -2,6 +2,7 @@ import { type PropsWithChildren } from "react";
 import { type Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import Header from "src/components/layouts/header";
 import { cn } from "src/utils/class-name";
@@ -39,6 +40,9 @@ export const metadata: Metadata = {
       },
     ],
   },
+  verification: {
+    google: "BmJKKZAJXdOObZSfbVTD7ze2oCPBWDHumGy-YOE3Erk",
+  },
 };
 
 const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
@@ -48,6 +52,7 @@ const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
         <Header />
         {children}
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
     </html>
   );
 };

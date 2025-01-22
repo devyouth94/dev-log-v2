@@ -3,11 +3,104 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --width-content: 768px;
+    --width-limit: 360px;
+  }
+
   html {
     @apply cursor-default font-pretendard font-light text-gray-950;
   }
 
   code {
-    @apply font-roboto text-white;
+    @apply font-roboto text-gray-900;
   }
+}
+
+/* notion prettier */
+.notion {
+  @apply font-pretendard;
+}
+
+.notion-page {
+  @apply w-full px-0;
+}
+
+.notion-collection-page-properties {
+  @apply hidden;
+}
+
+.notion-h1 {
+  @apply mt-16 text-2xl font-extrabold;
+}
+
+.notion-h2 {
+  @apply mt-6 text-xl font-extrabold;
+}
+
+.notion-h {
+  @apply mb-1;
+}
+
+.notion-quote {
+  @apply text-base font-light leading-7;
+}
+
+.notion-text {
+  @apply my-1 text-pretty leading-7;
+}
+
+.notion-property-checkbox-checked {
+  @apply bg-black;
+}
+
+.notion b {
+  @apply font-bold;
+}
+
+.notion-inline-code {
+  @apply bg-gray-100 px-1 py-[1px] font-roboto font-medium text-black;
+}
+
+.notion-code {
+  @apply min-h-[64px] rounded-none bg-gray-100 font-light hover:cursor-text;
+}
+
+.notion-hash-link {
+  @apply float-right ml-[3px] mt-[6px];
+}
+
+.notion-list-disc {
+  padding-inline-start: 20px;
+}
+
+/* code prettier */
+.comment {
+  @apply text-gray-500;
+}
+
+.parameter {
+  @apply italic text-gray-500;
+}
+
+.keyword,
+.boolean {
+  @apply text-purple-600;
+}
+
+.module {
+  @apply italic text-red-600;
+}
+
+.function {
+  @apply text-blue-600;
+}
+
+.string {
+  @apply text-green-600;
+}
+
+.property,
+.number {
+  @apply text-orange-400;
 }

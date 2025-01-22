@@ -1,25 +1,14 @@
-import { type ExtendedRecordMap } from "notion-types";
-
 import { NOTION_PAGE_IDS } from "src/utils/constants";
 import {
   getPageBlockList,
   getPostList,
   getPublicList,
 } from "src/utils/data-format";
+import { notion } from "src/utils/notion";
 
 export const getContentList = async () => {
   //1. 노션 페이지 조회
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/notion?pageId=${NOTION_PAGE_IDS.post}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      next: { revalidate: 60 },
-    },
-  );
-
-  const recordMap: ExtendedRecordMap = await response.json();
+  const recordMap = await notion.getPage(NOTION_PAGE_IDS.post);
 
   //2. 페이지 블록 필터
   const pageBlockList = getPageBlockList(recordMap);

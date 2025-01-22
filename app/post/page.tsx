@@ -5,6 +5,8 @@ import CategoryContainer from "src/components/shared/category-container";
 import PostContainer from "src/components/shared/post-container";
 import { METADATA } from "src/utils/constants";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "post",
   openGraph: {

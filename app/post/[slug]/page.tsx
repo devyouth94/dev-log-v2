@@ -14,6 +14,8 @@ type Props = {
   };
 };
 
+export const revalidate = 60;
+
 export const generateStaticParams = async () => {
   const postList = await getContentList();
   return postList.map((post) => ({ slug: post.slug }));

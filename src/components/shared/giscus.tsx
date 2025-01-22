@@ -1,8 +1,10 @@
+"use client";
+
 import Giscus from "@giscus/react";
 
 const Comment = () => {
   return (
-    <footer id="giscus-comment" className="mt-10 w-full max-w-content">
+    <section id="giscus-comment" className="w-full max-w-content pt-10">
       <Giscus
         repo="devyouth94/dev-log-v2"
         repoId="R_kgDOLHPTyw"
@@ -17,7 +19,7 @@ const Comment = () => {
         loading="eager"
         lang="ko"
       />
-    </footer>
+    </section>
   );
 };
 

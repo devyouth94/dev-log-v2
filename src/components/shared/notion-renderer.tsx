@@ -1,8 +1,9 @@
+"use client";
+
+import { NotionRenderer as Renderer } from "react-notion-x";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
-import { ExtendedRecordMap } from "notion-types";
-import { NotionRenderer as Renderer } from "react-notion-x";
+import { type ExtendedRecordMap } from "notion-types";
 
 const Code = dynamic(
   () => import("react-notion-x/build/third-party/code").then((m) => m.Code),
@@ -33,14 +34,7 @@ const NotionRenderer = ({ recordMap }: IProps) => {
   return (
     <Renderer
       recordMap={recordMap}
-      components={{
-        Code,
-        Collection,
-        Modal,
-        Pdf,
-        nextImage: Image,
-        nextLink: Link,
-      }}
+      components={{ Code, Collection, Pdf, Modal, Image }}
     />
   );
 };

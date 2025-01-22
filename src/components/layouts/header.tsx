@@ -23,30 +23,28 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 flex justify-between p-8 font-roboto text-sm font-medium",
-      )}
-    >
-      <p>youngzin.log</p>
+    <>
+      <p className="fixed left-8 top-8 z-50 hidden font-roboto text-sm font-medium text-white mix-blend-difference md:block">
+        youngzin.log
+      </p>
 
-      <ul className="absolute left-1/2 top-[23px] flex h-fit -translate-x-1/2 gap-1 rounded-full border border-dashed border-gray-950 p-1 uppercase backdrop-blur-sm">
+      <ul className="fixed left-1/2 top-[23px] z-50 flex -translate-x-1/2 gap-1 rounded-full border border-dashed border-white bg-black/5 p-1 font-roboto text-sm font-medium uppercase mix-blend-difference backdrop-blur-sm">
         {ROUTES.map((route) => (
-          <Link
-            key={route.name}
-            href={route.path}
-            className={cn(
-              isActiveRoute(pathname || "", route.path) &&
-                "bg-gray-200 text-white",
-              "rounded-full px-3 py-1 transition-colors hover:underline",
-            )}
-          >
-            <li>{route.name}</li>
+          <Link key={route.name} href={route.path}>
+            <li
+              className={cn(
+                "rounded-full px-3 py-1 text-white mix-blend-difference transition-colors hover:underline",
+                isActiveRoute(pathname || "", route.path) &&
+                  "bg-white/50 text-black backdrop-blur-sm",
+              )}
+            >
+              {route.name}
+            </li>
           </Link>
         ))}
       </ul>
 
-      <section className="flex items-center gap-1 ">
+      <section className="fixed right-8 top-8 z-50 hidden items-center gap-1 font-roboto text-sm font-medium text-white mix-blend-difference md:flex">
         <a
           target="_blank"
           href="https://music.youtube.com/playlist?list=PLsVcTYdAdbedwl_BNs7NIGOhzUoU2XWlD&si=fEezG3YQlSMdZzYR"
@@ -61,7 +59,7 @@ const Header = () => {
           className="animate-spin"
         />
       </section>
-    </header>
+    </>
   );
 };
 

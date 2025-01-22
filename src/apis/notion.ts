@@ -12,6 +12,9 @@ export const getContentList = async () => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/notion?pageId=${NOTION_PAGE_IDS.post}`,
     {
+      headers: {
+        "Content-Type": "application/json",
+      },
       next: { revalidate: 60 },
     },
   );

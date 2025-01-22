@@ -1,21 +1,8 @@
-import { Variants } from "framer-motion";
-
-export const PLAYLIST_ID = "PLsVcTYdAdbedwl_BNs7NIGOhzUoU2XWlD";
-
 export const NOTION_PAGE_IDS = {
   post: "59404ced87454e5688254418bdb0b193",
-  note: "f05f71c15d964c54b64c3f9e0035327e",
-  resume: "083db1a6083a40b3843d7263984e69cd",
 };
 
-export const ROUTES = {
-  post: "post",
-  note: "note",
-  resume: "resume",
-} as const;
-
 export const SCHEMA_LIST = [
-  "tags",
   "createDate",
   "status",
   "category",
@@ -30,22 +17,5 @@ export const METADATA = {
     title: "youngzin.log",
     description: "개발 기록",
     authors: "KIM YOUNGJIN",
-  },
-};
-
-export const fadeVariants: Variants = {
-  visible: {
-    opacity: 1,
-  },
-  hidden: {
-    opacity: 0,
-  },
-};
-
-export const fadeParentVariants: Variants = {
-  ...fadeVariants,
-  visible: {
-    ...fadeVariants.visible,
-    transition: { duration: 0.5, delayChildren: 0.1, staggerChildren: 0.1 },
   },
 };

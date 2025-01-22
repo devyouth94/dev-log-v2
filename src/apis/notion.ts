@@ -1,14 +1,14 @@
-import { NOTION_PAGE_IDS } from "~/utils/constants";
+import { NOTION_PAGE_IDS } from "src/utils/constants";
 import {
   getPageBlockList,
   getPostList,
   getPublicList,
-} from "~/utils/data-format";
-import { notion } from "~/utils/notion";
+} from "src/utils/data-format";
+import { notion } from "src/utils/notion";
 
-export const getContentList = async (key: keyof typeof NOTION_PAGE_IDS) => {
+export const getContentList = async () => {
   //1. 노션 페이지 조회
-  const recordMap = await notion.getPage(NOTION_PAGE_IDS[key]);
+  const recordMap = await notion.getPage(NOTION_PAGE_IDS.post);
 
   //2. 페이지 블록 필터
   const pageBlockList = getPageBlockList(recordMap);

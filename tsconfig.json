@@ -14,15 +14,11 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "~/*": ["./src/*"],
-      "root/*": ["./*"],
+      "src/*": ["./src/*"],
+      "app/*": ["./app/*"],
     },
+    "plugins": [{ "name": "next" }],
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/components/home/model.jsx",
-  ],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
 }

@@ -1,43 +1,25 @@
-import { Block, ExtendedRecordMap } from "notion-types";
-import { getPageProperty, uuidToId } from "notion-utils";
-import { defaultMapImageUrl } from "react-notion-x";
+import { type Block, type ExtendedRecordMap } from "notion-types";
+import { defaultMapImageUrl, getPageProperty, uuidToId } from "notion-utils";
 import readingTime from "reading-time";
 
-import { ICategoryItem, IPostItem, IPostStatus, ITagItem } from "~/types/post";
-import { IPlaylistItem, IYoutubeItem } from "~/types/youtube";
-import { SCHEMA_LIST } from "~/utils/constants";
-import { notion } from "~/utils/notion";
-
-export const getPlayList = (data: IYoutubeItem[]): IPlaylistItem[] => {
-  return data
-    .map((item) => item.snippet)
-    .map(({ title, thumbnails, videoOwnerChannelTitle, publishedAt }) => ({
-      thumbnailUrl: thumbnails.high.url,
-      artist: videoOwnerChannelTitle.split(" - ")[0],
-      title,
-      publishedAt,
-    }));
-};
+import {
+  type ICategoryItem,
+  type IPostItem,
+  type IPostStatus,
+} from "src/types/post";
+import { SCHEMA_LIST } from "src/utils/constants";
+import { notion } from "src/utils/notion";
 
 export const getHumanizeReadTime = (time: number): string => {
   if (time < 0.5) {
-    return "1분 미만";
+    return "less than 1 min read";
   }
 
   if (time < 1.5) {
-    return "1분";
+    return "1 min read";
   }
 
-  return `${Math.ceil(time)}분`;
-};
-
-/**
- * block type이 page인 것만 반환합니다.
- */
-export const getPageBlockList = (recordMap: ExtendedRecordMap) => {
-  return Object.values(recordMap.block)
-    .map(({ value }) => value)
-    .filter(({ type }) => type === "page");
+  return `${Math.ceil(time)} min read`;
 };
 
 const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
@@ -75,6 +57,15 @@ const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
 };
 
 /**
+ * block type이 page인 것만 반환합니다.
+ */
+export const getPageBlockList = (recordMap: ExtendedRecordMap) => {
+  return Object.values(recordMap.block)
+    .map(({ value }) => value)
+    .filter(({ type }) => type === "page");
+};
+
+/**
  * page block list를 렌더링에 필요한 데이터 형태로 가공합니다.
  */
 export const getPostList = async (
@@ -94,7 +85,6 @@ export const getPostList = async (
         getPageProperty(property, block, recordMap),
       ]),
     );
-    const tags = (schemaData?.tags as string[]).filter((item) => item.length);
 
     return {
       id: block.id,
@@ -102,7 +92,6 @@ export const getPostList = async (
       contents,
       readTime,
       ...schemaData,
-      tags,
     };
   });
 
@@ -117,31 +106,14 @@ export const getPublicList = <T extends { status: IPostStatus }>(list: T[]) => {
 };
 
 /**
- * tag list를 반환합니다.
- */
-export const getTagList = (list: string[][]): ITagItem[] => {
-  const initial: Record<string, number> = {};
-
-  const results = list.reduce((acc, cur) => {
-    cur.forEach((item) => {
-      acc[item] = (acc[item] || 0) + 1;
-    });
-    return acc;
-  }, initial);
-
-  return Object.entries(results)
-    .map(([title, count]) => ({ title, count }))
-    .sort((a, b) => b.count - a.count);
-};
-
-/**
  * category list를 반환합니다.
  */
 export const getCategoryList = (list: string[]): ICategoryItem[] => {
-  const initial: Record<string, number> = {};
+  const initial: Record<string, number> = { all: 0 };
 
   const results = list.reduce((acc, cur) => {
     acc[cur] = (acc[cur] || 0) + 1;
+    acc.all += 1;
     return acc;
   }, initial);
 

@@ -28,9 +28,11 @@ const PostItem = ({ item }: Props) => {
           </div>
 
           <p className="transition-colors duration-500 group-hover:text-white">
-            <span className="text-xl font-bold">{item.title}</span>
+            <span className="line-clamp-1 text-xl font-bold">
+              {item.title}
+            </span>
             {!!item.summary && (
-              <span className="mt-1 block truncate text-sm">
+              <span className="mt-1 line-clamp-1 text-sm">
                 {item.summary}
               </span>
             )}

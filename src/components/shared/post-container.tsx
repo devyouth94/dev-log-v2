@@ -24,7 +24,7 @@ const PostContainer = ({ postList }: Props) => {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div>
+      <div className="grid grid-cols-1 gap-x-3 md:grid-cols-2">
         {filteredList.map((item) => (
           <PostItem key={item.id} item={item} />
         ))}

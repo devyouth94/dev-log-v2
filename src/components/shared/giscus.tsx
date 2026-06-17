@@ -4,7 +4,7 @@ import Giscus from "@giscus/react";
 
 const Comment = () => {
   return (
-    <section id="giscus-comment" className="max-w-content w-full pt-10">
+    <section id="giscus-comment" className="max-w-content w-full pt-5">
       <Giscus
         repo="devyouth94/dev-log-v2"
         repoId="R_kgDOLHPTyw"

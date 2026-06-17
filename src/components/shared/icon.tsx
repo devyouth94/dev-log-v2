@@ -36,7 +36,7 @@ type IProps = {
 const Icon = ({
   name,
   size = 14,
-  absoluteStrokeWidth = true,
+  absoluteStrokeWidth,
   strokeWidth = 1,
   className,
   ...props

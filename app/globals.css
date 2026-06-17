@@ -9,7 +9,7 @@
 
 @layer base {
   :root {
-    --width-content: 768px;
+    --width-content: 960px;
     --width-limit: 360px;
   }
 
@@ -24,7 +24,7 @@
 
 /* notion prettier */
 .notion {
-  @apply font-pretendard;
+  @apply font-pretendard py-5;
 }
 
 .notion-page {
@@ -36,7 +36,7 @@
 }
 
 .notion-h1 {
-  @apply mt-16 text-2xl font-extrabold;
+  @apply mt-12 text-2xl font-black;
 }
 
 .notion-h2 {
@@ -48,11 +48,21 @@
 }
 
 .notion-quote {
-  @apply text-base leading-7 font-light;
+  @apply text-sm leading-6 font-light;
 }
 
 .notion-text {
-  @apply my-1 leading-7 text-pretty;
+  @apply my-1 text-sm leading-6 text-pretty;
+}
+
+.notion-list,
+.notion-to-do,
+.notion-toggle > summary {
+  @apply text-sm leading-6;
+}
+
+.notion-list li {
+  padding: 3px 0;
 }
 
 .notion-property-checkbox-checked {
@@ -68,7 +78,7 @@
 }
 
 .notion-code {
-  @apply min-h-16 rounded-none bg-gray-100 font-light hover:cursor-text;
+  @apply min-h-16 rounded-none bg-gray-100 text-sm leading-6 font-light hover:cursor-text;
 }
 
 .notion-hash-link {

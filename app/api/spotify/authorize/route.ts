@@ -1,21 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import {
+  isSpotifyAuthRouteEnabled,
+  SPOTIFY_AUTH_STATE_COOKIE,
   getSpotifyAuthorizeUrl,
   getSpotifyRedirectUri,
 } from "src/apis/spotify";
 
-const STATE_COOKIE = "spotify_oauth_state";
-
-const isAuthRouteEnabled = () => {
-  return (
-    process.env.NODE_ENV !== "production" ||
-    process.env.SPOTIFY_ENABLE_AUTH_ROUTES === "true"
-  );
-};
-
 export const GET = (request: NextRequest) => {
-  if (!isAuthRouteEnabled()) {
+  if (!isSpotifyAuthRouteEnabled()) {
     return new Response("Not found", { status: 404 });
   }
 
@@ -30,7 +23,7 @@ export const GET = (request: NextRequest) => {
   const state = crypto.randomUUID();
   const response = NextResponse.redirect(getSpotifyAuthorizeUrl(state));
 
-  response.cookies.set(STATE_COOKIE, state, {
+  response.cookies.set(SPOTIFY_AUTH_STATE_COOKIE, state, {
     httpOnly: true,
     maxAge: 60 * 10,
     path: "/",

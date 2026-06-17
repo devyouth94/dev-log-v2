@@ -3,10 +3,12 @@ const SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
 const SPOTIFY_API_URL = "https://api.spotify.com/v1";
 const TOKEN_EXPIRY_BUFFER_MS = 60 * 1000;
 
-export const SPOTIFY_AUTH_SCOPES = [
+const SPOTIFY_AUTH_SCOPES = [
   "playlist-read-private",
   "playlist-read-collaborative",
 ].join(" ");
+
+export const SPOTIFY_AUTH_STATE_COOKIE = "spotify_oauth_state";
 
 type SpotifyTokenResponse = {
   access_token: string;
@@ -46,20 +48,20 @@ type SpotifyPlaylistItemsResponse = {
   total: number;
 };
 
-export type SpotifyPlaylistTrack = {
-  albumImageUrl: string | null;
-  artists: string;
-  duration: string;
-  id: string;
-  name: string;
-};
-
 export type SpotifyPlaylist = {
   name: string;
   total: number;
-  tracks: SpotifyPlaylistTrack[];
+  tracks: {
+    albumImageUrl: string | null;
+    artists: string;
+    duration: string;
+    id: string;
+    name: string;
+  }[];
   url: string;
 };
+
+type SpotifyPlaylistTrack = SpotifyPlaylist["tracks"][number];
 
 type SpotifyConfig = {
   clientId: string;
@@ -83,6 +85,13 @@ export class SpotifyError extends Error {
   }
 }
 
+export const isSpotifyAuthRouteEnabled = () => {
+  return (
+    process.env.NODE_ENV !== "production" ||
+    process.env.SPOTIFY_ENABLE_AUTH_ROUTES === "true"
+  );
+};
+
 export const getSpotifyRedirectUri = () => {
   return (
     process.env.SPOTIFY_REDIRECT_URI ||
@@ -90,7 +99,7 @@ export const getSpotifyRedirectUri = () => {
   );
 };
 
-export const getSpotifyPlaylistUrl = () => {
+const getSpotifyPlaylistUrl = () => {
   return process.env.SPOTIFY_PLAYLIST_URL || "";
 };
 
@@ -105,7 +114,7 @@ const getSpotifyConfig = (): SpotifyConfig => {
   return { clientId, clientSecret };
 };
 
-export const getSpotifyPlaylistId = () => {
+const getSpotifyPlaylistId = () => {
   const playlistId = process.env.SPOTIFY_PLAYLIST_ID;
 
   if (playlistId) {
@@ -157,14 +166,16 @@ const requestSpotifyToken = async (body: URLSearchParams) => {
   return (await response.json()) as SpotifyTokenResponse;
 };
 
-export const requestSpotifyTokenByCode = (code: string) => {
-  return requestSpotifyToken(
+export const getSpotifyRefreshTokenByCode = async (code: string) => {
+  const token = await requestSpotifyToken(
     new URLSearchParams({
       code,
       grant_type: "authorization_code",
       redirect_uri: getSpotifyRedirectUri(),
     }),
   );
+
+  return token.refresh_token ?? null;
 };
 
 const requestSpotifyAccessToken = async () => {

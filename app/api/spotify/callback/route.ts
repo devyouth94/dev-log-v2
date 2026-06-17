@@ -1,15 +1,10 @@
 import { type NextRequest } from "next/server";
 
-import { requestSpotifyTokenByCode } from "src/apis/spotify";
-
-const STATE_COOKIE = "spotify_oauth_state";
-
-const isAuthRouteEnabled = () => {
-  return (
-    process.env.NODE_ENV !== "production" ||
-    process.env.SPOTIFY_ENABLE_AUTH_ROUTES === "true"
-  );
-};
+import {
+  getSpotifyRefreshTokenByCode,
+  isSpotifyAuthRouteEnabled,
+  SPOTIFY_AUTH_STATE_COOKIE,
+} from "src/apis/spotify";
 
 const renderHtml = (body: string) => {
   return new Response(
@@ -23,27 +18,27 @@ const renderHtml = (body: string) => {
 };
 
 export const GET = async (request: NextRequest) => {
-  if (!isAuthRouteEnabled()) {
+  if (!isSpotifyAuthRouteEnabled()) {
     return new Response("Not found", { status: 404 });
   }
 
   const code = request.nextUrl.searchParams.get("code");
   const state = request.nextUrl.searchParams.get("state");
-  const savedState = request.cookies.get(STATE_COOKIE)?.value;
+  const savedState = request.cookies.get(SPOTIFY_AUTH_STATE_COOKIE)?.value;
 
   if (!code || !state || state !== savedState) {
     return renderHtml("<h1>Spotify auth failed</h1><p>Invalid state.</p>");
   }
 
-  const token = await requestSpotifyTokenByCode(code);
+  const refreshToken = await getSpotifyRefreshTokenByCode(code);
 
-  if (!token.refresh_token) {
+  if (!refreshToken) {
     return renderHtml(
       "<h1>Spotify auth completed</h1><p>No refresh token was returned. Remove this app from your Spotify account access list and try again.</p>",
     );
   }
 
   return renderHtml(
-    `<h1>Spotify refresh token</h1><p>Add this to <code>.env.local</code>:</p><pre style="white-space: pre-wrap;">SPOTIFY_REFRESH_TOKEN=${token.refresh_token}</pre>`,
+    `<h1>Spotify refresh token</h1><p>Add this to <code>.env.local</code>:</p><pre style="white-space: pre-wrap;">SPOTIFY_REFRESH_TOKEN=${refreshToken}</pre>`,
   );
 };

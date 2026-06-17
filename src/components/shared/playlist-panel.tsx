@@ -5,27 +5,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import Icon from "src/components/shared/icon";
+import { type SpotifyPlaylist } from "src/apis/spotify";
 import { cn } from "src/utils/class-name";
-
-type PlaylistTrack = {
-  albumImageUrl: string | null;
-  artists: string;
-  duration: string;
-  id: string;
-  name: string;
-};
-
-type Playlist = {
-  name: string;
-  total: number;
-  tracks: PlaylistTrack[];
-  url: string;
-};
 
 type PlaylistState =
   | { data: null; error: null; status: "idle" | "loading" }
   | { data: null; error: string; status: "error" }
-  | { data: Playlist; error: null; status: "success" };
+  | { data: SpotifyPlaylist; error: null; status: "success" };
 
 const INITIAL_STATE: PlaylistState = {
   data: null,
@@ -57,7 +43,7 @@ const PlaylistPanel = () => {
           signal: controller.signal,
         });
         const payload = (await response.json()) as
-          | Playlist
+          | SpotifyPlaylist
           | { message: string };
 
         if (!response.ok) {
@@ -67,7 +53,7 @@ const PlaylistPanel = () => {
         }
 
         setPlaylistState({
-          data: payload as Playlist,
+          data: payload as SpotifyPlaylist,
           error: null,
           status: "success",
         });
@@ -88,7 +74,7 @@ const PlaylistPanel = () => {
     void loadPlaylist();
 
     return () => controller.abort();
-  }, [isOpen]);
+  }, [isOpen, playlistState.status]);
 
   return (
     <Popover.Root open={isOpen} onOpenChange={handleOpenChange} modal={false}>

@@ -5,10 +5,10 @@ import { useState } from "react";
 import PostItem from "src/components/shared/post-item";
 import { Input } from "src/components/ui/input";
 import useFilteredList from "src/hooks/use-filtered-list";
-import { type IPostItem } from "src/types/post";
+import { type Post } from "src/types/post";
 
 type Props = {
-  postList: IPostItem[];
+  postList: Post[];
 };
 
 const PostContainer = ({ postList }: Props) => {

@@ -29,7 +29,7 @@ const ICON = {
   X,
 };
 
-type IProps = {
+type Props = {
   name: keyof typeof ICON;
 } & LucideProps;
 
@@ -40,7 +40,7 @@ const Icon = ({
   strokeWidth = 1,
   className,
   ...props
-}: IProps) => {
+}: Props) => {
   const Icon = ICON[name];
 
   return (

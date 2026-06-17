@@ -26,12 +26,12 @@ const Modal = dynamic(
   { ssr: false },
 );
 
-type IProps = {
+type Props = {
   recordMap: ExtendedRecordMap;
   rootPageId?: string;
 };
 
-const NotionRenderer = ({ recordMap, rootPageId }: IProps) => {
+const NotionRenderer = ({ recordMap, rootPageId }: Props) => {
   return (
     <Renderer
       recordMap={recordMap}

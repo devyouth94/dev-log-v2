@@ -1,10 +1,10 @@
 import Icon from "src/components/shared/icon";
 import { Badge } from "src/components/ui/badge";
-import { type IPostDetailItem } from "src/types/post";
+import { type PostDetailItem } from "src/types/post";
 import { getRenderedDate } from "src/utils/date";
 
 type Props = {
-  postItem: IPostDetailItem;
+  postItem: PostDetailItem;
 };
 
 const PostTitle = ({ postItem }: Props) => {

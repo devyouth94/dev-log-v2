@@ -6,17 +6,13 @@ import {
 } from "notion-utils";
 import readingTime from "reading-time";
 
-import {
-  type ICategoryItem,
-  type IPostItem,
-  type IPostStatus,
-} from "src/types/post";
+import { type CategoryItem, type Post, type PostStatus } from "src/types/post";
 
 const isBlock = (block: Block | undefined): block is Block => {
   return !!block;
 };
 
-const isPostStatus = (status: string | null): status is IPostStatus => {
+const isPostStatus = (status: string | null): status is PostStatus => {
   return status === "Published" || status === "Draft";
 };
 
@@ -85,7 +81,7 @@ export const getPostReadTime = (
 const getPostItem = (
   block: Block,
   recordMap: ExtendedRecordMap,
-): IPostItem | null => {
+): Post | null => {
   const createDate = getPageProperty<number | null>(
     "createDate",
     block,
@@ -124,13 +120,13 @@ export const getPostsFromRecordMap = (recordMap: ExtendedRecordMap) => {
     .filter(isBlock)
     .filter(isPostBlock)
     .map((block) => getPostItem(block, recordMap))
-    .filter((post): post is IPostItem => !!post);
+    .filter((post): post is Post => !!post);
 };
 
 /**
  * category list를 반환합니다.
  */
-export const getCategoryList = (list: string[]): ICategoryItem[] => {
+export const getCategoryList = (list: string[]): CategoryItem[] => {
   const initial: Record<string, number> = { all: 0 };
 
   const results = list.reduce((acc, cur) => {

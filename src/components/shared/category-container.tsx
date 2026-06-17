@@ -5,11 +5,11 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 import { Badge } from "src/components/ui/badge";
-import type { IPostItem } from "src/types/post";
+import type { Post } from "src/types/post";
 import { getCategoryList } from "src/utils/data-format";
 
 type Props = {
-  postList: IPostItem[];
+  postList: Post[];
 };
 
 const CategoryContainer = ({ postList }: Props) => {

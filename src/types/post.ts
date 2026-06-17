@@ -1,21 +1,21 @@
-export type IPostStatus = "Published" | "Draft";
+export type PostStatus = "Published" | "Draft";
 
-export type IPostItem = {
+export type Post = {
   category: string;
   createDate: number;
   id: string;
   slug: string;
-  status: IPostStatus;
+  status: PostStatus;
   summary: string;
   thumbnail: string | null;
   title: string;
 };
 
-export type IPostDetailItem = IPostItem & {
+export type PostDetailItem = Post & {
   readTime: string;
 };
 
-export type ICategoryItem = {
+export type CategoryItem = {
   title: string;
   count: number;
 };

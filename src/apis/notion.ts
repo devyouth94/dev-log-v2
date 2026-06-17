@@ -1,13 +1,13 @@
 import { cache } from "react";
 import { type ExtendedRecordMap } from "notion-types";
 
-import { type IPostDetailItem } from "src/types/post";
+import { type PostDetailItem } from "src/types/post";
 import { NOTION_PAGE_IDS } from "src/utils/constants";
 import { getPostReadTime, getPostsFromRecordMap } from "src/utils/data-format";
 import { notion } from "src/utils/notion";
 
 type PostDetail = {
-  postItem: IPostDetailItem;
+  postItem: PostDetailItem;
   recordMap: ExtendedRecordMap;
 };
 

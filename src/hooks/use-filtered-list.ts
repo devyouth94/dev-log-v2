@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { type IPostItem } from "src/types/post";
+import { type Post } from "src/types/post";
 
-const useFilteredList = <T extends IPostItem[]>(list: T, search: string) => {
+const useFilteredList = <T extends Post[]>(list: T, search: string) => {
   const searchParams = useSearchParams();
   const category = searchParams?.get("category");
 

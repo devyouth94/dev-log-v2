@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Badge } from "src/components/ui/badge";
-import { type IPostItem } from "src/types/post";
+import { type Post } from "src/types/post";
 import { getRenderedDate } from "src/utils/date";
 
 type Props = {
-  item: IPostItem;
+  item: Post;
 };
 
 const PostItem = ({ item }: Props) => {
@@ -28,13 +28,9 @@ const PostItem = ({ item }: Props) => {
           </div>
 
           <p className="transition-colors duration-500 group-hover:text-white">
-            <span className="line-clamp-1 text-xl font-bold">
-              {item.title}
-            </span>
+            <span className="line-clamp-1 text-xl font-bold">{item.title}</span>
             {!!item.summary && (
-              <span className="mt-1 line-clamp-1 text-sm">
-                {item.summary}
-              </span>
+              <span className="mt-1 line-clamp-1 text-sm">{item.summary}</span>
             )}
           </p>
         </div>

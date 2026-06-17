@@ -19,7 +19,7 @@ const PostTitle = ({ postItem }: Props) => {
 
       <Badge variant="full">{postItem.category}</Badge>
 
-      <div className="flex flex-col items-center gap-1 font-roboto text-sm font-normal">
+      <div className="font-roboto flex flex-col items-center gap-1 text-sm font-normal">
         <div className="flex items-center gap-1">
           <Icon name="Calendar" />
           <span>{getRenderedDate(postItem.createDate)}</span>

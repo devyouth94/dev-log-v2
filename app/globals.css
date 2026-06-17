@@ -1,6 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-light-green: #35c19f;
+  --font-pretendard: var(--font-family-pretendard);
+  --font-roboto: var(--font-family-roboto);
+  --spacing-content: var(--width-content);
+  --spacing-limit: var(--width-limit);
+}
 
 @layer base {
   :root {
@@ -9,7 +15,7 @@
   }
 
   html {
-    @apply cursor-default font-pretendard font-light text-gray-950;
+    @apply font-pretendard cursor-default font-light text-gray-950;
   }
 
   code {
@@ -43,11 +49,11 @@
 }
 
 .notion-quote {
-  @apply text-base font-light leading-7;
+  @apply text-base leading-7 font-light;
 }
 
 .notion-text {
-  @apply my-1 text-pretty leading-7;
+  @apply my-1 leading-7 text-pretty;
 }
 
 .notion-property-checkbox-checked {
@@ -59,7 +65,7 @@
 }
 
 .notion-inline-code {
-  @apply bg-gray-100 px-1 py-[1px] font-roboto font-medium text-black;
+  @apply font-roboto bg-gray-100 px-1 py-[1px] font-medium text-black;
 }
 
 .notion-code {
@@ -67,7 +73,7 @@
 }
 
 .notion-hash-link {
-  @apply float-right ml-[3px] mt-[6px];
+  @apply float-right mt-[6px] ml-[3px];
 }
 
 .notion-list-disc {
@@ -80,7 +86,7 @@
 }
 
 .parameter {
-  @apply italic text-gray-500;
+  @apply text-gray-500 italic;
 }
 
 .keyword,
@@ -89,7 +95,7 @@
 }
 
 .module {
-  @apply italic text-red-600;
+  @apply text-red-600 italic;
 }
 
 .function {

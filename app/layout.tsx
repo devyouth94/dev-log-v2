@@ -13,12 +13,12 @@ import "app/globals.css";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
-  variable: "--font-pretendard",
+  variable: "--font-family-pretendard",
 });
 
 const roboto = Roboto_Mono({
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-family-roboto",
 });
 
 export const metadata: Metadata = {

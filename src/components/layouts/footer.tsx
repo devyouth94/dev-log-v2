@@ -4,7 +4,7 @@ import Clock from "src/components/shared/clock";
 
 const Footer = () => {
   return (
-    <footer className="fixed inset-x-0 bottom-0 p-8 font-roboto text-sm uppercase">
+    <footer className="font-roboto fixed inset-x-0 bottom-0 p-8 text-sm uppercase">
       <div className="grid w-fit grid-cols-[40px_1fr] border border-black">
         <div className="flex items-center justify-center border-r border-black">
           <span className="-rotate-90 text-xs">

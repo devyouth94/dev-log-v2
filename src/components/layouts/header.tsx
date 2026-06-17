@@ -24,11 +24,11 @@ const Header = () => {
 
   return (
     <>
-      <p className="fixed left-8 top-8 z-50 hidden font-roboto text-sm font-medium text-white mix-blend-difference md:block">
+      <p className="font-roboto fixed top-8 left-8 z-50 hidden text-sm font-medium text-white mix-blend-difference md:block">
         youngzin.log
       </p>
 
-      <ul className="fixed left-1/2 top-[23px] z-50 flex -translate-x-1/2 gap-1 rounded-full border border-dashed border-white bg-black/5 p-1 font-roboto text-sm font-medium uppercase mix-blend-difference backdrop-blur-sm">
+      <ul className="font-roboto fixed top-[23px] left-1/2 z-50 flex -translate-x-1/2 gap-1 rounded-full border border-dashed border-white bg-black/5 p-1 text-sm font-medium uppercase mix-blend-difference backdrop-blur-sm">
         {ROUTES.map((route) => (
           <Link key={route.name} href={route.path}>
             <li
@@ -44,7 +44,7 @@ const Header = () => {
         ))}
       </ul>
 
-      <section className="fixed right-8 top-8 z-50 hidden items-center gap-1 font-roboto text-sm font-medium text-white mix-blend-difference md:flex">
+      <section className="font-roboto fixed top-8 right-8 z-50 hidden items-center gap-1 text-sm font-medium text-white mix-blend-difference md:flex">
         <a
           target="_blank"
           href="https://music.youtube.com/playlist?list=PLsVcTYdAdbedwl_BNs7NIGOhzUoU2XWlD&si=fEezG3YQlSMdZzYR"

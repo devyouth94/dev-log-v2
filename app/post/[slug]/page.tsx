@@ -57,7 +57,7 @@ const PostItemPage = async ({ params }: Props) => {
   return (
     <>
       <main className="min-h-dvh w-full bg-white">
-        <section className="min-w-limit max-w-content mx-auto w-full space-y-5 divide-y divide-gray-950 p-4 pt-[120px]">
+        <section className="min-w-limit max-w-content mx-auto w-full space-y-5 divide-y divide-gray-950 p-4 pt-30">
           <PostTitle postItem={postItem} />
           <NotionRenderer recordMap={recordMap} />
           <Comment />

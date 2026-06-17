@@ -14,7 +14,7 @@ const PostItem = ({ item }: Props) => {
     <Link href={`/post/${item.slug}`} key={item.id}>
       <article
         key={item.id}
-        className="group relative h-[136px] overflow-hidden border-b border-gray-950 px-3 py-5"
+        className="group relative h-34 overflow-hidden border-b border-gray-950 px-3 py-5"
       >
         <div className="relative z-20 flex h-full flex-col justify-between">
           <div className="flex justify-between">

@@ -28,7 +28,7 @@ const Header = () => {
         youngzin.log
       </p>
 
-      <ul className="font-roboto fixed top-[23px] left-1/2 z-50 flex -translate-x-1/2 gap-1 rounded-full border border-dashed border-white bg-black/5 p-1 text-sm font-medium uppercase mix-blend-difference backdrop-blur-sm">
+      <ul className="font-roboto fixed top-6 left-1/2 z-50 flex -translate-x-1/2 gap-1 rounded-full border border-dashed border-white bg-black/5 p-1 text-sm font-medium uppercase mix-blend-difference backdrop-blur-sm">
         {ROUTES.map((route) => (
           <Link key={route.name} href={route.path}>
             <li

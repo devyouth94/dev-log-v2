@@ -20,7 +20,7 @@ const PostPage = async () => {
 
   return (
     <main className="min-h-dvh w-full bg-white">
-      <section className="min-w-limit max-w-content mx-auto w-full space-y-5 p-4 pt-[90px]">
+      <section className="min-w-limit max-w-content mx-auto w-full space-y-5 p-4 pt-22.5">
         <CategoryContainer postList={postList} />
         <PostContainer postList={postList} />
       </section>

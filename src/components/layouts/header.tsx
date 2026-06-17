@@ -33,7 +33,7 @@ const Header = () => {
           <Link key={route.name} href={route.path}>
             <li
               className={cn(
-                "rounded-full px-3 py-1 text-white mix-blend-difference transition-colors hover:underline",
+                "rounded-full px-3 py-1 text-white transition-colors hover:underline",
                 isActiveRoute(pathname || "", route.path) &&
                   "bg-white/50 text-black backdrop-blur-sm",
               )}

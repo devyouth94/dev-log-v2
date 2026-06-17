@@ -1,6 +1,7 @@
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
 
 import Clock from "src/components/shared/clock";
+import CurrentYear from "src/components/shared/current-year";
 
 const Footer = () => {
   return (
@@ -8,7 +9,8 @@ const Footer = () => {
       <div className="grid w-fit grid-cols-[40px_1fr] border border-black">
         <div className="flex items-center justify-center border-r border-black">
           <span className="-rotate-90 text-xs">
-            <span className="font-pretendard">©</span>2025
+            <span className="font-pretendard">©</span>
+            <CurrentYear />
           </span>
         </div>
 
@@ -23,7 +25,7 @@ const Footer = () => {
             href="https://github.com/devyouth94"
             className="flex items-center gap-1 hover:underline"
           >
-            <GitHubLogoIcon width={16} height={16} />
+            <Image src="/github.svg" alt="" width={16} height={16} />
             <span>devyouth94</span>
           </a>
         </div>

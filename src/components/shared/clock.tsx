@@ -1,27 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
+import { useEffect, useState } from "react";
+
+import { formatInSeoulTime } from "src/utils/seoul-date";
+
+const getCurrentTime = () => formatInSeoulTime(new Date(), "HH:mm:ss");
 
 const Clock = () => {
-  const [time, setTime] = useState<Date | null>(null);
+  const [time, setTime] = useState("");
 
   useEffect(() => {
-    setTime(new Date());
+    const updateTime = () => setTime(getCurrentTime());
 
-    const timer = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
+    updateTime();
+
+    const timer = setInterval(updateTime, 1000);
 
     return () => clearInterval(timer);
   }, []);
 
-  return (
-    <span className="h-5">
-      {time ? format(time, "HH:mm:ss", { locale: ko }) : ""}
-    </span>
-  );
+  return <span className="h-5">{time}</span>;
 };
 
 export default Clock;

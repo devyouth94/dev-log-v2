@@ -1,5 +1,9 @@
 import { type Block, type ExtendedRecordMap } from "notion-types";
-import { defaultMapImageUrl, getPageProperty, uuidToId } from "notion-utils";
+import {
+  defaultMapImageUrl,
+  getBlockValue,
+  getPageProperty,
+} from "notion-utils";
 import readingTime from "reading-time";
 
 import {
@@ -7,8 +11,18 @@ import {
   type IPostItem,
   type IPostStatus,
 } from "src/types/post";
-import { SCHEMA_LIST } from "src/utils/constants";
-import { notion } from "src/utils/notion";
+
+const isBlock = (block: Block | undefined): block is Block => {
+  return !!block;
+};
+
+const isPostStatus = (status: string | null): status is IPostStatus => {
+  return status === "Published" || status === "Draft";
+};
+
+const isPostBlock = (block: Block): block is Block => {
+  return block.type === "page";
+};
 
 export const getHumanizeReadTime = (time: number): string => {
   if (time < 0.5) {
@@ -24,7 +38,8 @@ export const getHumanizeReadTime = (time: number): string => {
 
 const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
   const data = Object.values(recordMap.block)
-    .map(({ value }) => value)
+    .map(getBlockValue)
+    .filter(isBlock)
     .filter(({ type }) =>
       [
         "quote",
@@ -56,53 +71,60 @@ const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
     .toLowerCase();
 };
 
-/**
- * block type이 page인 것만 반환합니다.
- */
-export const getPageBlockList = (recordMap: ExtendedRecordMap) => {
-  return Object.values(recordMap.block)
-    .map(({ value }) => value)
-    .filter(({ type }) => type === "page");
-};
-
-/**
- * page block list를 렌더링에 필요한 데이터 형태로 가공합니다.
- */
-export const getPostList = async (
+export const getPostReadTime = (
   recordMap: ExtendedRecordMap,
-  blockList: Block[],
+  rootPageId: string,
 ) => {
-  const list = blockList.map(async (block) => {
-    const blockRecordMap = await notion.getPage(uuidToId(block.id));
+  const rootBlock = getBlockValue(recordMap.block[rootPageId]);
+  const contents = rootBlock ? getTextContents(rootBlock, recordMap) : "";
+  const rawReadTime = readingTime(contents || "", { wordsPerMinute: 200 });
 
-    const thumbnail = defaultMapImageUrl(block.format?.page_cover || "", block);
-    const contents = getTextContents(block, blockRecordMap);
-    const rawReadTime = readingTime(contents || "", { wordsPerMinute: 200 });
-    const readTime = getHumanizeReadTime(rawReadTime.minutes);
-    const schemaData = Object.fromEntries(
-      SCHEMA_LIST.map((property) => [
-        property,
-        getPageProperty(property, block, recordMap),
-      ]),
-    );
-
-    return {
-      id: block.id,
-      thumbnail,
-      contents,
-      readTime,
-      ...schemaData,
-    };
-  });
-
-  return (await Promise.all(list)) as IPostItem[];
+  return getHumanizeReadTime(rawReadTime.minutes);
 };
 
-/**
- * status가 public인 data만 반환합니다.
- */
-export const getPublicList = <T extends { status: IPostStatus }>(list: T[]) => {
-  return list.filter(({ status }) => status === "Public");
+const getPostItem = (
+  block: Block,
+  recordMap: ExtendedRecordMap,
+): IPostItem | null => {
+  const createDate = getPageProperty<number | null>(
+    "createDate",
+    block,
+    recordMap,
+  );
+  const status = getPageProperty<string | null>("status", block, recordMap);
+  const title = getPageProperty<string | null>("title", block, recordMap);
+  const slug = getPageProperty<string | null>("slug", block, recordMap);
+
+  if (
+    typeof createDate !== "number" ||
+    !isPostStatus(status) ||
+    !title ||
+    !slug
+  ) {
+    return null;
+  }
+
+  return {
+    category:
+      getPageProperty<string | null>("category", block, recordMap) ?? "",
+    createDate,
+    id: block.id,
+    slug,
+    status,
+    summary: getPageProperty<string | null>("summary", block, recordMap) ?? "",
+    thumbnail:
+      defaultMapImageUrl(block.format?.page_cover || "", block) ?? null,
+    title,
+  };
+};
+
+export const getPostsFromRecordMap = (recordMap: ExtendedRecordMap) => {
+  return Object.values(recordMap.block)
+    .map(getBlockValue)
+    .filter(isBlock)
+    .filter(isPostBlock)
+    .map((block) => getPostItem(block, recordMap))
+    .filter((post): post is IPostItem => !!post);
 };
 
 /**

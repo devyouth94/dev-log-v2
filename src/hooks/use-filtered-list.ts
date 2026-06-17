@@ -12,7 +12,7 @@ const useFilteredList = <T extends IPostItem[]>(list: T, search: string) => {
       (item) =>
         (!category || category === item.category) &&
         (search.length <= 1 ||
-          [item.title, item.summary, item.contents].join("").includes(search)),
+          [item.title, item.summary, item.category].join("").includes(search)),
     );
   }, [list, category, search]);
 

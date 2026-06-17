@@ -28,12 +28,15 @@ const Modal = dynamic(
 
 type IProps = {
   recordMap: ExtendedRecordMap;
+  rootPageId?: string;
 };
 
-const NotionRenderer = ({ recordMap }: IProps) => {
+const NotionRenderer = ({ recordMap, rootPageId }: IProps) => {
   return (
     <Renderer
       recordMap={recordMap}
+      blockId={rootPageId}
+      rootPageId={rootPageId}
       components={{ Code, Collection, Pdf, Modal, Image }}
     />
   );

@@ -1,10 +1,12 @@
 import { type MetadataRoute } from "next";
 
-import { getContentList } from "src/apis/notion";
+import { getPublishedPosts } from "src/apis/notion";
 import { METADATA } from "src/utils/constants";
 
+export const revalidate = 30;
+
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const postList = await getContentList();
+  const postList = await getPublishedPosts();
 
   const baseUrl = METADATA.meta.url;
 

@@ -1,31 +1,31 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getContentList } from "src/apis/notion";
+import { getPostDetail, getPublishedPosts } from "src/apis/notion";
 import Comment from "src/components/shared/giscus";
 import NotionRenderer from "src/components/shared/notion-renderer";
 import PostTitle from "src/components/shared/post-title";
 import { METADATA } from "src/utils/constants";
-import { notion } from "src/utils/notion";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-export const revalidate = 60;
+export const revalidate = 30;
 
 export const generateStaticParams = async () => {
-  const postList = await getContentList();
+  const postList = await getPublishedPosts();
   return postList.map((post) => ({ slug: post.slug }));
 };
 
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const postList = await getContentList();
-  const postItem = postList.find((item) => item.slug === params.slug);
+  const { slug } = await params;
+  const postList = await getPublishedPosts();
+  const postItem = postList.find((post) => post.slug === slug);
 
   if (!postItem) return {};
 
@@ -47,19 +47,19 @@ export const generateMetadata = async ({
 };
 
 const PostItemPage = async ({ params }: Props) => {
-  const postList = await getContentList();
-  const postItem = postList.find((item) => item.slug === params.slug);
+  const { slug } = await params;
+  const postDetail = await getPostDetail(slug);
 
-  if (!postItem) return notFound();
+  if (!postDetail) return notFound();
 
-  const recordMap = await notion.getPage(postItem.id);
+  const { postItem, recordMap } = postDetail;
 
   return (
     <>
       <main className="min-h-dvh w-full bg-white">
-        <section className="min-w-limit max-w-content mx-auto w-full space-y-5 divide-y divide-gray-950 p-4 pt-30">
+        <section className="min-w-limit max-w-content mx-auto w-full divide-y divide-gray-200 p-4 pt-24">
           <PostTitle postItem={postItem} />
-          <NotionRenderer recordMap={recordMap} />
+          <NotionRenderer recordMap={recordMap} rootPageId={postItem.id} />
           <Comment />
         </section>
       </main>

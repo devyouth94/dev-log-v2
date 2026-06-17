@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import Icon from "src/components/shared/icon";
+import PlaylistPanel from "src/components/shared/playlist-panel";
 import { cn } from "src/utils/class-name";
 
 const ROUTES = [
@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <>
-      <p className="font-roboto fixed top-8 left-8 z-50 hidden text-sm font-medium text-white mix-blend-difference md:block">
+      <p className="font-roboto fixed top-8 left-8 z-50 hidden text-xs text-white mix-blend-difference md:block">
         youngzin.log
       </p>
 
@@ -44,21 +44,7 @@ const Header = () => {
         ))}
       </ul>
 
-      <section className="font-roboto fixed top-8 right-8 z-50 hidden items-center gap-1 text-sm font-medium text-white mix-blend-difference md:flex">
-        <a
-          target="_blank"
-          href="https://music.youtube.com/playlist?list=PLsVcTYdAdbedwl_BNs7NIGOhzUoU2XWlD&si=fEezG3YQlSMdZzYR"
-          className="hover:underline"
-        >
-          playlist
-        </a>
-        <Icon
-          name="Disc3"
-          size={16}
-          strokeWidth={1.5}
-          className="animate-spin"
-        />
-      </section>
+      <PlaylistPanel />
     </>
   );
 };

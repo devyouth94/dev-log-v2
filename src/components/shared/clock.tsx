@@ -19,7 +19,7 @@ const Clock = () => {
     return () => clearInterval(timer);
   }, []);
 
-  return <span className="h-5">{time}</span>;
+  return <span className="h-3 leading-none">{time}</span>;
 };
 
 export default Clock;

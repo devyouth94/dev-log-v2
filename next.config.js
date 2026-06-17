@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "i.scdn.co" },
       { protocol: "https", hostname: "*.notion.so" },
     ],
   },

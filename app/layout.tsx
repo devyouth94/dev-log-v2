@@ -49,8 +49,10 @@ const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
   return (
     <html lang="ko" className={cn(pretendard.variable, roboto.variable)}>
       <body>
-        <Header />
-        {children}
+        <div className="isolate">
+          <Header />
+          {children}
+        </div>
       </body>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
     </html>

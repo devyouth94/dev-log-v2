@@ -27,6 +27,14 @@ export const getResumePage = cache(async () => {
   }
 });
 
+export const getPortfolioPage = cache(async () => {
+  try {
+    return await notion.getPage(NOTION_PAGE_IDS.portfolio);
+  } catch {
+    return null;
+  }
+});
+
 export const getPostDetail = cache(
   async (slug: string): Promise<PostDetail | null> => {
     const postList = await getPublishedPosts();

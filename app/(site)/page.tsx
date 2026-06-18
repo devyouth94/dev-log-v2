@@ -58,16 +58,28 @@ const IndexPage = () => {
               Frontend Developer
             </p>
 
-            <a
-              href="https://resume.youngzin-log.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="이력서 열기"
-              className="font-roboto mt-auto inline-flex w-fit items-center gap-1 text-sm font-light text-white/80 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              resume
-              <ArrowUpRight aria-hidden size={16} strokeWidth={1.8} />
-            </a>
+            <div className="mt-auto flex items-center gap-3">
+              <a
+                href="https://resume.youngzin-log.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="이력서 열기"
+                className="font-roboto inline-flex w-fit items-center gap-1 text-sm font-light text-white/80 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                resume
+                <ArrowUpRight aria-hidden size={16} strokeWidth={1.8} />
+              </a>
+              <a
+                href="https://portfolio.youngzin-log.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="포트폴리오 열기"
+                className="font-roboto inline-flex w-fit items-center gap-1 text-sm font-light text-white/80 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                portfolio
+                <ArrowUpRight aria-hidden size={16} strokeWidth={1.8} />
+              </a>
+            </div>
           </div>
 
           <div

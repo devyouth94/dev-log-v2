@@ -3,9 +3,11 @@ import {
   defaultMapImageUrl,
   getBlockValue,
   getPageProperty,
+  getTextContent,
 } from "notion-utils";
 import readingTime from "reading-time";
 
+import { type PortfolioEntry } from "src/types/portfolio";
 import { type CategoryItem, type Post, type PostStatus } from "src/types/post";
 
 const isBlock = (block: Block | undefined): block is Block => {
@@ -121,6 +123,60 @@ export const getPostsFromRecordMap = (recordMap: ExtendedRecordMap) => {
     .filter(isPostBlock)
     .map((block) => getPostItem(block, recordMap))
     .filter((post): post is Post => !!post);
+};
+
+const getPortfolioCollectionId = (recordMap: ExtendedRecordMap) => {
+  const collection = Object.values(recordMap.collection)
+    .map(getBlockValue)
+    .find((item) => getTextContent(item?.name) === "포트폴리오");
+
+  return collection?.id ?? null;
+};
+
+const getPortfolioEntry = (
+  block: Block,
+  recordMap: ExtendedRecordMap,
+): PortfolioEntry | null => {
+  const status = getPageProperty<string | null>("status", block, recordMap);
+  const title = getPageProperty<string | null>("이름", block, recordMap);
+  const slug = getPageProperty<string | null>("slug", block, recordMap);
+
+  if (!isPostStatus(status) || !title || !slug) {
+    return null;
+  }
+
+  return {
+    id: block.id,
+    period: getPageProperty<number | number[] | null>(
+      "작업 기간",
+      block,
+      recordMap,
+    ),
+    slug,
+    stacks:
+      getPageProperty<string[] | null>("주요 스택", block, recordMap) ?? [],
+    status,
+    summary:
+      getPageProperty<string | null>("한 줄 소개", block, recordMap) ?? "",
+    title,
+  };
+};
+
+export const getPortfolioEntriesFromRecordMap = (
+  recordMap: ExtendedRecordMap,
+) => {
+  const collectionId = getPortfolioCollectionId(recordMap);
+
+  if (!collectionId) return [];
+
+  return Object.values(recordMap.block)
+    .map(getBlockValue)
+    .filter(isBlock)
+    .filter(
+      (block) => block.type === "page" && block.parent_id === collectionId,
+    )
+    .map((block) => getPortfolioEntry(block, recordMap))
+    .filter((entry): entry is PortfolioEntry => !!entry);
 };
 
 /**

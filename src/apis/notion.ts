@@ -1,9 +1,14 @@
 import { cache } from "react";
 import { type ExtendedRecordMap } from "notion-types";
 
+import { type PortfolioEntry } from "src/types/portfolio";
 import { type PostDetailItem } from "src/types/post";
 import { NOTION_PAGE_IDS } from "src/utils/constants";
-import { getPostReadTime, getPostsFromRecordMap } from "src/utils/data-format";
+import {
+  getPortfolioEntriesFromRecordMap,
+  getPostReadTime,
+  getPostsFromRecordMap,
+} from "src/utils/data-format";
 import { notion } from "src/utils/notion";
 
 type PostDetail = {
@@ -27,12 +32,22 @@ export const getResumePage = cache(async () => {
   }
 });
 
-export const getPortfolioPage = cache(async () => {
-  try {
-    return await notion.getPage(NOTION_PAGE_IDS.portfolio);
-  } catch {
-    return null;
-  }
+const getPortfolioSortDate = (entry: PortfolioEntry) => {
+  if (Array.isArray(entry.period)) return entry.period[0];
+
+  return entry.period ?? 0;
+};
+
+export const getPublishedPortfolioEntries = cache(async () => {
+  const recordMap = await notion.getPage(NOTION_PAGE_IDS.portfolio);
+  const portfolioList = getPortfolioEntriesFromRecordMap(recordMap);
+  const publishedPortfolioList = portfolioList.filter(
+    (entry) => entry.status === "Published",
+  );
+
+  return publishedPortfolioList.sort(
+    (a, b) => getPortfolioSortDate(b) - getPortfolioSortDate(a),
+  );
 });
 
 export const getPostDetail = cache(

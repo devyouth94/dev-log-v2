@@ -22,3 +22,16 @@ pnpm dev
 pnpm lint
 pnpm build
 ```
+
+## Spotify refresh token
+
+Use the local script when a new `SPOTIFY_REFRESH_TOKEN` is needed.
+
+```bash
+pnpm spotify:token
+```
+
+The script loads `.env` and `.env.local`, then uses `SPOTIFY_CLIENT_ID`,
+`SPOTIFY_CLIENT_SECRET`, and optional `SPOTIFY_REDIRECT_URI`. The redirected page
+can fail to load because the callback route is not part of the app; paste the
+final URL from the browser address bar into the script.

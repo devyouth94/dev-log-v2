@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "spotify:token": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/get-spotify-refresh-token.mjs",
     "start": "next start",
     "lint": "eslint ."
   },

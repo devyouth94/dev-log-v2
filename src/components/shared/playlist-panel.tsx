@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import Icon from "src/components/shared/icon";
-import { type SpotifyPlaylist } from "src/apis/spotify";
+import { type SpotifyPlaylist } from "src/types/spotify";
 import { cn } from "src/utils/class-name";
 
 type PlaylistState =
@@ -74,7 +74,7 @@ const PlaylistPanel = () => {
     void loadPlaylist();
 
     return () => controller.abort();
-  }, [isOpen, playlistState.status]);
+  }, [isOpen]);
 
   return (
     <Popover.Root open={isOpen} onOpenChange={handleOpenChange} modal={false}>

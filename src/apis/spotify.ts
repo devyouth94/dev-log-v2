@@ -1,19 +1,12 @@
-const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize";
+import { type SpotifyPlaylist } from "src/types/spotify";
+
 const SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
 const SPOTIFY_API_URL = "https://api.spotify.com/v1";
 const TOKEN_EXPIRY_BUFFER_MS = 60 * 1000;
 
-const SPOTIFY_AUTH_SCOPES = [
-  "playlist-read-private",
-  "playlist-read-collaborative",
-].join(" ");
-
-export const SPOTIFY_AUTH_STATE_COOKIE = "spotify_oauth_state";
-
-type SpotifyTokenResponse = {
+type SpotifyAccessTokenResponse = {
   access_token: string;
   expires_in: number;
-  refresh_token?: string;
   token_type: "Bearer";
 };
 
@@ -48,19 +41,6 @@ type SpotifyPlaylistItemsResponse = {
   total: number;
 };
 
-export type SpotifyPlaylist = {
-  name: string;
-  total: number;
-  tracks: {
-    albumImageUrl: string | null;
-    artists: string;
-    duration: string;
-    id: string;
-    name: string;
-  }[];
-  url: string;
-};
-
 type SpotifyPlaylistTrack = SpotifyPlaylist["tracks"][number];
 
 type SpotifyConfig = {
@@ -84,20 +64,6 @@ export class SpotifyError extends Error {
     this.status = status;
   }
 }
-
-export const isSpotifyAuthRouteEnabled = () => {
-  return (
-    process.env.NODE_ENV !== "production" ||
-    process.env.SPOTIFY_ENABLE_AUTH_ROUTES === "true"
-  );
-};
-
-export const getSpotifyRedirectUri = () => {
-  return (
-    process.env.SPOTIFY_REDIRECT_URI ||
-    "http://127.0.0.1:3000/api/spotify/callback"
-  );
-};
 
 const getSpotifyPlaylistUrl = () => {
   return process.env.SPOTIFY_PLAYLIST_URL || "";
@@ -131,53 +97,6 @@ const getSpotifyPlaylistId = () => {
   return match[1];
 };
 
-export const getSpotifyAuthorizeUrl = (state: string) => {
-  const { clientId } = getSpotifyConfig();
-  const params = new URLSearchParams({
-    client_id: clientId,
-    redirect_uri: getSpotifyRedirectUri(),
-    response_type: "code",
-    scope: SPOTIFY_AUTH_SCOPES,
-    state,
-  });
-
-  return `${SPOTIFY_AUTH_URL}?${params.toString()}`;
-};
-
-const requestSpotifyToken = async (body: URLSearchParams) => {
-  const { clientId, clientSecret } = getSpotifyConfig();
-  const authorization = Buffer.from(`${clientId}:${clientSecret}`).toString(
-    "base64",
-  );
-
-  const response = await fetch(SPOTIFY_TOKEN_URL, {
-    body,
-    headers: {
-      Authorization: `Basic ${authorization}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    method: "POST",
-  });
-
-  if (!response.ok) {
-    throw new SpotifyError("Failed to request Spotify token.", response.status);
-  }
-
-  return (await response.json()) as SpotifyTokenResponse;
-};
-
-export const getSpotifyRefreshTokenByCode = async (code: string) => {
-  const token = await requestSpotifyToken(
-    new URLSearchParams({
-      code,
-      grant_type: "authorization_code",
-      redirect_uri: getSpotifyRedirectUri(),
-    }),
-  );
-
-  return token.refresh_token ?? null;
-};
-
 const requestSpotifyAccessToken = async () => {
   const now = Date.now();
 
@@ -194,12 +113,27 @@ const requestSpotifyAccessToken = async () => {
     throw new SpotifyError("Spotify refresh token is missing.");
   }
 
-  const token = await requestSpotifyToken(
-    new URLSearchParams({
+  const { clientId, clientSecret } = getSpotifyConfig();
+  const authorization = Buffer.from(`${clientId}:${clientSecret}`).toString(
+    "base64",
+  );
+  const response = await fetch(SPOTIFY_TOKEN_URL, {
+    body: new URLSearchParams({
       grant_type: "refresh_token",
       refresh_token: refreshToken,
     }),
-  );
+    headers: {
+      Authorization: `Basic ${authorization}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new SpotifyError("Failed to request Spotify token.", response.status);
+  }
+
+  const token = (await response.json()) as SpotifyAccessTokenResponse;
 
   cachedAccessToken = {
     expiresAt: now + token.expires_in * 1000,

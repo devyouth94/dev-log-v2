@@ -28,14 +28,14 @@ const Header = () => {
         youngzin.log
       </p>
 
-      <ul className="font-roboto fixed top-6 left-1/2 z-50 flex -translate-x-1/2 gap-1 border border-dashed border-white bg-black/5 p-1 text-sm font-medium uppercase mix-blend-difference backdrop-blur-sm">
+      <ul className="font-roboto fixed top-6 left-1/2 z-50 flex -translate-x-1/2 gap-1 border border-dashed border-gray-950 bg-white/60 p-1 text-sm font-medium uppercase backdrop-blur-sm">
         {ROUTES.map((route) => (
           <Link key={route.name} href={route.path}>
             <li
               className={cn(
-                "px-3 py-1 text-white transition-colors hover:underline",
+                "px-3 py-1 text-gray-950 transition-colors hover:underline",
                 isActiveRoute(pathname || "", route.path) &&
-                  "bg-white/50 text-black backdrop-blur-sm",
+                  "bg-gray-950 text-white",
               )}
             >
               {route.name}

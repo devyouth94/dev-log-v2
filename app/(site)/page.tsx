@@ -1,6 +1,7 @@
 "use client";
 
 import { type PointerEvent } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 import Footer from "src/components/layouts/footer";
 import { METADATA } from "src/utils/constants";
@@ -49,13 +50,24 @@ const IndexPage = () => {
             }}
           />
 
-          <div className="h-2/5 bg-gray-950 p-4 text-white">
+          <div className="flex h-2/5 flex-col bg-gray-950 p-4 text-white">
             <h1 className="text-2xl leading-none font-black tracking-normal sm:text-3xl">
               {METADATA.meta.authors}
             </h1>
             <p className="font-roboto mt-1 text-sm font-light">
               Frontend Developer
             </p>
+
+            <a
+              href="https://resume.youngzin-log.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="이력서 열기"
+              className="font-roboto mt-auto inline-flex w-fit items-center gap-1 text-sm font-light text-white/80 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              resume
+              <ArrowUpRight aria-hidden size={16} strokeWidth={1.8} />
+            </a>
           </div>
 
           <div

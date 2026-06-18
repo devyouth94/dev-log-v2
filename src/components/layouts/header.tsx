@@ -23,7 +23,7 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <>
+    <header className="contents">
       <p className="font-roboto fixed top-8 left-8 z-50 hidden text-xs text-white mix-blend-difference md:block">
         youngzin.log
       </p>
@@ -45,7 +45,7 @@ const Header = () => {
       </ul>
 
       <PlaylistPanel />
-    </>
+    </header>
   );
 };
 

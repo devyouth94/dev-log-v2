@@ -19,6 +19,14 @@ export const getPublishedPosts = cache(async () => {
   return publishedPosts.sort((a, b) => b.createDate - a.createDate);
 });
 
+export const getResumePage = cache(async () => {
+  try {
+    return await notion.getPage(NOTION_PAGE_IDS.resume);
+  } catch {
+    return null;
+  }
+});
+
 export const getPostDetail = cache(
   async (slug: string): Promise<PostDetail | null> => {
     const postList = await getPublishedPosts();

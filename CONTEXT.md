@@ -1,7 +1,7 @@
 # Youngzin Log
 
-Youngzin Log is a personal blog context for publishing and reading technical writing.
-The glossary keeps blog-domain terms consistent across routes, data shaping, and documentation.
+Youngzin Log is a personal publishing context for technical writing and public career surfaces.
+The glossary keeps domain terms consistent across routes, data shaping, and documentation.
 
 ## Language
 
@@ -24,3 +24,19 @@ _Avoid_: Public post, visible content
 **Draft Post**:
 A Post that is still being prepared and should not appear in public blog routes or the sitemap.
 _Avoid_: Private post, hidden content
+
+**Resume Page**:
+The single public career summary in Youngzin Log.
+_Avoid_: Resume Post, PDF Resume
+
+**Portfolio Entry**:
+A project or career experience intended to be shown in the public portfolio.
+_Avoid_: Post, article, page
+
+**Portfolio List**:
+The collection of Published Portfolio Entries shown on the portfolio index view.
+_Avoid_: Project list, experience list
+
+**Portfolio Detail**:
+The view of one Portfolio Entry selected by its route slug.
+_Avoid_: Portfolio page, detail content

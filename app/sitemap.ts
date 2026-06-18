@@ -13,6 +13,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const routes: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date() },
     { url: `${baseUrl}/post`, lastModified: new Date() },
+    { url: `${baseUrl}/resume`, lastModified: new Date() },
   ];
 
   const postsEntries: MetadataRoute.Sitemap = postList.map((post) => ({

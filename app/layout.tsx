@@ -4,7 +4,6 @@ import { Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-import Header from "src/components/layouts/header";
 import { cn } from "src/utils/class-name";
 import { METADATA } from "src/utils/constants";
 
@@ -50,7 +49,6 @@ const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
     <html lang="ko" className={cn(pretendard.variable, roboto.variable)}>
       <body>
         <div className="isolate">
-          <Header />
           {children}
         </div>
       </body>

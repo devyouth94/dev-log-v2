@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import PostItem from "src/components/shared/post-item";
-import { Input } from "src/components/ui/input";
-import useFilteredList from "src/hooks/use-filtered-list";
 import { type Post } from "src/types/post";
 
 type Props = {
@@ -13,14 +12,23 @@ type Props = {
 
 const PostContainer = ({ postList }: Props) => {
   const [search, setSearch] = useState("");
+  const category = useSearchParams()?.get("category");
 
-  const { filteredList } = useFilteredList(postList, search);
+  const filteredList = useMemo(() => {
+    return postList.filter(
+      (item) =>
+        (!category || category === item.category) &&
+        (search.length <= 1 ||
+          [item.title, item.summary, item.category].join("").includes(search)),
+    );
+  }, [postList, category, search]);
 
   return (
     <>
-      <Input
+      <input
         placeholder="search"
         value={search}
+        className="placeholder:font-roboto flex w-full border border-gray-400 px-4 py-2 text-sm outline-none placeholder:text-gray-400"
         onChange={(e) => setSearch(e.target.value)}
       />
 

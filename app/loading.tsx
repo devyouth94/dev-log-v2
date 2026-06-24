@@ -1,9 +1,9 @@
-import Icon from "src/components/shared/icon";
+import { Loader } from "lucide-react";
 
 const LoadingPage = () => {
   return (
     <div className="flex h-dvh w-full items-center justify-center bg-white">
-      <Icon name="Loader" className="animate-spin" size={20} />
+      <Loader className="animate-spin" size={20} strokeWidth={1} />
     </div>
   );
 };

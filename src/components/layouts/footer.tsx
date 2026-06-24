@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import Clock from "src/components/shared/clock";
-import CurrentYear from "src/components/shared/current-year";
 
 const Footer = () => {
   return (
@@ -10,7 +9,7 @@ const Footer = () => {
         <div className="flex items-center justify-center border-r border-black">
           <span className="-rotate-90 text-xs">
             <span className="font-pretendard">©</span>
-            <CurrentYear />
+            {new Date().getFullYear()}
           </span>
         </div>
 

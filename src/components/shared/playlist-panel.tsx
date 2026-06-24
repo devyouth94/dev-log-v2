@@ -1,10 +1,10 @@
 "use client";
 
 import { Popover } from "@base-ui/react/popover";
+import { ArrowUpRight, Disc3, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import Icon from "src/components/shared/icon";
 import { type SpotifyPlaylist } from "src/types/spotify";
 import { cn } from "src/utils/class-name";
 
@@ -83,7 +83,7 @@ const PlaylistPanel = () => {
         className="font-roboto fixed top-7 right-8 z-50 flex size-8 items-center justify-center gap-1 text-xs text-white mix-blend-difference md:top-8 md:size-auto"
       >
         <span className="hidden hover:underline md:inline">playlist</span>
-        <Icon name="Disc3" className="animate-spin" />
+        <Disc3 className="animate-spin" size={14} strokeWidth={1} />
       </Popover.Trigger>
 
       <Popover.Portal>
@@ -105,7 +105,7 @@ const PlaylistPanel = () => {
                 aria-label="close playlist"
                 className="flex size-6 items-center justify-center hover:bg-gray-100"
               >
-                <Icon name="X" size={14} />
+                <X size={14} strokeWidth={1} />
               </Popover.Close>
             </header>
 
@@ -136,7 +136,7 @@ const PlaylistPanel = () => {
                               className="size-[35px] object-cover"
                             />
                           ) : (
-                            <Icon name="Disc3" size={16} />
+                            <Disc3 size={16} strokeWidth={1} />
                           )}
                         </span>
                         <span className="min-w-0 flex-1">
@@ -174,7 +174,7 @@ const PlaylistPanel = () => {
                   className="inline-flex items-center gap-1 hover:underline"
                 >
                   open in spotify
-                  <Icon name="ArrowUpRight" size={14} />
+                  <ArrowUpRight size={14} strokeWidth={1} />
                 </a>
               )}
             </footer>

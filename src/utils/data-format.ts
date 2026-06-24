@@ -4,6 +4,7 @@ import {
   getBlockValue,
   getPageProperty,
   getTextContent,
+  idToUuid,
 } from "notion-utils";
 import readingTime from "reading-time";
 
@@ -78,6 +79,30 @@ export const getPostReadTime = (
   const rawReadTime = readingTime(contents || "", { wordsPerMinute: 200 });
 
   return getHumanizeReadTime(rawReadTime.minutes);
+};
+
+export const getPageStatusFromRecordMap = (
+  recordMap: ExtendedRecordMap,
+  pageId: string,
+): PostStatus | null => {
+  const blockId = pageId.includes("-") ? pageId : idToUuid(pageId);
+  const pageBlock = getBlockValue(recordMap.block[blockId]);
+
+  if (pageBlock?.type !== "page" || !pageBlock.properties) return null;
+
+  // ponytail: parent DB schema is absent here, so read the only Published/Draft select on the page row.
+  const status = Object.entries(pageBlock.properties)
+    .flatMap(([propertyId, property]) =>
+      propertyId === "title" || !Array.isArray(property)
+        ? []
+        : property.flat(2),
+    )
+    .find(
+      (value): value is PostStatus =>
+        typeof value === "string" && isPostStatus(value),
+    );
+
+  return status ?? null;
 };
 
 const getPostItem = (

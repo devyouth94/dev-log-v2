@@ -4,6 +4,7 @@ import { idToUuid } from "notion-utils";
 
 import { getResumePage } from "src/apis/notion";
 import NotionRenderer from "src/components/shared/notion-renderer";
+import UnderConstruction from "src/components/shared/under-construction";
 import { METADATA, NOTION_PAGE_IDS } from "src/utils/constants";
 
 export const revalidate = 30;
@@ -17,15 +18,16 @@ export const metadata: Metadata = {
 };
 
 const ResumePage = async () => {
-  const recordMap = await getResumePage();
+  const resumePage = await getResumePage();
 
-  if (!recordMap) return notFound();
+  if (!resumePage) return notFound();
+  if (resumePage.status !== "Published") return <UnderConstruction />;
 
   return (
     <main className="min-h-dvh w-full bg-white">
       <section className="min-w-limit max-w-content mx-auto w-full p-4">
         <NotionRenderer
-          recordMap={recordMap}
+          recordMap={resumePage.recordMap}
           rootPageId={idToUuid(NOTION_PAGE_IDS.resume)}
         />
       </section>

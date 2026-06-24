@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 
-import { getPublishedPortfolioEntries } from "src/apis/notion";
+import { getPortfolioPage } from "src/apis/notion";
+import UnderConstruction from "src/components/shared/under-construction";
 import { Badge } from "src/components/ui/badge";
 import { METADATA } from "src/utils/constants";
 import { getRenderedDate } from "src/utils/date";
@@ -16,7 +17,9 @@ export const metadata: Metadata = {
 };
 
 const PortfolioPage = async () => {
-  const portfolioList = await getPublishedPortfolioEntries();
+  const { portfolioList, status } = await getPortfolioPage();
+
+  if (status !== "Published") return <UnderConstruction />;
 
   const getRenderedPeriod = (period: number | number[] | null) => {
     if (!period) return "";

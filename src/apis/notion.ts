@@ -5,6 +5,7 @@ import { type PortfolioEntry } from "src/types/portfolio";
 import { type PostDetailItem } from "src/types/post";
 import { NOTION_PAGE_IDS } from "src/utils/constants";
 import {
+  getPageStatusFromRecordMap,
   getPortfolioEntriesFromRecordMap,
   getPostReadTime,
   getPostsFromRecordMap,
@@ -26,7 +27,12 @@ export const getPublishedPosts = cache(async () => {
 
 export const getResumePage = cache(async () => {
   try {
-    return await notion.getPage(NOTION_PAGE_IDS.resume);
+    const recordMap = await notion.getPage(NOTION_PAGE_IDS.resume);
+
+    return {
+      recordMap,
+      status: getPageStatusFromRecordMap(recordMap, NOTION_PAGE_IDS.resume),
+    };
   } catch {
     return null;
   }
@@ -38,16 +44,24 @@ const getPortfolioSortDate = (entry: PortfolioEntry) => {
   return entry.period ?? 0;
 };
 
-export const getPublishedPortfolioEntries = cache(async () => {
+export const getPortfolioPage = cache(async () => {
   const recordMap = await notion.getPage(NOTION_PAGE_IDS.portfolio);
-  const portfolioList = getPortfolioEntriesFromRecordMap(recordMap);
+  const status = getPageStatusFromRecordMap(
+    recordMap,
+    NOTION_PAGE_IDS.portfolio,
+  );
+  const portfolioList =
+    status === "Published" ? getPortfolioEntriesFromRecordMap(recordMap) : [];
   const publishedPortfolioList = portfolioList.filter(
     (entry) => entry.status === "Published",
   );
 
-  return publishedPortfolioList.sort(
-    (a, b) => getPortfolioSortDate(b) - getPortfolioSortDate(a),
-  );
+  return {
+    portfolioList: publishedPortfolioList.sort(
+      (a, b) => getPortfolioSortDate(b) - getPortfolioSortDate(a),
+    ),
+    status,
+  };
 });
 
 export const getPostDetail = cache(

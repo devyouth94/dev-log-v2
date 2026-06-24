@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { formatInSeoulTime } from "src/utils/seoul-date";
+import { formatInSeoulTime } from "src/utils/date";
 
 const getCurrentTime = () => formatInSeoulTime(new Date(), "HH:mm:ss");
 

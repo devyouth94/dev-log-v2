@@ -6,7 +6,13 @@ import prettier from "eslint-config-prettier";
 import globals from "globals";
 
 export default defineConfig([
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  globalIgnores([
+    ".next/**",
+    ".understand-anything/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
   js.configs.recommended,
   ...typescriptEslint.configs["flat/recommended"],
   {

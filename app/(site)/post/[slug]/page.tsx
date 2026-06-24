@@ -58,15 +58,13 @@ const PostItemPage = async ({ params }: Props) => {
   const { postItem, recordMap } = postDetail;
 
   return (
-    <>
-      <main className="min-h-dvh w-full bg-white">
-        <section className="min-w-limit max-w-content mx-auto w-full divide-y divide-gray-200 p-4 pt-24">
-          <PostTitle postItem={postItem} />
-          <NotionRenderer recordMap={recordMap} rootPageId={postItem.id} />
-          <Comment />
-        </section>
-      </main>
-    </>
+    <main className="min-h-dvh w-full bg-white">
+      <section className="min-w-limit max-w-content mx-auto w-full divide-y divide-gray-200 p-4 pt-24">
+        <PostTitle postItem={postItem} />
+        <NotionRenderer recordMap={recordMap} rootPageId={postItem.id} />
+        <Comment />
+      </section>
+    </main>
   );
 };
 

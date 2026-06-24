@@ -13,20 +13,13 @@ type PlaylistState =
   | { data: null; error: string; status: "error" }
   | { data: SpotifyPlaylist; error: null; status: "success" };
 
-const INITIAL_STATE: PlaylistState = {
-  data: null,
-  error: null,
-  status: "idle",
-};
-
 const PlaylistPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [playlistState, setPlaylistState] =
-    useState<PlaylistState>(INITIAL_STATE);
-
-  const handleOpenChange = (nextOpen: boolean) => {
-    setIsOpen(nextOpen);
-  };
+  const [playlistState, setPlaylistState] = useState<PlaylistState>({
+    data: null,
+    error: null,
+    status: "idle",
+  });
 
   useEffect(() => {
     if (!isOpen || playlistState.status !== "idle") {
@@ -77,7 +70,7 @@ const PlaylistPanel = () => {
   }, [isOpen]);
 
   return (
-    <Popover.Root open={isOpen} onOpenChange={handleOpenChange} modal={false}>
+    <Popover.Root open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <Popover.Trigger
         aria-label="playlist"
         className="font-roboto fixed top-7 right-8 z-50 flex size-8 items-center justify-center gap-1 text-xs text-white mix-blend-difference md:top-8 md:size-auto"

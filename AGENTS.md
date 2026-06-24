@@ -14,7 +14,7 @@
 
 ## 코딩 스타일 및 네이밍
 
-모든 신규 파일은 TypeScript를 사용합니다. 내보내는 컴포넌트는 `HeroSection.tsx`처럼 PascalCase 파일명을 사용하고, 훅은 `use` 접두사를 붙입니다. 유틸리티 파일은 `class-name.ts`와 같이 케밥 케이스를 유지합니다. Prettier는 2스페이스 들여쓰기, 80자 라인 폭, 후행 쉼표, Tailwind 클래스 정렬을 강제하므로 커밋 전 포매팅을 수행하세요. Tailwind CSS는 v4 구성 방식을 따르며 `app/globals.css`에서 `@theme`로 토큰을 선언하므로 해당 파일을 통해 색상·간격·애니메이션을 조정하세요. ESLint는 Next.js와 TypeScript 안전 규칙, `import type { Foo }` 패턴을 중심으로 최소 설정을 유지합니다.
+모든 신규 파일은 TypeScript를 사용합니다. 컴포넌트, 유틸리티, 훅 파일명은 `post-title.tsx`, `class-name.ts`, `use-window-size.ts`처럼 케밥 케이스를 유지하고, 내보내는 컴포넌트 식별자는 `PostTitle`처럼 PascalCase를 사용합니다. 훅 함수는 `use` 접두사를 붙입니다. Prettier는 2스페이스 들여쓰기, 80자 라인 폭, 후행 쉼표, Tailwind 클래스 정렬을 강제하므로 커밋 전 포매팅을 수행하세요. Tailwind CSS는 v4 구성 방식을 따르며 `app/globals.css`에서 `@theme`로 토큰을 선언하므로 해당 파일을 통해 색상·간격·애니메이션을 조정하세요. ESLint는 Next.js와 TypeScript 안전 규칙, `import type { Foo }` 패턴을 중심으로 최소 설정을 유지합니다.
 
 ## 테스트 가이드라인
 

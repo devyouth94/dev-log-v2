@@ -7,13 +7,10 @@ const TOKEN_EXPIRY_BUFFER_MS = 60 * 1000;
 type SpotifyAccessTokenResponse = {
   access_token: string;
   expires_in: number;
-  token_type: "Bearer";
 };
 
 type SpotifyImage = {
-  height: number | null;
   url: string;
-  width: number | null;
 };
 
 type SpotifyTrackItem = {
@@ -43,11 +40,6 @@ type SpotifyPlaylistItemsResponse = {
 
 type SpotifyPlaylistTrack = SpotifyPlaylist["tracks"][number];
 
-type SpotifyConfig = {
-  clientId: string;
-  clientSecret: string;
-};
-
 type CachedAccessToken = {
   expiresAt: number;
   token: string;
@@ -55,46 +47,16 @@ type CachedAccessToken = {
 
 let cachedAccessToken: CachedAccessToken | null = null;
 
-export class SpotifyError extends Error {
-  status: number;
-
-  constructor(message: string, status = 500) {
-    super(message);
-    this.name = "SpotifyError";
-    this.status = status;
-  }
-}
-
-const getSpotifyPlaylistUrl = () => {
-  return process.env.SPOTIFY_PLAYLIST_URL || "";
-};
-
-const getSpotifyConfig = (): SpotifyConfig => {
-  const clientId = process.env.SPOTIFY_CLIENT_ID;
-  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-
-  if (!clientId || !clientSecret) {
-    throw new SpotifyError("Spotify client credentials are missing.");
-  }
-
-  return { clientId, clientSecret };
-};
-
 const getSpotifyPlaylistId = () => {
-  const playlistId = process.env.SPOTIFY_PLAYLIST_ID;
+  const playlistId =
+    process.env.SPOTIFY_PLAYLIST_ID ||
+    process.env.SPOTIFY_PLAYLIST_URL?.match(/playlist\/([^?/#]+)/)?.[1];
 
-  if (playlistId) {
-    return playlistId;
+  if (!playlistId) {
+    throw new Error("Spotify playlist ID is missing.");
   }
 
-  const playlistUrl = getSpotifyPlaylistUrl();
-  const match = playlistUrl.match(/playlist\/([^?/#]+)/);
-
-  if (!match?.[1]) {
-    throw new SpotifyError("Spotify playlist ID is missing.");
-  }
-
-  return match[1];
+  return playlistId;
 };
 
 const requestSpotifyAccessToken = async () => {
@@ -108,12 +70,17 @@ const requestSpotifyAccessToken = async () => {
   }
 
   const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
+  const clientId = process.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
-  if (!refreshToken) {
-    throw new SpotifyError("Spotify refresh token is missing.");
+  if (!clientId || !clientSecret) {
+    throw new Error("Spotify client credentials are missing.");
   }
 
-  const { clientId, clientSecret } = getSpotifyConfig();
+  if (!refreshToken) {
+    throw new Error("Spotify refresh token is missing.");
+  }
+
   const authorization = Buffer.from(`${clientId}:${clientSecret}`).toString(
     "base64",
   );
@@ -130,7 +97,7 @@ const requestSpotifyAccessToken = async () => {
   });
 
   if (!response.ok) {
-    throw new SpotifyError("Failed to request Spotify token.", response.status);
+    throw new Error("Failed to request Spotify token.");
   }
 
   const token = (await response.json()) as SpotifyAccessTokenResponse;
@@ -207,17 +174,11 @@ export const getSpotifyPlaylist = async (): Promise<SpotifyPlaylist> => {
   ]);
 
   if (!detailsResponse.ok) {
-    throw new SpotifyError(
-      "Failed to request Spotify playlist.",
-      detailsResponse.status,
-    );
+    throw new Error("Failed to request Spotify playlist.");
   }
 
   if (!itemsResponse.ok) {
-    throw new SpotifyError(
-      "Failed to request Spotify playlist items.",
-      itemsResponse.status,
-    );
+    throw new Error("Failed to request Spotify playlist items.");
   }
 
   const playlist =
@@ -232,6 +193,6 @@ export const getSpotifyPlaylist = async (): Promise<SpotifyPlaylist> => {
     name: playlist.name,
     total: playlistItems.total,
     tracks,
-    url: playlist.external_urls.spotify || getSpotifyPlaylistUrl(),
+    url: playlist.external_urls.spotify || process.env.SPOTIFY_PLAYLIST_URL || "",
   };
 };

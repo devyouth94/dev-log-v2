@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getSpotifyPlaylist, SpotifyError } from "src/apis/spotify";
+import { getSpotifyPlaylist } from "src/apis/spotify";
 
 export const GET = async () => {
   try {
@@ -12,10 +12,9 @@ export const GET = async () => {
       },
     });
   } catch (error) {
-    const status = error instanceof SpotifyError ? error.status : 500;
     const message =
       error instanceof Error ? error.message : "Failed to load playlist.";
 
-    return NextResponse.json({ message }, { status });
+    return NextResponse.json({ message }, { status: 500 });
   }
 };

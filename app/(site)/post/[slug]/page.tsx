@@ -1,7 +1,11 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPostDetail, getPublishedPosts } from "src/apis/notion";
+import {
+  getPostDetail,
+  getPublishedPostBySlug,
+  getPublishedPosts,
+} from "src/apis/notion";
 import Comment from "src/components/shared/giscus";
 import NotionRenderer from "src/components/shared/notion-renderer";
 import PostTitle from "src/components/shared/post-title";
@@ -24,8 +28,7 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   const { slug } = await params;
-  const postList = await getPublishedPosts();
-  const postItem = postList.find((post) => post.slug === slug);
+  const postItem = await getPublishedPostBySlug(slug);
 
   if (!postItem) return {};
 

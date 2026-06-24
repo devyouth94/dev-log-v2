@@ -25,6 +25,12 @@ export const getPublishedPosts = cache(async () => {
   return publishedPosts.sort((a, b) => b.createDate - a.createDate);
 });
 
+export const getPublishedPostBySlug = async (slug: string) => {
+  const postList = await getPublishedPosts();
+
+  return postList.find((post) => post.slug === slug) ?? null;
+};
+
 export const getResumePage = cache(async () => {
   try {
     const recordMap = await notion.getPage(NOTION_PAGE_IDS.resume);
@@ -66,8 +72,7 @@ export const getPortfolioPage = cache(async () => {
 
 export const getPostDetail = cache(
   async (slug: string): Promise<PostDetail | null> => {
-    const postList = await getPublishedPosts();
-    const postItem = postList.find((post) => post.slug === slug);
+    const postItem = await getPublishedPostBySlug(slug);
 
     if (!postItem) return null;
 

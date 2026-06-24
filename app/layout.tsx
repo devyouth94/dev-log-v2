@@ -2,7 +2,7 @@ import { type PropsWithChildren } from "react";
 import { type Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 
 import { cn } from "src/utils/class-name";
 import { METADATA } from "src/utils/constants";
@@ -19,6 +19,8 @@ const roboto = Roboto_Mono({
   subsets: ["latin"],
   variable: "--font-family-roboto",
 });
+
+const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
   title: {
@@ -52,7 +54,22 @@ const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
           {children}
         </div>
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
+      {googleAnalyticsId && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag("js", new Date());
+              gtag("config", ${JSON.stringify(googleAnalyticsId)});
+            `}
+          </Script>
+        </>
+      )}
     </html>
   );
 };

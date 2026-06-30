@@ -5,6 +5,8 @@ import { type PortfolioEntry } from "src/types/portfolio";
 import { type PostDetailItem } from "src/types/post";
 import { NOTION_PAGE_IDS } from "src/utils/constants";
 import {
+  getPageJobSearchStatusFromRecordMap,
+  getPageLastEditedTimeFromRecordMap,
   getPageStatusFromRecordMap,
   getPortfolioEntriesFromRecordMap,
   getPostReadTime,
@@ -36,6 +38,14 @@ export const getResumePage = cache(async () => {
     const recordMap = await notion.getPage(NOTION_PAGE_IDS.resume);
 
     return {
+      jobSearchStatus: getPageJobSearchStatusFromRecordMap(
+        recordMap,
+        NOTION_PAGE_IDS.resume,
+      ),
+      lastEditedTime: getPageLastEditedTimeFromRecordMap(
+        recordMap,
+        NOTION_PAGE_IDS.resume,
+      ),
       recordMap,
       status: getPageStatusFromRecordMap(recordMap, NOTION_PAGE_IDS.resume),
     };
@@ -63,6 +73,14 @@ export const getPortfolioPage = cache(async () => {
   );
 
   return {
+    jobSearchStatus: getPageJobSearchStatusFromRecordMap(
+      recordMap,
+      NOTION_PAGE_IDS.portfolio,
+    ),
+    lastEditedTime: getPageLastEditedTimeFromRecordMap(
+      recordMap,
+      NOTION_PAGE_IDS.portfolio,
+    ),
     portfolioList: publishedPortfolioList.sort(
       (a, b) => getPortfolioSortDate(b) - getPortfolioSortDate(a),
     ),

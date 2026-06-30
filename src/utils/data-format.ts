@@ -11,6 +11,8 @@ import readingTime from "reading-time";
 import { type PortfolioEntry } from "src/types/portfolio";
 import { type CategoryItem, type Post, type PostStatus } from "src/types/post";
 
+export type JobSearchStatus = "구직중" | "구직 아님";
+
 const isBlock = (block: Block | undefined): block is Block => {
   return !!block;
 };
@@ -19,8 +21,42 @@ const isPostStatus = (status: string | null): status is PostStatus => {
   return status === "Published" || status === "Draft";
 };
 
+const isJobSearchStatus = (
+  status: string | null,
+): status is JobSearchStatus => {
+  return status === "구직중" || status === "구직 아님";
+};
+
 const isPostBlock = (block: Block): block is Block => {
   return block.type === "page";
+};
+
+const getPageBlockFromRecordMap = (
+  recordMap: ExtendedRecordMap,
+  pageId: string,
+) => {
+  const blockId = pageId.includes("-") ? pageId : idToUuid(pageId);
+  const pageBlock = getBlockValue(recordMap.block[blockId]);
+
+  return pageBlock?.type === "page" ? pageBlock : null;
+};
+
+const getPageRowSelectValue = <T extends string>(
+  block: Block,
+  isValue: (value: string | null) => value is T,
+) => {
+  if (!block.properties) return null;
+
+  // ponytail: parent DB schema is absent here, so scan page-row select values directly.
+  const value = Object.entries(block.properties)
+    .flatMap(([propertyId, property]) =>
+      propertyId === "title" || !Array.isArray(property)
+        ? []
+        : property.flat(2),
+    )
+    .find((item): item is T => typeof item === "string" && isValue(item));
+
+  return value ?? null;
 };
 
 export const getHumanizeReadTime = (time: number): string => {
@@ -85,24 +121,27 @@ export const getPageStatusFromRecordMap = (
   recordMap: ExtendedRecordMap,
   pageId: string,
 ): PostStatus | null => {
-  const blockId = pageId.includes("-") ? pageId : idToUuid(pageId);
-  const pageBlock = getBlockValue(recordMap.block[blockId]);
+  const pageBlock = getPageBlockFromRecordMap(recordMap, pageId);
 
-  if (pageBlock?.type !== "page" || !pageBlock.properties) return null;
+  return pageBlock ? getPageRowSelectValue(pageBlock, isPostStatus) : null;
+};
 
-  // ponytail: parent DB schema is absent here, so read the only Published/Draft select on the page row.
-  const status = Object.entries(pageBlock.properties)
-    .flatMap(([propertyId, property]) =>
-      propertyId === "title" || !Array.isArray(property)
-        ? []
-        : property.flat(2),
-    )
-    .find(
-      (value): value is PostStatus =>
-        typeof value === "string" && isPostStatus(value),
-    );
+export const getPageJobSearchStatusFromRecordMap = (
+  recordMap: ExtendedRecordMap,
+  pageId: string,
+): JobSearchStatus | null => {
+  const pageBlock = getPageBlockFromRecordMap(recordMap, pageId);
 
-  return status ?? null;
+  return pageBlock ? getPageRowSelectValue(pageBlock, isJobSearchStatus) : null;
+};
+
+export const getPageLastEditedTimeFromRecordMap = (
+  recordMap: ExtendedRecordMap,
+  pageId: string,
+) => {
+  const pageBlock = getPageBlockFromRecordMap(recordMap, pageId);
+
+  return pageBlock?.last_edited_time ?? null;
 };
 
 const getPostItem = (

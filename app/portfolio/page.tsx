@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 
 import { getPortfolioPage } from "src/apis/notion";
+import CareerPageBadge from "src/components/shared/career-page-badge";
 import UnderConstruction from "src/components/shared/under-construction";
 import { Badge } from "src/components/ui/badge";
 import { METADATA } from "src/utils/constants";
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 };
 
 const PortfolioPage = async () => {
-  const { portfolioList, status } = await getPortfolioPage();
+  const { jobSearchStatus, lastEditedTime, portfolioList, status } =
+    await getPortfolioPage();
 
   if (status !== "Published") return <UnderConstruction />;
 
@@ -33,6 +35,10 @@ const PortfolioPage = async () => {
   return (
     <main className="min-h-dvh w-full bg-white">
       <section className="min-w-limit max-w-content mx-auto w-full p-4">
+        <CareerPageBadge
+          jobSearchStatus={jobSearchStatus}
+          lastEditedTime={lastEditedTime}
+        />
         {portfolioList.length === 0 ? (
           <p className="font-roboto border-b border-gray-950 px-3 py-5 text-sm text-gray-500">
             No portfolio entries.

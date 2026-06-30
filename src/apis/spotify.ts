@@ -162,6 +162,7 @@ export const getSpotifyPlaylist = async (): Promise<SpotifyPlaylist> => {
       `${SPOTIFY_API_URL}/playlists/${playlistId}/items?${new URLSearchParams({
         fields:
           "total,items(item(id,type,name,duration_ms,artists(name),album(images)))",
+        locale: "ko_KR",
         market: "KR",
       }).toString()}`,
       {

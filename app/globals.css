@@ -55,6 +55,12 @@
   @apply my-1 text-sm leading-6 text-pretty;
 }
 
+.notion-callout-text .notion-text {
+  margin-bottom: 0;
+  margin-block-end: 0;
+  padding: 0;
+}
+
 .notion-list,
 .notion-to-do,
 .notion-toggle > summary {

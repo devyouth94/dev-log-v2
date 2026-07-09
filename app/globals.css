@@ -3,8 +3,8 @@
 @theme {
   --font-pretendard: var(--font-family-pretendard);
   --font-roboto: var(--font-family-roboto);
-  --spacing-content: var(--width-content);
-  --spacing-limit: var(--width-limit);
+  --container-content: var(--width-content);
+  --container-limit: var(--width-limit);
 }
 
 @layer base {

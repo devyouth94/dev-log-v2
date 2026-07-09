@@ -33,12 +33,12 @@ const IndexPage = () => {
 
   return (
     <>
-      <main className="flex min-h-dvh items-center justify-center bg-white px-6 py-28 [perspective:1000px]">
+      <main className="flex min-h-dvh items-center justify-center bg-white px-6 py-28 perspective-[1000px]">
         <section
           aria-label="Profile Card"
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
-          className="group relative aspect-[5/8] w-full max-w-64 overflow-hidden rounded-[18px] bg-white shadow-[0_22px_50px_rgb(0_0_0_/_16%),0_2px_0_rgb(0_0_0_/_12%),inset_0_1px_0_rgb(255_255_255_/_72%)] transition-[transform,box-shadow] duration-300 ease-out [--scale:1] [transform:rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))_scale(var(--scale))] hover:[--scale:1.15] hover:shadow-[0_28px_58px_rgb(0_0_0_/_18%),0_3px_0_rgb(0_0_0_/_12%),inset_0_1px_0_rgb(255_255_255_/_80%)] sm:max-w-72"
+          className="group relative aspect-5/8 w-full max-w-64 scale-100 rotate-x-(--rx,0deg) rotate-y-(--ry,0deg) overflow-hidden rounded-[18px] bg-white shadow-[0_22px_50px_rgb(0_0_0/16%),0_2px_0_rgb(0_0_0/12%),inset_0_1px_0_rgb(255_255_255/72%)] transition duration-300 ease-out hover:scale-115 hover:shadow-[0_28px_58px_rgb(0_0_0/18%),0_3px_0_rgb(0_0_0/12%),inset_0_1px_0_rgb(255_255_255/80%)] sm:max-w-72"
         >
           <div
             className="h-3/5 bg-no-repeat"
@@ -84,7 +84,7 @@ const IndexPage = () => {
           </div>
 
           <div
-            className="pointer-events-none absolute inset-0 opacity-0 mix-blend-screen transition-opacity duration-300 group-hover:opacity-[.42]"
+            className="pointer-events-none absolute inset-0 opacity-0 mix-blend-screen transition-opacity duration-300 group-hover:opacity-42"
             style={{
               background:
                 "radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.28), transparent 36%), conic-gradient(from 210deg at var(--x,50%) var(--y,50%), rgba(223,244,236,0.32), rgba(246,198,174,0.34), rgba(226,128,111,0.3), rgba(236,178,214,0.32), rgba(164,103,230,0.3), rgba(142,216,237,0.32), rgba(223,244,236,0.32))",

@@ -49,6 +49,10 @@ _Avoid_: Category, filter, tab
 The view of one Portfolio Entry selected by its route slug.
 _Avoid_: Portfolio page, detail content
 
+**Portfolio Detail Summary**:
+The concise identity block for a Portfolio Entry, made from its title, short summary, working period, and stack list.
+_Avoid_: Portfolio header, project metadata
+
 **Featured Portfolio Entry**:
 A Portfolio Entry selected as representative enough to be shown in the default Portfolio List view.
 _Avoid_: Main project, pinned project

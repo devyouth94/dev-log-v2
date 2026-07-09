@@ -1,25 +1,9 @@
 import { type PortfolioEntry } from "src/types/portfolio";
-import { getRenderedYearMonth } from "src/utils/date";
 
 const CAREER_CATEGORY = "경력";
 const SIDE_PROJECT_CATEGORY = "사이드프로젝트";
 
 const normalizeCategory = (category: string) => category.replace(/\s/g, "");
-
-export const getRenderedPortfolioPeriod = (
-  period: PortfolioEntry["period"],
-) => {
-  if (!period) return "";
-  if (!Array.isArray(period)) return `${getRenderedYearMonth(period)} - ing`;
-
-  const [startDate, endDate] = period;
-
-  if (!startDate) return "";
-
-  return `${getRenderedYearMonth(startDate)} - ${
-    endDate ? getRenderedYearMonth(endDate) : "ing"
-  }`;
-};
 
 export const getPortfolioSections = (
   portfolioList: PortfolioEntry[],

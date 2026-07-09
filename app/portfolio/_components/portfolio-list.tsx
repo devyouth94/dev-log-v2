@@ -1,13 +1,11 @@
 import Link from "next/link";
 
-import {
-  getPortfolioSections,
-  getRenderedPortfolioPeriod,
-} from "app/portfolio/_sections";
+import { getPortfolioSections } from "app/portfolio/_sections";
 import HoverPreviewLink from "src/components/shared/hover-preview-link";
 import { Badge } from "src/components/ui/badge";
 import { type PortfolioEntry } from "src/types/portfolio";
 import { cn } from "src/utils/class-name";
+import { getRenderedPortfolioPeriod } from "src/utils/portfolio";
 import { getPortfolioPath } from "src/utils/routes";
 
 type Props = {

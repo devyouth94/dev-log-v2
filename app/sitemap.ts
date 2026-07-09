@@ -1,28 +1,38 @@
 import { type MetadataRoute } from "next";
 
-import { getPublishedPosts } from "src/apis/notion";
-import { METADATA } from "src/utils/constants";
+import {
+  getPublishedPortfolioEntries,
+  getPublishedPosts,
+} from "src/apis/notion";
+import {
+  getPortfolioUrl,
+  getPostUrl,
+  getSiteUrl,
+  SITE_ORIGINS,
+} from "src/utils/routes";
 
 export const revalidate = 30;
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const postList = await getPublishedPosts();
+  const [postList, portfolioList] = await Promise.all([
+    getPublishedPosts(),
+    getPublishedPortfolioEntries(),
+  ]);
 
-  const baseUrl = METADATA.meta.url;
-
-  const routes: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date() },
-    { url: `${baseUrl}/post`, lastModified: new Date() },
-    { url: `${baseUrl}/portfolio`, lastModified: new Date() },
-    { url: `${baseUrl}/resume`, lastModified: new Date() },
+  return [
+    { url: getSiteUrl(), lastModified: new Date() },
+    { url: getPostUrl(), lastModified: new Date() },
+    { url: getPortfolioUrl(), lastModified: new Date() },
+    { url: SITE_ORIGINS.resume, lastModified: new Date() },
+    ...postList.map((post) => ({
+      url: getPostUrl(post.slug),
+      lastModified: new Date(post.createDate),
+    })),
+    ...portfolioList.map((entry) => ({
+      url: getPortfolioUrl(entry.slug),
+      lastModified: new Date(),
+    })),
   ];
-
-  const postsEntries: MetadataRoute.Sitemap = postList.map((post) => ({
-    url: `${baseUrl}/post/${post.slug}`,
-    lastModified: new Date(post.createDate),
-  }));
-
-  return [...routes, ...postsEntries];
 };
 
 export default sitemap;

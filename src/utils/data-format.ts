@@ -210,9 +210,12 @@ const getPortfolioEntry = (
   }
 
   return {
+    category: getPageProperty<string | null>("구분", block, recordMap) ?? "",
+    featured:
+      getPageProperty<boolean | null>("대표 여부", block, recordMap) ?? false,
     id: block.id,
     period: getPageProperty<number | number[] | null>(
-      "작업 기간",
+      "기간",
       block,
       recordMap,
     ),
@@ -222,6 +225,8 @@ const getPortfolioEntry = (
     status,
     summary:
       getPageProperty<string | null>("한 줄 소개", block, recordMap) ?? "",
+    thumbnail:
+      defaultMapImageUrl(block.format?.page_cover || "", block) ?? null,
     title,
   };
 };

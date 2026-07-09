@@ -37,6 +37,14 @@ _Avoid_: Post, article, page
 The collection of Published Portfolio Entries shown on the portfolio index view.
 _Avoid_: Project list, experience list
 
+**Portfolio Section**:
+A named grouping within the Portfolio List that organizes Portfolio Entries for scanning.
+_Avoid_: Category, filter, tab
+
 **Portfolio Detail**:
 The view of one Portfolio Entry selected by its route slug.
 _Avoid_: Portfolio page, detail content
+
+**Featured Portfolio Entry**:
+A Portfolio Entry selected as representative enough to be shown in the default Portfolio List view.
+_Avoid_: Main project, pinned project

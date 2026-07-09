@@ -19,6 +19,11 @@ type PostDetail = {
   recordMap: ExtendedRecordMap;
 };
 
+type PortfolioDetail = {
+  portfolioItem: PortfolioEntry;
+  recordMap: ExtendedRecordMap;
+};
+
 export const getPublishedPosts = cache(async () => {
   const recordMap = await notion.getPage(NOTION_PAGE_IDS.post);
   const postList = getPostsFromRecordMap(recordMap);
@@ -60,16 +65,35 @@ const getPortfolioSortDate = (entry: PortfolioEntry) => {
   return entry.period ?? 0;
 };
 
-export const getPortfolioPage = cache(async () => {
-  const recordMap = await notion.getPage(NOTION_PAGE_IDS.portfolio);
+const getPortfolioRecordMap = cache(async () => {
+  return notion.getPage(NOTION_PAGE_IDS.portfolio);
+});
+
+const getPublishedPortfolioEntriesFromRecordMap = (
+  recordMap: ExtendedRecordMap,
+) => {
+  return getPortfolioEntriesFromRecordMap(recordMap)
+    .filter((entry) => entry.status === "Published")
+    .sort((a, b) => getPortfolioSortDate(b) - getPortfolioSortDate(a));
+};
+
+export const getPublishedPortfolioEntries = cache(async () => {
+  const recordMap = await getPortfolioRecordMap();
   const status = getPageStatusFromRecordMap(
     recordMap,
     NOTION_PAGE_IDS.portfolio,
   );
-  const portfolioList =
-    status === "Published" ? getPortfolioEntriesFromRecordMap(recordMap) : [];
-  const publishedPortfolioList = portfolioList.filter(
-    (entry) => entry.status === "Published",
+
+  return status === "Published"
+    ? getPublishedPortfolioEntriesFromRecordMap(recordMap)
+    : [];
+});
+
+export const getPortfolioPage = cache(async () => {
+  const recordMap = await getPortfolioRecordMap();
+  const status = getPageStatusFromRecordMap(
+    recordMap,
+    NOTION_PAGE_IDS.portfolio,
   );
 
   return {
@@ -81,9 +105,10 @@ export const getPortfolioPage = cache(async () => {
       recordMap,
       NOTION_PAGE_IDS.portfolio,
     ),
-    portfolioList: publishedPortfolioList.sort(
-      (a, b) => getPortfolioSortDate(b) - getPortfolioSortDate(a),
-    ),
+    portfolioList:
+      status === "Published"
+        ? getPublishedPortfolioEntriesFromRecordMap(recordMap)
+        : [],
     status,
   };
 });
@@ -102,6 +127,22 @@ export const getPostDetail = cache(
         ...postItem,
         readTime,
       },
+      recordMap,
+    };
+  },
+);
+
+export const getPortfolioDetail = cache(
+  async (slug: string): Promise<PortfolioDetail | null> => {
+    const portfolioList = await getPublishedPortfolioEntries();
+    const portfolioItem = portfolioList.find((entry) => entry.slug === slug);
+
+    if (!portfolioItem) return null;
+
+    const recordMap = await notion.getPage(portfolioItem.id);
+
+    return {
+      portfolioItem,
       recordMap,
     };
   },

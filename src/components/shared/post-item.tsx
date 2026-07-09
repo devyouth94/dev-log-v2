@@ -1,9 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
-
+import HoverPreviewLink from "src/components/shared/hover-preview-link";
 import { Badge } from "src/components/ui/badge";
 import { type Post } from "src/types/post";
 import { getRenderedDate } from "src/utils/date";
+import { getPostPath } from "src/utils/routes";
 
 type Props = {
   item: Post;
@@ -11,23 +10,26 @@ type Props = {
 
 const PostItem = ({ item }: Props) => {
   return (
-    <Link href={`/post/${item.slug}`} key={item.id}>
-      <article
-        key={item.id}
-        className="group relative h-34 overflow-hidden border-b border-gray-950 px-3 py-5"
-      >
-        <div className="relative z-20 flex h-full flex-col justify-between">
+    <HoverPreviewLink
+      href={getPostPath(item.slug)}
+      priority
+      sizes="800px"
+      thumbnail={item.thumbnail}
+      className="h-34 px-3 py-5"
+    >
+      <article className="h-full">
+        <div className="flex h-full flex-col justify-between">
           <div className="flex justify-between">
-            <Badge className="group-hover:bg-gray-950 group-hover:text-white">
+            <Badge className="duration-250 group-hover:bg-gray-950 group-hover:text-white">
               {item.category}
             </Badge>
 
-            <span className="font-roboto text-xs font-normal transition-colors duration-500 group-hover:text-white">
+            <span className="font-roboto text-xs font-normal transition-colors duration-250 group-hover:text-white">
               {getRenderedDate(item.createDate)}
             </span>
           </div>
 
-          <p className="transition-colors duration-500 group-hover:text-white">
+          <p className="transition-colors duration-250 group-hover:text-white">
             <span className="line-clamp-1 text-xl font-bold">{item.title}</span>
             {!!item.summary && (
               <span className="mt-1 line-clamp-1 text-sm">{item.summary}</span>
@@ -35,20 +37,8 @@ const PostItem = ({ item }: Props) => {
           </p>
         </div>
 
-        <div className="absolute inset-0 z-10 bg-white transition-transform duration-500 group-hover:-translate-y-full" />
-
-        {!!item.thumbnail && (
-          <Image
-            src={item.thumbnail}
-            alt={item.thumbnail}
-            sizes="800px"
-            priority
-            fill
-            className="object-cover brightness-50"
-          />
-        )}
       </article>
-    </Link>
+    </HoverPreviewLink>
   );
 };
 

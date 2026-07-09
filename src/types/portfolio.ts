@@ -4,6 +4,7 @@ export type PortfolioEntry = {
   category: string;
   featured: boolean;
   id: string;
+  lastEditedTime: number;
   period: number | number[] | null;
   slug: string;
   stacks: string[];

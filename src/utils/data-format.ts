@@ -214,11 +214,8 @@ const getPortfolioEntry = (
     featured:
       getPageProperty<boolean | null>("대표 여부", block, recordMap) ?? false,
     id: block.id,
-    period: getPageProperty<number | number[] | null>(
-      "기간",
-      block,
-      recordMap,
-    ),
+    lastEditedTime: block.last_edited_time,
+    period: getPageProperty<number | number[] | null>("기간", block, recordMap),
     slug,
     stacks:
       getPageProperty<string[] | null>("주요 스택", block, recordMap) ?? [],

@@ -37,6 +37,10 @@ _Avoid_: Post, article, page
 The collection of Published Portfolio Entries shown on the portfolio index view.
 _Avoid_: Project list, experience list
 
+**Portfolio List Freshness**:
+The latest edit time among all Published Portfolio Entries represented by the Portfolio List.
+_Avoid_: Portfolio List edit time, index page edit time
+
 **Portfolio Section**:
 A named grouping within the Portfolio List that organizes Portfolio Entries for scanning.
 _Avoid_: Category, filter, tab

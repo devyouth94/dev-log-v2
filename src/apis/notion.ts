@@ -95,20 +95,21 @@ export const getPortfolioPage = cache(async () => {
     recordMap,
     NOTION_PAGE_IDS.portfolio,
   );
+  const portfolioList =
+    status === "Published"
+      ? getPublishedPortfolioEntriesFromRecordMap(recordMap)
+      : [];
 
   return {
     jobSearchStatus: getPageJobSearchStatusFromRecordMap(
       recordMap,
       NOTION_PAGE_IDS.portfolio,
     ),
-    lastEditedTime: getPageLastEditedTimeFromRecordMap(
-      recordMap,
-      NOTION_PAGE_IDS.portfolio,
-    ),
-    portfolioList:
+    lastEditedTime:
       status === "Published"
-        ? getPublishedPortfolioEntriesFromRecordMap(recordMap)
-        : [],
+        ? Math.max(...portfolioList.map((entry) => entry.lastEditedTime))
+        : null,
+    portfolioList,
     status,
   };
 });

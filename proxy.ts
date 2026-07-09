@@ -1,9 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const SUBDOMAIN_PATH_PREFIX: Record<string, string> = {
-  "portfolio.youngzin-log.com": "/portfolio",
-  "resume.youngzin-log.com": "/resume",
-};
+import { SUBDOMAIN_PATH_PREFIX } from "src/utils/routes";
 
 export const proxy = (request: NextRequest) => {
   const host = request.headers.get("host")?.split(":")[0];
@@ -20,7 +17,10 @@ export const proxy = (request: NextRequest) => {
   }
 
   if (pathname === prefix || pathname.startsWith(`${prefix}/`)) {
-    return NextResponse.next();
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.slice(prefix.length) || "/";
+
+    return NextResponse.redirect(url);
   }
 
   const url = request.nextUrl.clone();

@@ -7,13 +7,14 @@ import CareerPageBadge from "src/components/shared/career-page-badge";
 import NotionRenderer from "src/components/shared/notion-renderer";
 import UnderConstruction from "src/components/shared/under-construction";
 import { METADATA, NOTION_PAGE_IDS } from "src/utils/constants";
+import { SITE_ORIGINS } from "src/utils/routes";
 
 export const revalidate = 30;
 
 export const metadata: Metadata = {
   title: "resume",
   openGraph: {
-    url: `${METADATA.meta.url}/resume`,
+    url: SITE_ORIGINS.resume,
     title: `resume | ${METADATA.meta.title}`,
   },
 };

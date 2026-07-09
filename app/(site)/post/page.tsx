@@ -4,13 +4,14 @@ import { getPublishedPosts } from "src/apis/notion";
 import CategoryContainer from "src/components/shared/category-container";
 import PostContainer from "src/components/shared/post-container";
 import { METADATA } from "src/utils/constants";
+import { getPostUrl } from "src/utils/routes";
 
 export const revalidate = 30;
 
 export const metadata: Metadata = {
   title: "post",
   openGraph: {
-    url: `${METADATA.meta.url}/post`,
+    url: getPostUrl(),
     title: `post | ${METADATA.meta.title}`,
   },
 };

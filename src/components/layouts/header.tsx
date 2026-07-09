@@ -5,10 +5,11 @@ import { usePathname } from "next/navigation";
 
 import PlaylistPanel from "src/components/shared/playlist-panel";
 import { cn } from "src/utils/class-name";
+import { SITE_PATHS } from "src/utils/routes";
 
 const ROUTES = [
-  { name: "home", path: "/" },
-  { name: "post", path: "/post" },
+  { name: "home", path: SITE_PATHS.home },
+  { name: "post", path: SITE_PATHS.post },
 ];
 
 const isActiveRoute = (pathname: string, routePath: string) => {

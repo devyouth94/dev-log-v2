@@ -6,6 +6,7 @@ import Script from "next/script";
 
 import { cn } from "src/utils/class-name";
 import { METADATA } from "src/utils/constants";
+import { OG_IMAGE_URL } from "src/utils/routes";
 
 import "react-notion-x/src/styles.css";
 import "app/globals.css";
@@ -35,9 +36,9 @@ export const metadata: Metadata = {
     description: METADATA.meta.description,
     images: [
       {
-        url: `${METADATA.meta.url}/og-image.png`,
-        width: 900,
-        height: 900,
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
       },
     ],
   },
@@ -50,9 +51,7 @@ const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
   return (
     <html lang="ko" className={cn(pretendard.variable, roboto.variable)}>
       <body>
-        <div className="isolate">
-          {children}
-        </div>
+        <div className="isolate">{children}</div>
       </body>
       {googleAnalyticsId && (
         <>

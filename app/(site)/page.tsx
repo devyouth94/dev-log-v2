@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import Footer from "src/components/layouts/footer";
 import { METADATA } from "src/utils/constants";
+import { SITE_ORIGINS } from "src/utils/routes";
 
 const IndexPage = () => {
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
@@ -60,7 +61,7 @@ const IndexPage = () => {
 
             <div className="mt-auto flex items-center gap-3">
               <a
-                href="https://resume.youngzin-log.com"
+                href={SITE_ORIGINS.resume}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="이력서 열기"
@@ -70,7 +71,7 @@ const IndexPage = () => {
                 <ArrowUpRight aria-hidden size={16} strokeWidth={1.8} />
               </a>
               <a
-                href="https://portfolio.youngzin-log.com"
+                href={SITE_ORIGINS.portfolio}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="포트폴리오 열기"

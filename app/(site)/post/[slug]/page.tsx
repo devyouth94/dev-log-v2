@@ -10,6 +10,7 @@ import Comment from "src/components/shared/giscus";
 import NotionRenderer from "src/components/shared/notion-renderer";
 import PostTitle from "src/components/shared/post-title";
 import { METADATA } from "src/utils/constants";
+import { getPostUrl, OG_IMAGE_URL } from "src/utils/routes";
 
 type Props = {
   params: Promise<{
@@ -37,13 +38,16 @@ export const generateMetadata = async ({
     description: postItem.summary,
     openGraph: {
       type: "article",
-      url: `${METADATA.meta.url}/post/${postItem.slug}`,
+      url: getPostUrl(postItem.slug),
       title: `${postItem.title} | ${METADATA.meta.title}`,
       images: [
-        {
-          url: postItem.thumbnail || `${METADATA.meta.url}/og-image.png`,
-          width: 900,
-        },
+        postItem.thumbnail
+          ? { url: postItem.thumbnail }
+          : {
+              url: OG_IMAGE_URL,
+              width: 1200,
+              height: 630,
+            },
       ],
     },
   };

@@ -1,10 +1,12 @@
 import { type Metadata } from "next";
+import { idToUuid } from "notion-utils";
 
 import PortfolioList from "app/portfolio/_components/portfolio-list";
 import { getPortfolioPage } from "src/apis/notion";
 import CareerPageBadge from "src/components/shared/career-page-badge";
+import NotionRenderer from "src/components/shared/notion-renderer";
 import UnderConstruction from "src/components/shared/under-construction";
-import { METADATA } from "src/utils/constants";
+import { METADATA, NOTION_PAGE_IDS } from "src/utils/constants";
 import { getPortfolioUrl } from "src/utils/routes";
 
 type Props = {
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 const PortfolioPage = async ({ searchParams }: Props) => {
-  const { jobSearchStatus, lastEditedTime, portfolioList, status } =
+  const { jobSearchStatus, lastEditedTime, portfolioList, recordMap, status } =
     await getPortfolioPage();
   const featured = (await searchParams).featured;
   const featuredOnly =
@@ -38,6 +40,11 @@ const PortfolioPage = async ({ searchParams }: Props) => {
         <CareerPageBadge
           jobSearchStatus={jobSearchStatus}
           lastEditedTime={lastEditedTime}
+        />
+        <NotionRenderer
+          recordMap={recordMap}
+          renderCollection={false}
+          rootPageId={idToUuid(NOTION_PAGE_IDS.portfolio)}
         />
         <PortfolioList
           featuredOnly={featuredOnly}

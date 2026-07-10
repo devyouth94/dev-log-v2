@@ -110,6 +110,7 @@ export const getPortfolioPage = cache(async () => {
         ? Math.max(...portfolioList.map((entry) => entry.lastEditedTime))
         : null,
     portfolioList,
+    recordMap,
     status,
   };
 });

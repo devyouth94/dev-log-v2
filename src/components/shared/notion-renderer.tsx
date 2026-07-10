@@ -28,16 +28,29 @@ const Modal = dynamic(
 
 type Props = {
   recordMap: ExtendedRecordMap;
+  renderCollection?: boolean;
   rootPageId?: string;
 };
 
-const NotionRenderer = ({ recordMap, rootPageId }: Props) => {
+const EmptyCollection = () => null;
+
+const NotionRenderer = ({
+  recordMap,
+  renderCollection = true,
+  rootPageId,
+}: Props) => {
   return (
     <Renderer
       recordMap={recordMap}
       blockId={rootPageId}
       rootPageId={rootPageId}
-      components={{ Code, Collection, Pdf, Modal, Image }}
+      components={{
+        Code,
+        Collection: renderCollection ? Collection : EmptyCollection,
+        Pdf,
+        Modal,
+        Image,
+      }}
     />
   );
 };

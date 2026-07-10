@@ -33,6 +33,7 @@ const ResumePage = async () => {
           lastEditedTime={resumePage.lastEditedTime}
         />
         <NotionRenderer
+          className="py-0!"
           recordMap={resumePage.recordMap}
           rootPageId={idToUuid(NOTION_PAGE_IDS.resume)}
         />

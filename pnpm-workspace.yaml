@@ -4,6 +4,3 @@ packages:
 allowBuilds:
   canvas: true
   sharp: true
-  unrs-resolver: true
-minimumReleaseAgeExclude:
-  - lucide-react@1.20.0

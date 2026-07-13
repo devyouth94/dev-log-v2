@@ -26,16 +26,15 @@ type SpotifyTrackItem = {
   } | null;
 };
 
-type SpotifyPlaylistDetailsResponse = {
+type SpotifyPlaylistResponse = {
   external_urls: {
     spotify: string;
   };
+  items: {
+    items: SpotifyTrackItem[];
+    total: number;
+  };
   name: string;
-};
-
-type SpotifyPlaylistItemsResponse = {
-  items: SpotifyTrackItem[];
-  total: number;
 };
 
 type SpotifyPlaylistTrack = SpotifyPlaylist["tracks"][number];
@@ -141,59 +140,36 @@ const mapPlaylistTrack = (
 export const getSpotifyPlaylist = async (): Promise<SpotifyPlaylist> => {
   const accessToken = await requestSpotifyAccessToken();
   const playlistId = getSpotifyPlaylistId();
-  const headers = {
-    Authorization: `Bearer ${accessToken}`,
-  };
-
-  const [detailsResponse, itemsResponse] = await Promise.all([
-    fetch(
-      `${SPOTIFY_API_URL}/playlists/${playlistId}?${new URLSearchParams({
-        fields: ["external_urls", "name"].join(","),
-        market: "KR",
-      }).toString()}`,
-      {
-        headers,
-        next: {
-          revalidate: 300,
-        },
+  const response = await fetch(
+    `${SPOTIFY_API_URL}/playlists/${playlistId}?${new URLSearchParams({
+      fields:
+        "external_urls,name,items(total,items(item(id,type,name,duration_ms,artists(name),album(images))))",
+      market: "KR",
+    })}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
       },
-    ),
-    fetch(
-      `${SPOTIFY_API_URL}/playlists/${playlistId}/items?${new URLSearchParams({
-        fields:
-          "total,items(item(id,type,name,duration_ms,artists(name),album(images)))",
-        locale: "ko_KR",
-        market: "KR",
-      }).toString()}`,
-      {
-        headers,
-        next: {
-          revalidate: 300,
-        },
+      next: {
+        revalidate: 300,
       },
-    ),
-  ]);
+    },
+  );
 
-  if (!detailsResponse.ok) {
+  if (!response.ok) {
     throw new Error("Failed to request Spotify playlist.");
   }
 
-  if (!itemsResponse.ok) {
-    throw new Error("Failed to request Spotify playlist items.");
-  }
-
-  const playlist =
-    (await detailsResponse.json()) as SpotifyPlaylistDetailsResponse;
-  const playlistItems =
-    (await itemsResponse.json()) as SpotifyPlaylistItemsResponse;
-  const tracks = playlistItems.items
+  const playlist = (await response.json()) as SpotifyPlaylistResponse;
+  const tracks = playlist.items.items
     .map(mapPlaylistTrack)
     .filter((track): track is SpotifyPlaylistTrack => Boolean(track));
 
   return {
     name: playlist.name,
-    total: playlistItems.total,
+    total: playlist.items.total,
     tracks,
-    url: playlist.external_urls.spotify || process.env.SPOTIFY_PLAYLIST_URL || "",
+    url:
+      playlist.external_urls.spotify || process.env.SPOTIFY_PLAYLIST_URL || "",
   };
 };

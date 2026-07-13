@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react";
 
-import { formatInSeoulTime } from "src/utils/date";
+const seoulTimeFormatter = new Intl.DateTimeFormat("en-GB", {
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  timeZone: "Asia/Seoul",
+});
 
-const getCurrentTime = () => formatInSeoulTime(new Date(), "HH:mm:ss");
+const getCurrentTime = () => seoulTimeFormatter.format(new Date());
 
 const Clock = () => {
   const [time, setTime] = useState("");

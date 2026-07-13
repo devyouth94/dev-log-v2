@@ -1,42 +1,28 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import { type ComponentProps } from "react";
 
 import { cn } from "src/utils/class-name";
 
-const badgeVariants = cva(
-  "font-roboto inline-flex w-fit items-center px-2 py-1 text-xs font-normal transition-colors duration-500",
-  {
-    variants: {
-      variant: {
-        default: "border border-gray-950",
-        full: "border border-gray-950 bg-gray-950 text-white",
-        secondary: "border border-gray-100 bg-gray-100 text-gray-950",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-);
+const VARIANT_CLASSES = {
+  default: "border border-gray-950",
+  full: "border border-gray-950 bg-gray-950 text-white",
+  secondary: "border border-gray-100 bg-gray-100 text-gray-950",
+} as const;
 
-export interface BadgeProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+type BadgeProps = ComponentProps<"div"> & {
+  variant?: keyof typeof VARIANT_CLASSES;
+};
 
-function Badge({ className, variant, children, ...props }: BadgeProps) {
+const Badge = ({ className, variant = "default", ...props }: BadgeProps) => {
   return (
     <div
       className={cn(
-        badgeVariants({ variant }),
+        "font-roboto inline-flex w-fit items-center px-2 py-1 text-xs font-normal transition-colors duration-500",
+        VARIANT_CLASSES[variant],
         className,
-        !!props.onClick && "cursor-pointer",
       )}
       {...props}
-    >
-      {children}
-    </div>
+    />
   );
-}
+};
 
-export { Badge, badgeVariants };
+export { Badge };

@@ -14,8 +14,3 @@ export type Post = {
 export type PostDetailItem = Post & {
   readTime: string;
 };
-
-export type CategoryItem = {
-  title: string;
-  count: number;
-};

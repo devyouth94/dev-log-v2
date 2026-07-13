@@ -1,8 +1,8 @@
 import { cache } from "react";
+import { NotionAPI } from "notion-client";
 import { type ExtendedRecordMap } from "notion-types";
 
 import { type PortfolioEntry } from "src/types/portfolio";
-import { type PostDetailItem } from "src/types/post";
 import { NOTION_PAGE_IDS } from "src/utils/constants";
 import {
   getPageJobSearchStatusFromRecordMap,
@@ -12,17 +12,7 @@ import {
   getPostReadTime,
   getPostsFromRecordMap,
 } from "src/utils/data-format";
-import { notion } from "src/utils/notion";
-
-type PostDetail = {
-  postItem: PostDetailItem;
-  recordMap: ExtendedRecordMap;
-};
-
-type PortfolioDetail = {
-  portfolioItem: PortfolioEntry;
-  recordMap: ExtendedRecordMap;
-};
+const notion = new NotionAPI();
 
 export const getPublishedPosts = cache(async () => {
   const recordMap = await notion.getPage(NOTION_PAGE_IDS.post);
@@ -115,37 +105,33 @@ export const getPortfolioPage = cache(async () => {
   };
 });
 
-export const getPostDetail = cache(
-  async (slug: string): Promise<PostDetail | null> => {
-    const postItem = await getPublishedPostBySlug(slug);
+export const getPostDetail = cache(async (slug: string) => {
+  const postItem = await getPublishedPostBySlug(slug);
 
-    if (!postItem) return null;
+  if (!postItem) return null;
 
-    const recordMap = await notion.getPage(postItem.id);
-    const readTime = getPostReadTime(recordMap, postItem.id);
+  const recordMap = await notion.getPage(postItem.id);
+  const readTime = getPostReadTime(recordMap, postItem.id);
 
-    return {
-      postItem: {
-        ...postItem,
-        readTime,
-      },
-      recordMap,
-    };
-  },
-);
+  return {
+    postItem: {
+      ...postItem,
+      readTime,
+    },
+    recordMap,
+  };
+});
 
-export const getPortfolioDetail = cache(
-  async (slug: string): Promise<PortfolioDetail | null> => {
-    const portfolioList = await getPublishedPortfolioEntries();
-    const portfolioItem = portfolioList.find((entry) => entry.slug === slug);
+export const getPortfolioDetail = cache(async (slug: string) => {
+  const portfolioList = await getPublishedPortfolioEntries();
+  const portfolioItem = portfolioList.find((entry) => entry.slug === slug);
 
-    if (!portfolioItem) return null;
+  if (!portfolioItem) return null;
 
-    const recordMap = await notion.getPage(portfolioItem.id);
+  const recordMap = await notion.getPage(portfolioItem.id);
 
-    return {
-      portfolioItem,
-      recordMap,
-    };
-  },
-);
+  return {
+    portfolioItem,
+    recordMap,
+  };
+});

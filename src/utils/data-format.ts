@@ -9,7 +9,7 @@ import {
 import readingTime from "reading-time";
 
 import { type PortfolioEntry } from "src/types/portfolio";
-import { type CategoryItem, type Post, type PostStatus } from "src/types/post";
+import { type Post, type PostStatus } from "src/types/post";
 
 export type JobSearchStatus = "구직중" | "구직 아님";
 
@@ -72,8 +72,8 @@ export const getHumanizeReadTime = (time: number): string => {
 };
 
 const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
-  const data = Object.values(recordMap.block)
-    .map(getBlockValue)
+  return block.content
+    ?.map((blockId) => getBlockValue(recordMap.block[blockId]))
     .filter(isBlock)
     .filter(({ type }) =>
       [
@@ -90,18 +90,7 @@ const getTextContents = (block: Block, recordMap: ExtendedRecordMap) => {
         "text",
       ].includes(type),
     )
-    .map(({ id, properties }) => [
-      id,
-      properties?.title
-        ?.flat()
-        .filter((item: string | string[]) => typeof item === "string")
-        .join(""),
-    ]);
-
-  const textObject = Object.fromEntries(data);
-
-  return block.content
-    ?.map((item) => textObject[item])
+    .map(({ properties }) => getTextContent(properties?.title))
     .join(" ")
     .toLowerCase();
 };
@@ -248,7 +237,7 @@ export const getPortfolioEntriesFromRecordMap = (
 /**
  * category list를 반환합니다.
  */
-export const getCategoryList = (list: string[]): CategoryItem[] => {
+export const getCategoryList = (list: string[]) => {
   const initial: Record<string, number> = { all: 0 };
 
   const results = list.reduce((acc, cur) => {

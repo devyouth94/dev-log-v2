@@ -1,20 +1,15 @@
-import { format } from "date-fns";
-import { formatInTimeZone } from "date-fns-tz";
-
-const SEOUL_TIME_ZONE = "Asia/Seoul";
-
-export const getRenderedDate = (input: string | number) => {
+const getDateParts = (input: string | number) => {
   const date = new Date(input);
 
-  return format(date, "yy.MM.dd");
+  return [date.getFullYear() % 100, date.getMonth() + 1, date.getDate()].map(
+    (value) => String(value).padStart(2, "0"),
+  );
+};
+
+export const getRenderedDate = (input: string | number) => {
+  return getDateParts(input).join(".");
 };
 
 export const getRenderedYearMonth = (input: string | number) => {
-  const date = new Date(input);
-
-  return format(date, "yy.MM");
-};
-
-export const formatInSeoulTime = (date: Date, pattern: string) => {
-  return formatInTimeZone(date, SEOUL_TIME_ZONE, pattern);
+  return getDateParts(input).slice(0, 2).join(".");
 };

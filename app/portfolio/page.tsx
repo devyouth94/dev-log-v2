@@ -7,7 +7,6 @@ import { getPortfolioPage } from "src/apis/notion";
 import CareerPageBadge from "src/components/shared/career-page-badge";
 import NotionRenderer from "src/components/shared/notion-renderer";
 import UnderConstruction from "src/components/shared/under-construction";
-import { cn } from "src/utils/class-name";
 import { METADATA, NOTION_PAGE_IDS } from "src/utils/constants";
 import { getPortfolioPath, getPortfolioUrl } from "src/utils/routes";
 
@@ -51,19 +50,11 @@ const PortfolioPage = async ({ searchParams }: Props) => {
                 ? `${getPortfolioPath()}?featured=false`
                 : getPortfolioPath()
             }
-            aria-label={
-              featuredOnly ? "전체 포트폴리오 보기" : "대표 포트폴리오만 보기"
-            }
-            className="font-roboto ml-auto flex items-center justify-end gap-2 px-3 text-xs font-medium focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-gray-950"
+            className="font-roboto ml-auto flex items-center justify-end px-3 text-xs font-medium focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-gray-950"
           >
-            <span>대표 포트폴리오만 보기</span>
-            <span
-              aria-hidden
-              className={cn(
-                "size-3 border border-gray-950 bg-white",
-                featuredOnly && "bg-gray-950",
-              )}
-            />
+            <span>
+              {featuredOnly ? "전체 포트폴리오 보기" : "대표 포트폴리오만 보기"}
+            </span>
           </Link>
         </div>
         <NotionRenderer

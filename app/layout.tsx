@@ -14,6 +14,7 @@ import "app/globals.css";
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
   variable: "--font-family-pretendard",
+  display: "optional",
 });
 
 const roboto = Roboto_Mono({

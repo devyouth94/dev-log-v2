@@ -1,5 +1,6 @@
 "use client";
 
+import { type MouseEvent } from "react";
 import { NotionRenderer as Renderer } from "react-notion-x";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -35,6 +36,35 @@ type Props = {
 
 const EmptyCollection = () => null;
 
+const handleSectionLinkClick = (event: MouseEvent<HTMLDivElement>) => {
+  if (
+    event.button !== 0 ||
+    event.altKey ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey
+  ) {
+    return;
+  }
+
+  const link = (event.target as Element).closest<HTMLAnchorElement>(
+    ".notion-table-of-contents-item, .notion-hash-link",
+  );
+  const target = link?.hash
+    ? document.getElementById(link.hash.slice(1))
+    : null;
+
+  if (!link || !target) return;
+
+  event.preventDefault();
+  window.history.replaceState(window.history.state, "", link.href);
+  target.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth",
+  });
+};
+
 const NotionRenderer = ({
   className,
   recordMap,
@@ -42,19 +72,21 @@ const NotionRenderer = ({
   rootPageId,
 }: Props) => {
   return (
-    <Renderer
-      recordMap={recordMap}
-      blockId={rootPageId}
-      className={className}
-      rootPageId={rootPageId}
-      components={{
-        Code,
-        Collection: renderCollection ? Collection : EmptyCollection,
-        Pdf,
-        Modal,
-        Image,
-      }}
-    />
+    <div onClick={handleSectionLinkClick}>
+      <Renderer
+        recordMap={recordMap}
+        blockId={rootPageId}
+        className={className}
+        rootPageId={rootPageId}
+        components={{
+          Code,
+          Collection: renderCollection ? Collection : EmptyCollection,
+          Pdf,
+          Modal,
+          Image,
+        }}
+      />
+    </div>
   );
 };
 

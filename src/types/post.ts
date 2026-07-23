@@ -1,4 +1,4 @@
-export type PostStatus = "Published" | "Draft";
+export type PostStatus = "Published" | "Draft" | "Archived";
 
 export type Post = {
   category: string;

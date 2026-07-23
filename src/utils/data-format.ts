@@ -18,7 +18,7 @@ const isBlock = (block: Block | undefined): block is Block => {
 };
 
 const isPostStatus = (status: string | null): status is PostStatus => {
-  return status === "Published" || status === "Draft";
+  return ["Published", "Draft", "Archived"].includes(status ?? "");
 };
 
 const isJobSearchStatus = (

@@ -25,6 +25,10 @@ _Avoid_: Public post, visible content
 A Post that is still being prepared and should not appear in public blog routes or the sitemap.
 _Avoid_: Private post, hidden content
 
+**Archived Post**:
+A Post retained for reference but no longer intended for publication or active preparation.
+_Avoid_: Deleted post, old post
+
 **Resume Page**:
 The single public career summary in Youngzin Log.
 _Avoid_: Resume Post, PDF Resume

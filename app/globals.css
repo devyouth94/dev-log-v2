@@ -95,6 +95,10 @@
   padding-inline-start: 20px;
 }
 
+.notion-asset-wrapper-video > div {
+  height: auto !important;
+}
+
 /* code prettier */
 .comment {
   @apply text-gray-500;

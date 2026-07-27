@@ -2,7 +2,11 @@ import { type SpotifyPlaylist } from "src/types/spotify";
 
 const SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
 const SPOTIFY_API_URL = "https://api.spotify.com/v1";
+const SPOTIFY_RETRY_DELAYS_MS = [250, 750];
+const SPOTIFY_RETRYABLE_STATUSES = new Set([502, 503, 504]);
 const TOKEN_EXPIRY_BUFFER_MS = 60 * 1000;
+
+export class SpotifyUnavailableError extends Error {}
 
 type SpotifyAccessTokenResponse = {
   access_token: string;
@@ -46,6 +50,47 @@ type CachedAccessToken = {
 
 let cachedAccessToken: CachedAccessToken | null = null;
 
+const fetchSpotify = async (...args: Parameters<typeof fetch>) => {
+  for (let attempt = 0; attempt <= SPOTIFY_RETRY_DELAYS_MS.length; attempt++) {
+    try {
+      const response = await fetch(...args);
+
+      if (
+        !SPOTIFY_RETRYABLE_STATUSES.has(response.status) ||
+        attempt === SPOTIFY_RETRY_DELAYS_MS.length
+      ) {
+        return response;
+      }
+    } catch (error) {
+      if (attempt === SPOTIFY_RETRY_DELAYS_MS.length) {
+        throw new SpotifyUnavailableError(
+          "Spotify request failed after retries.",
+          { cause: error },
+        );
+      }
+    }
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, SPOTIFY_RETRY_DELAYS_MS[attempt]),
+    );
+  }
+
+  throw new SpotifyUnavailableError("Spotify request failed after retries.");
+};
+
+const getSpotifyResponseError = async (
+  response: Response,
+  resource: "playlist" | "token",
+) => {
+  const ErrorType = SPOTIFY_RETRYABLE_STATUSES.has(response.status)
+    ? SpotifyUnavailableError
+    : Error;
+
+  return new ErrorType(
+    `Spotify ${resource} request failed (${response.status}): ${await response.text()}`,
+  );
+};
+
 const getSpotifyPlaylistId = () => {
   const playlistId =
     process.env.SPOTIFY_PLAYLIST_ID ||
@@ -83,7 +128,7 @@ const requestSpotifyAccessToken = async () => {
   const authorization = Buffer.from(`${clientId}:${clientSecret}`).toString(
     "base64",
   );
-  const response = await fetch(SPOTIFY_TOKEN_URL, {
+  const response = await fetchSpotify(SPOTIFY_TOKEN_URL, {
     body: new URLSearchParams({
       grant_type: "refresh_token",
       refresh_token: refreshToken,
@@ -95,9 +140,7 @@ const requestSpotifyAccessToken = async () => {
     method: "POST",
   });
 
-  if (!response.ok) {
-    throw new Error("Failed to request Spotify token.");
-  }
+  if (!response.ok) throw await getSpotifyResponseError(response, "token");
 
   const token = (await response.json()) as SpotifyAccessTokenResponse;
 
@@ -140,7 +183,7 @@ const mapPlaylistTrack = (
 export const getSpotifyPlaylist = async (): Promise<SpotifyPlaylist> => {
   const accessToken = await requestSpotifyAccessToken();
   const playlistId = getSpotifyPlaylistId();
-  const response = await fetch(
+  const response = await fetchSpotify(
     `${SPOTIFY_API_URL}/playlists/${playlistId}?${new URLSearchParams({
       fields:
         "external_urls,name,items(total,items(item(id,type,name,duration_ms,artists(name),album(images))))",
@@ -156,9 +199,7 @@ export const getSpotifyPlaylist = async (): Promise<SpotifyPlaylist> => {
     },
   );
 
-  if (!response.ok) {
-    throw new Error("Failed to request Spotify playlist.");
-  }
+  if (!response.ok) throw await getSpotifyResponseError(response, "playlist");
 
   const playlist = (await response.json()) as SpotifyPlaylistResponse;
   const tracks = playlist.items.items

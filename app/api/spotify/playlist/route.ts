@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getSpotifyPlaylist } from "src/apis/spotify";
+import { getSpotifyPlaylist, SpotifyUnavailableError } from "src/apis/spotify";
 
 export const GET = async () => {
   try {
@@ -12,9 +12,11 @@ export const GET = async () => {
       },
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load playlist.";
+    console.error("Failed to load Spotify playlist.", error);
 
-    return NextResponse.json({ message }, { status: 500 });
+    return NextResponse.json(
+      { message: "spotify is temporarily unavailable" },
+      { status: error instanceof SpotifyUnavailableError ? 503 : 500 },
+    );
   }
 };

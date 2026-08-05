@@ -12,7 +12,9 @@ import {
   getPostReadTime,
   getPostsFromRecordMap,
 } from "src/utils/data-format";
-const notion = new NotionAPI();
+const notion = new NotionAPI({
+  ofetchOptions: { headers: { "User-Agent": "youngzin-log/1.0" } },
+});
 
 export const getPublishedPosts = cache(async () => {
   const recordMap = await notion.getPage(NOTION_PAGE_IDS.post);
